@@ -10,6 +10,7 @@ import Foundation
 
 struct Comic: Codable, Equatable {
     var title: String
+    var imageURL: String?
     var progressNumber: Int?
     var finishNumber: Int?
     var type: String

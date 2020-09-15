@@ -25,7 +25,7 @@ class Database {
     //Singleton: Access by using Database.shared.<function-name>
     static let shared = Database()
     
-    private init(){
+    private init() {
         let documentsFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let wantToReadFileName = "wantToRead.json"
         let readingFileName = "reading.json"
@@ -36,18 +36,18 @@ class Database {
         read = documentsFolder.appendingPathComponent(readFileName)
         
         //Caso os arquivos não existam, eles são criados no init
-        if !(FileManager.default.fileExists(atPath: wantToRead.path)){
+        if !(FileManager.default.fileExists(atPath: wantToRead.path)) {
             saveData(from: emptyArray, to: .wantToRead)
         }
-        if !(FileManager.default.fileExists(atPath: reading.path)){
+        if !(FileManager.default.fileExists(atPath: reading.path)) {
             saveData(from: emptyArray, to: .reading)
         }
-        if !(FileManager.default.fileExists(atPath: reading.path)){
+        if !(FileManager.default.fileExists(atPath: reading.path)) {
             saveData(from: emptyArray, to: .read)
         }
     }
     
-    func loadData(from list: StatusType) -> [Comic] {
+    func loadData(from list: StatusType) -> [Comic]? {
         
         var type: URL
         var loadedArray: [Comic] = []
@@ -66,12 +66,13 @@ class Database {
             loadedArray = try JSONDecoder().decode([Comic].self, from: file)
         } catch {
             print(error.localizedDescription)
+            return nil
         }
         
         return loadedArray
     }
     
-    func saveData(from array: [Comic], to list: StatusType){
+    @discardableResult func saveData(from array: [Comic], to list: StatusType) -> Bool {
         
         var type: URL
         
@@ -89,13 +90,16 @@ class Database {
             try jsonData.write(to: type)
         } catch {
             print("Impossível escrever no arquivo.")
+            return false
         }
-        
+        return true
     }
     
-    @discardableResult func deleteData(from list: StatusType, at index: Int) -> Comic {
+    @discardableResult func deleteData(from list: StatusType, at index: Int) -> Comic? {
 
-        var loadedArray = loadData(from: list)
+        guard var loadedArray = loadData(from: list) else {
+            return nil
+        }
         let removedElement = loadedArray.remove(at: index)
         saveData(from: loadedArray, to: list)
         
@@ -103,10 +107,15 @@ class Database {
         
     }
     
-    func deleteAllListComics(from list: StatusType) {
+    @discardableResult func deleteAllListComics(from list: StatusType) -> Bool {
         
-        var loadedArray = loadData(from: list)
+        guard var loadedArray = loadData(from: list) else {
+            return false
+        }
         loadedArray.removeAll()
+        
         saveData(from: loadedArray, to: list)
+        return true
+        
     }
 }
