@@ -20,6 +20,8 @@
 		2E504AA6250FAD8E0045D142 /* Shelf.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E504AA5250FAD8E0045D142 /* Shelf.storyboard */; };
 		2E504AA8250FAE350045D142 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E504AA7250FAE350045D142 /* Profile.storyboard */; };
 		2E504AAA250FAE6A0045D142 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E504AA9250FAE6A0045D142 /* Settings.storyboard */; };
+		2EFD6B5B2512537D00BFC3AF /* ShelfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFD6B5A2512537D00BFC3AF /* ShelfViewController.swift */; };
+		2EFD6B5D2512549200BFC3AF /* AddToShelfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFD6B5C2512549200BFC3AF /* AddToShelfViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +61,8 @@
 		2E504AA5250FAD8E0045D142 /* Shelf.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Shelf.storyboard; sourceTree = "<group>"; };
 		2E504AA7250FAE350045D142 /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		2E504AA9250FAE6A0045D142 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
+		2EFD6B5A2512537D00BFC3AF /* ShelfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelfViewController.swift; sourceTree = "<group>"; };
+		2EFD6B5C2512549200BFC3AF /* AddToShelfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToShelfViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +167,8 @@
 		2E504AA2250FAC590045D142 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				2EFD6B5A2512537D00BFC3AF /* ShelfViewController.swift */,
+				2EFD6B5C2512549200BFC3AF /* AddToShelfViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -324,8 +330,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E504A6E250FA1E80045D142 /* AppDelegate.swift in Sources */,
+				2EFD6B5B2512537D00BFC3AF /* ShelfViewController.swift in Sources */,
 				2E2A9C912510133500718B76 /* Comic.swift in Sources */,
 				2E2A9C93251015E500718B76 /* Database.swift in Sources */,
+				2EFD6B5D2512549200BFC3AF /* AddToShelfViewController.swift in Sources */,
 				2E504A70250FA1E80045D142 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
