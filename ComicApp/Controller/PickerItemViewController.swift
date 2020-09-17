@@ -24,8 +24,6 @@ class PickerItemViewController: UITableViewController {
             self.title = "Tipo"
         case "OrganizeBy":
             self.title = "Organizar por"
-        case "Status":
-            self.title = "Status"
         default:
             break
         }

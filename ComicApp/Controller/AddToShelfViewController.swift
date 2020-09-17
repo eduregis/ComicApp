@@ -40,8 +40,6 @@ class AddToShelfViewController: UITableViewController {
     var typeIndex = 0
     let organizeByData = ["Página", "Capítulo", "Volume"]
     var organizeByIndex = 2
-    let statusData = ["Lido", "Lendo", "Quero Ler"]
-    var statusIndex = 2
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,12 +76,24 @@ class AddToShelfViewController: UITableViewController {
         comicTitle = comicTitleTextField.text
         type = typeData[typeIndex]
         organizeBy = organizeByData[organizeByIndex]
-        status = statusData[statusIndex]
         author = authorTextField.text
         artist = artistTextField.text
         
-        var comic = Comic(title: comicTitle!, imageURL: nil, progressNumber: progressNumber, finishedNumber: finishNumber, type: type!, organizeBy: organizeBy!, status: status!, author: author, artist: artist)
-        print(comic)
+        var comic = Comic(title: comicTitle!, imageURL: nil, progressNumber: progressNumber, finishedNumber: finishNumber, type: type!, organizeBy: organizeBy!, status: "-", author: author, artist: artist)
+        var statusType: StatusType
+        if progressNumber == 0 {
+            comic.status = "Quero Ler"
+            statusType = .wantToRead
+        } else if progressNumber == finishNumber {
+            comic.status = "Lido"
+            statusType = .read
+        } else {
+            comic.status = "Lendo"
+            statusType = .reading
+        }
+        var list = Database.shared.loadData(from: statusType)
+        list?.append(comic)
+        Database.shared.saveData(from: list!, to: statusType)
         
         navigationController?.popViewController(animated: true)
     }
@@ -95,7 +105,7 @@ class AddToShelfViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 9
+        return 7
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -156,22 +166,11 @@ class AddToShelfViewController: UITableViewController {
             button.sizeToFit()
             cell.accessoryView = button
         case 5:
-            cell.textLabel?.text = "Status "
-            let button = UIButton(type: .custom)
-            button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
-            button.setTitle("\(statusData[statusIndex]) ", for: .normal)
-            button.setTitleColor(.systemGray, for: .normal)
-            button.addTarget(self, action: #selector(changeStatus), for: .touchUpInside)
-            button.tag = indexPath.row
-            button.semanticContentAttribute = .forceRightToLeft
-            button.sizeToFit()
-            cell.accessoryView = button
-        case 6:
             cell.textLabel?.text = "Autor/Roteiro "
             authorTextField.textAlignment = .right
             authorTextField.placeholder = "-"
             cell.accessoryView = authorTextField
-        case 7:
+        case 6:
             cell.textLabel?.text = "Ilustração "
             artistTextField.textAlignment = .right
             artistTextField.placeholder = "-"
@@ -213,13 +212,6 @@ class AddToShelfViewController: UITableViewController {
         performSegue(withIdentifier: "PickerItemViewSegue", sender: self)
     }
     
-    @objc func changeStatus() {
-        pickerFieldName = "Status"
-        pickerData = statusData
-        checkmark = statusIndex
-        performSegue(withIdentifier: "PickerItemViewSegue", sender: self)
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let navVC = segue.destination as? UINavigationController {
             let tableVC = navVC.topViewController as? PickerItemViewController
@@ -239,8 +231,6 @@ extension AddToShelfViewController: ModalDelegate {
             typeIndex = checkmark
         case "OrganizeBy":
             organizeByIndex = checkmark
-        case "Status":
-            statusIndex = checkmark
         default:
             break
         }

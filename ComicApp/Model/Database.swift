@@ -42,7 +42,7 @@ class Database {
         if !(FileManager.default.fileExists(atPath: reading.path)) {
             saveData(from: emptyArray, to: .reading)
         }
-        if !(FileManager.default.fileExists(atPath: reading.path)) {
+        if !(FileManager.default.fileExists(atPath: read.path)) {
             saveData(from: emptyArray, to: .read)
         }
     }
