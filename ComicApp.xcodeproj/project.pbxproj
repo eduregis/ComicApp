@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2E2A9C912510133500718B76 /* Comic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2A9C902510133500718B76 /* Comic.swift */; };
 		2E2A9C93251015E500718B76 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2A9C92251015E500718B76 /* Database.swift */; };
+		2E2E103C2512D14B0058AA34 /* PickerItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2E103B2512D14B0058AA34 /* PickerItemViewController.swift */; };
 		2E504A6E250FA1E80045D142 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E504A6D250FA1E80045D142 /* AppDelegate.swift */; };
 		2E504A70250FA1E80045D142 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E504A6F250FA1E80045D142 /* SceneDelegate.swift */; };
 		2E504A77250FA1E90045D142 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E504A76250FA1E90045D142 /* Assets.xcassets */; };
@@ -21,7 +22,7 @@
 		2E504AA8250FAE350045D142 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E504AA7250FAE350045D142 /* Profile.storyboard */; };
 		2E504AAA250FAE6A0045D142 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E504AA9250FAE6A0045D142 /* Settings.storyboard */; };
 		2EFD6B5B2512537D00BFC3AF /* ShelfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFD6B5A2512537D00BFC3AF /* ShelfViewController.swift */; };
-		2EFD6B5D2512549200BFC3AF /* AddToShelfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFD6B5C2512549200BFC3AF /* AddToShelfViewController.swift */; };
+		2EFD6B5F25125E1E00BFC3AF /* AddToShelfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFD6B5E25125E1E00BFC3AF /* AddToShelfViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 /* Begin PBXFileReference section */
 		2E2A9C902510133500718B76 /* Comic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comic.swift; sourceTree = "<group>"; };
 		2E2A9C92251015E500718B76 /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
+		2E2E103B2512D14B0058AA34 /* PickerItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerItemViewController.swift; sourceTree = "<group>"; };
 		2E504A6A250FA1E80045D142 /* ComicApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ComicApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E504A6D250FA1E80045D142 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2E504A6F250FA1E80045D142 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -62,7 +64,7 @@
 		2E504AA7250FAE350045D142 /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		2E504AA9250FAE6A0045D142 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		2EFD6B5A2512537D00BFC3AF /* ShelfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelfViewController.swift; sourceTree = "<group>"; };
-		2EFD6B5C2512549200BFC3AF /* AddToShelfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToShelfViewController.swift; sourceTree = "<group>"; };
+		2EFD6B5E25125E1E00BFC3AF /* AddToShelfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToShelfViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,7 +170,8 @@
 			isa = PBXGroup;
 			children = (
 				2EFD6B5A2512537D00BFC3AF /* ShelfViewController.swift */,
-				2EFD6B5C2512549200BFC3AF /* AddToShelfViewController.swift */,
+				2EFD6B5E25125E1E00BFC3AF /* AddToShelfViewController.swift */,
+				2E2E103B2512D14B0058AA34 /* PickerItemViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -333,7 +336,8 @@
 				2EFD6B5B2512537D00BFC3AF /* ShelfViewController.swift in Sources */,
 				2E2A9C912510133500718B76 /* Comic.swift in Sources */,
 				2E2A9C93251015E500718B76 /* Database.swift in Sources */,
-				2EFD6B5D2512549200BFC3AF /* AddToShelfViewController.swift in Sources */,
+				2EFD6B5F25125E1E00BFC3AF /* AddToShelfViewController.swift in Sources */,
+				2E2E103C2512D14B0058AA34 /* PickerItemViewController.swift in Sources */,
 				2E504A70250FA1E80045D142 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
