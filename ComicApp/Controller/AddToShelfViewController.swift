@@ -28,6 +28,7 @@ class AddToShelfViewController: UITableViewController {
     
     let comicTitleTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 250, height: 50))
     let stepper = UIStepper()
+    let progressNumberTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
     let finishNumberTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
     let authorTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
     let artistTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
@@ -51,6 +52,8 @@ class AddToShelfViewController: UITableViewController {
         self.view.addGestureRecognizer(tapGesture)
         initNewitem()
         pickerFieldName = "OrganizeBy"
+        progressNumberTextField.keyboardType = .numberPad
+        finishNumberTextField.keyboardType = .numberPad
     }
     
     override func didReceiveMemoryWarning() {
@@ -60,29 +63,38 @@ class AddToShelfViewController: UITableViewController {
     func initNewitem() {
         comicTitle = "-"
         progressNumber = 0
-        organizeBy = "Volume"
+        organizeBy = organizeByData[organizeByIndex]
     }
     
     @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
         comicTitleTextField.resignFirstResponder()
+        progressNumberTextField.resignFirstResponder()
         finishNumberTextField.resignFirstResponder()
         authorTextField.resignFirstResponder()
         artistTextField.resignFirstResponder()
     }
     
     @IBAction func doneButton(_ sender: Any) {
+        comicTitle = comicTitleTextField.text
+        type = typeData[typeIndex]
+        organizeBy = organizeByData[organizeByIndex]
+        status = statusData[statusIndex]
+        author = authorTextField.text
+        artist = artistTextField.text
+        
+        var comic = Comic(title: comicTitle!, imageURL: nil, progressNumber: progressNumber, finishedNumber: finishNumber, type: type!, organizeBy: organizeBy!, status: status!, author: author, artist: artist)
+        print(comic)
+        
         navigationController?.popViewController(animated: true)
     }
     
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return 9
     }
     
@@ -97,20 +109,29 @@ class AddToShelfViewController: UITableViewController {
         case 1:
             if let organizeBy = organizeBy {
                 if let progressNumber = progressNumber {
-                    stepper.value = Double(progressNumber)
-                    stepper.addTarget(self, action: #selector(stepperValueChanged), for: .valueChanged)
                     if let finishNumber = finishNumber {
                         cell.textLabel?.text = "\(progressNumber)/\(finishNumber) (em \(organizeBy.lowercased())s)"
                     } else {
                         cell.textLabel?.text = "\(progressNumber)/- (em \(organizeBy.lowercased())s)"
                     }
+                    if organizeBy != organizeByData[0] {
+                        stepper.value = Double(progressNumber)
+                        stepper.addTarget(self, action: #selector(stepperValueChanged), for: .valueChanged)
+                        cell.accessoryView = stepper
+                    } else {
+                        progressNumberTextField.textAlignment = .right
+                        progressNumberTextField.placeholder = "-"
+                        progressNumberTextField.addTarget(self, action: #selector(progressNumberValueChanged), for: .editingDidEnd)
+                        cell.accessoryView = progressNumberTextField
+                    }
                 }
             }
-            cell.accessoryView = stepper
+            
         case 2:
             cell.textLabel?.text = "\(organizeBy ?? "-") final "
             finishNumberTextField.textAlignment = .right
             finishNumberTextField.placeholder = "-"
+            finishNumberTextField.addTarget(self, action: #selector(finishNumberValueChanged), for: .editingDidEnd)
             cell.accessoryView = finishNumberTextField
         case 3:
             cell.textLabel?.text = "Tipo "
@@ -168,6 +189,16 @@ class AddToShelfViewController: UITableViewController {
         tableView.reloadData()
     }
     
+    @objc func progressNumberValueChanged() {
+        progressNumber = Int(progressNumberTextField.text ?? "0")
+        tableView.reloadData()
+    }
+    
+    @objc func finishNumberValueChanged() {
+        finishNumber = Int(finishNumberTextField.text ?? "0")
+        tableView.reloadData()
+    }
+    
     @objc func changeType() {
         pickerFieldName = "Type"
         pickerData = typeData
@@ -198,61 +229,6 @@ class AddToShelfViewController: UITableViewController {
             tableVC?.pickerData = pickerData
         }
     }
-    /*
-     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-     let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-     
-     // Configure the cell...
-     
-     return cell
-     }
-     */
-    
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-    
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
 }
 
 extension AddToShelfViewController: ModalDelegate {
@@ -268,6 +244,7 @@ extension AddToShelfViewController: ModalDelegate {
         default:
             break
         }
+        organizeBy = organizeByData[organizeByIndex]
         tableView.reloadData()
     }
 }

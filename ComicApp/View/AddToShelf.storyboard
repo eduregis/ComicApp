@@ -69,7 +69,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="Yqo-6M-Sw9">
-                        <barButtonItem key="leftBarButtonItem" title="Item" id="Vwi-kp-ea2">
+                        <barButtonItem key="leftBarButtonItem" title="Voltar" id="Vwi-kp-ea2">
                             <connections>
                                 <action selector="dismissViewController:" destination="PQu-aW-BdK" id="3mt-tt-Jph"/>
                             </connections>

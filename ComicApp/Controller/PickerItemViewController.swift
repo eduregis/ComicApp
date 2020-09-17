@@ -8,8 +8,6 @@
 
 import UIKit
 
-class PickerViewNavigationController: UINavigationController {}
-
 class PickerItemViewController: UITableViewController {
 
     var pickerFieldName: String?
@@ -21,11 +19,20 @@ class PickerItemViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Organizar por"
+        switch pickerFieldName {
+        case "Type":
+            self.title = "Tipo"
+        case "OrganizeBy":
+            self.title = "Organizar por"
+        case "Status":
+            self.title = "Status"
+        default:
+            break
+        }
+       
         tableView.tableFooterView = UIView()
     }
 
-    
     @IBAction func dismissViewController(_ sender: Any) {
         if let delegate = self.delegate {
             delegate.changeValue(value: checkmark)
