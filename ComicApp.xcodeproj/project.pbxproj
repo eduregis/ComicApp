@@ -21,6 +21,7 @@
 		2E504AA6250FAD8E0045D142 /* Shelf.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E504AA5250FAD8E0045D142 /* Shelf.storyboard */; };
 		2E504AA8250FAE350045D142 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E504AA7250FAE350045D142 /* Profile.storyboard */; };
 		2E504AAA250FAE6A0045D142 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E504AA9250FAE6A0045D142 /* Settings.storyboard */; };
+		2E6036FE251389A0002D234A /* AddToShelf.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E6036FD251389A0002D234A /* AddToShelf.storyboard */; };
 		2EFD6B5B2512537D00BFC3AF /* ShelfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFD6B5A2512537D00BFC3AF /* ShelfViewController.swift */; };
 		2EFD6B5F25125E1E00BFC3AF /* AddToShelfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFD6B5E25125E1E00BFC3AF /* AddToShelfViewController.swift */; };
 /* End PBXBuildFile section */
@@ -63,6 +64,7 @@
 		2E504AA5250FAD8E0045D142 /* Shelf.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Shelf.storyboard; sourceTree = "<group>"; };
 		2E504AA7250FAE350045D142 /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		2E504AA9250FAE6A0045D142 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
+		2E6036FD251389A0002D234A /* AddToShelf.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AddToShelf.storyboard; sourceTree = "<group>"; };
 		2EFD6B5A2512537D00BFC3AF /* ShelfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelfViewController.swift; sourceTree = "<group>"; };
 		2EFD6B5E25125E1E00BFC3AF /* AddToShelfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToShelfViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -162,6 +164,7 @@
 				2E504AA5250FAD8E0045D142 /* Shelf.storyboard */,
 				2E504AA7250FAE350045D142 /* Profile.storyboard */,
 				2E504AA9250FAE6A0045D142 /* Settings.storyboard */,
+				2E6036FD251389A0002D234A /* AddToShelf.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -283,6 +286,7 @@
 			files = (
 				2E504AA8250FAE350045D142 /* Profile.storyboard in Resources */,
 				2E504A9F250FA5260045D142 /* .swiftlint.yml in Resources */,
+				2E6036FE251389A0002D234A /* AddToShelf.storyboard in Resources */,
 				2E504A7A250FA1E90045D142 /* LaunchScreen.storyboard in Resources */,
 				2E504A77250FA1E90045D142 /* Assets.xcassets in Resources */,
 				2E504AA4250FACCC0045D142 /* TabBar.storyboard in Resources */,
