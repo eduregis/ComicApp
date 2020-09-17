@@ -8,7 +8,13 @@
 
 import UIKit
 
+protocol ModalDelegate {
+    func changeValue(value: Int)
+}
+
 class AddToShelfViewController: UITableViewController {
+    
+    var checkmark = 0
     
     var comicTitle: String?
     var imageURL: String?
@@ -23,14 +29,18 @@ class AddToShelfViewController: UITableViewController {
     let comicTitleTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 250, height: 50))
     let stepper = UIStepper()
     let finishNumberTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-    let typeTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
     let authorTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
     let artistTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
     
-    let pickerView = UIPickerView()
+    var pickerFieldName: String = ""
+    var pickerData: [String] = []
     
-    let typePickerViewData = ["Quadrinho", "Livro"]
+    let typeData = ["Quadrinho", "Livro"]
+    var typeIndex = 0
     let organizeByData = ["Página", "Capítulo", "Volume"]
+    var organizeByIndex = 2
+    let statusData = ["Lido", "Lendo", "Quero Ler"]
+    var statusIndex = 2
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,8 +50,7 @@ class AddToShelfViewController: UITableViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
         self.view.addGestureRecognizer(tapGesture)
         initNewitem()
-        pickerView.delegate = self
-        pickerView.dataSource = self
+        pickerFieldName = "OrganizeBy"
     }
     
     override func didReceiveMemoryWarning() {
@@ -57,7 +66,6 @@ class AddToShelfViewController: UITableViewController {
     @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
         comicTitleTextField.resignFirstResponder()
         finishNumberTextField.resignFirstResponder()
-        typeTextField.resignFirstResponder()
         authorTextField.resignFirstResponder()
         artistTextField.resignFirstResponder()
     }
@@ -106,20 +114,20 @@ class AddToShelfViewController: UITableViewController {
             cell.accessoryView = finishNumberTextField
         case 3:
             cell.textLabel?.text = "Tipo "
-            typeTextField.textAlignment = .right
-            typeTextField.placeholder = "Quadrinho"
-            let toolbar = UIToolbar()
-            toolbar.sizeToFit()
-            let doneBtn = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(changeType))
-            toolbar.setItems([doneBtn], animated: true)
-            typeTextField.inputAccessoryView = toolbar
-            typeTextField.inputView = pickerView
-            cell.accessoryView = typeTextField
+            let button = UIButton(type: .custom)
+            button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+            button.setTitle("\(typeData[typeIndex]) ", for: .normal)
+            button.setTitleColor(.systemGray, for: .normal)
+            button.addTarget(self, action: #selector(changeType), for: .touchUpInside)
+            button.tag = indexPath.row
+            button.semanticContentAttribute = .forceRightToLeft
+            button.sizeToFit()
+            cell.accessoryView = button
         case 4:
             cell.textLabel?.text = "Organizar por "
             let button = UIButton(type: .custom)
             button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
-            button.setTitle("Volume ", for: .normal)
+            button.setTitle("\(organizeByData[organizeByIndex]) ", for: .normal)
             button.setTitleColor(.systemGray, for: .normal)
             button.addTarget(self, action: #selector(changeOrganizeBy), for: .touchUpInside)
             button.tag = indexPath.row
@@ -130,7 +138,7 @@ class AddToShelfViewController: UITableViewController {
             cell.textLabel?.text = "Status "
             let button = UIButton(type: .custom)
             button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
-            button.setTitle("Quero Ler ", for: .normal)
+            button.setTitle("\(statusData[statusIndex]) ", for: .normal)
             button.setTitleColor(.systemGray, for: .normal)
             button.addTarget(self, action: #selector(changeStatus), for: .touchUpInside)
             button.tag = indexPath.row
@@ -161,21 +169,33 @@ class AddToShelfViewController: UITableViewController {
     }
     
     @objc func changeType() {
-        self.view.endEditing(true)
+        pickerFieldName = "Type"
+        pickerData = typeData
+        checkmark = typeIndex
+        performSegue(withIdentifier: "PickerItemViewSegue", sender: self)
     }
     
     @objc func changeOrganizeBy() {
+        pickerFieldName = "OrganizeBy"
+        pickerData = organizeByData
+        checkmark = organizeByIndex
         performSegue(withIdentifier: "PickerItemViewSegue", sender: self)
     }
     
     @objc func changeStatus() {
-        print("aaaa")
+        pickerFieldName = "Status"
+        pickerData = statusData
+        checkmark = statusIndex
+        performSegue(withIdentifier: "PickerItemViewSegue", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.destination is PickerItemViewController {
-            let viewController = segue.destination as? PickerItemViewController
-            viewController?.pickerData = organizeByData
+        if let navVC = segue.destination as? UINavigationController {
+            let tableVC = navVC.topViewController as? PickerItemViewController
+            tableVC?.delegate = self
+            tableVC?.checkmark = checkmark
+            tableVC?.pickerFieldName = pickerFieldName
+            tableVC?.pickerData = pickerData
         }
     }
     /*
@@ -235,18 +255,19 @@ class AddToShelfViewController: UITableViewController {
     
 }
 
-extension AddToShelfViewController: UIPickerViewDelegate, UIPickerViewDataSource {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
+extension AddToShelfViewController: ModalDelegate {
+    func changeValue(value: Int) {
+        checkmark = value
+        switch pickerFieldName {
+        case "Type":
+            typeIndex = checkmark
+        case "OrganizeBy":
+            organizeByIndex = checkmark
+        case "Status":
+            statusIndex = checkmark
+        default:
+            break
+        }
+        tableView.reloadData()
     }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return typePickerViewData.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return typePickerViewData[row]
-    }
-    
-    
 }

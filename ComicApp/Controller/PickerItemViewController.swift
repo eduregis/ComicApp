@@ -8,11 +8,16 @@
 
 import UIKit
 
+class PickerViewNavigationController: UINavigationController {}
+
 class PickerItemViewController: UITableViewController {
 
+    var pickerFieldName: String?
     var pickerData: [String]?
     
-    var checkmark: Int = 2
+    var delegate: ModalDelegate?
+    
+    var checkmark: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +25,14 @@ class PickerItemViewController: UITableViewController {
         tableView.tableFooterView = UIView()
     }
 
+    
+    @IBAction func dismissViewController(_ sender: Any) {
+        if let delegate = self.delegate {
+            delegate.changeValue(value: checkmark)
+        }
+        dismiss(animated: true, completion: nil)
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
