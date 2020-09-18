@@ -18,6 +18,7 @@ class ShelfViewController: UIViewController {
     }
     
     @IBAction func addToSheftButton(_ sender: Any) {
+        let test = Database.shared.loadData(from: .wantToRead)
         performSegue(withIdentifier: "AddToShelfSegue", sender: self)
     }
     
