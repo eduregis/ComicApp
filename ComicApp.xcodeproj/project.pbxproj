@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E1453112514E0E1003D7A1E /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1453102514E0E1003D7A1E /* ImagePicker.swift */; };
 		2E2A9C912510133500718B76 /* Comic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2A9C902510133500718B76 /* Comic.swift */; };
 		2E2A9C93251015E500718B76 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2A9C92251015E500718B76 /* Database.swift */; };
 		2E2E103C2512D14B0058AA34 /* PickerItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2E103B2512D14B0058AA34 /* PickerItemViewController.swift */; };
@@ -44,6 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2E1453102514E0E1003D7A1E /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		2E2A9C902510133500718B76 /* Comic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comic.swift; sourceTree = "<group>"; };
 		2E2A9C92251015E500718B76 /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		2E2E103B2512D14B0058AA34 /* PickerItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerItemViewController.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 				2EFD6B5A2512537D00BFC3AF /* ShelfViewController.swift */,
 				2EFD6B5E25125E1E00BFC3AF /* AddToShelfViewController.swift */,
 				2E2E103B2512D14B0058AA34 /* PickerItemViewController.swift */,
+				2E1453102514E0E1003D7A1E /* ImagePicker.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -341,6 +344,7 @@
 				2E2A9C912510133500718B76 /* Comic.swift in Sources */,
 				2E2A9C93251015E500718B76 /* Database.swift in Sources */,
 				2EFD6B5F25125E1E00BFC3AF /* AddToShelfViewController.swift in Sources */,
+				2E1453112514E0E1003D7A1E /* ImagePicker.swift in Sources */,
 				2E2E103C2512D14B0058AA34 /* PickerItemViewController.swift in Sources */,
 				2E504A70250FA1E80045D142 /* SceneDelegate.swift in Sources */,
 			);

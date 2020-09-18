@@ -16,6 +16,10 @@ class AddToShelfViewController: UITableViewController {
     
     var checkmark = 0
     
+    var imagePicker: ImagePicker!
+    
+    var imagePickerButton = UIButton()
+    
     var comicTitle: String?
     var imageURL: String?
     var progressNumber: Int?
@@ -25,6 +29,8 @@ class AddToShelfViewController: UITableViewController {
     var status: String?
     var author: String?
     var artist: String?
+    
+    var imageView = UIImageView()
     
     let comicTitleTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 250, height: 50))
     let stepper = UIStepper()
@@ -52,6 +58,30 @@ class AddToShelfViewController: UITableViewController {
         pickerFieldName = "OrganizeBy"
         progressNumberTextField.keyboardType = .numberPad
         finishNumberTextField.keyboardType = .numberPad
+        self.imagePicker = ImagePicker(presentationController: self, delegate: self)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow), name:
+            UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide), name:
+            UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[
+            UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height - 100
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -91,9 +121,7 @@ class AddToShelfViewController: UITableViewController {
             comic.status = "Lendo"
             statusType = .reading
         }
-        var list = Database.shared.loadData(from: statusType)
-        list?.append(comic)
-        Database.shared.saveData(from: list!, to: statusType)
+        Database.shared.addData(comic: comic, statusType: statusType)
         
         navigationController?.popViewController(animated: true)
     }
@@ -106,6 +134,29 @@ class AddToShelfViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 7
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        imageView.backgroundColor = .black
+        imageView.frame = CGRect(x: 0, y: 0, width: 2*tableView.center.x, height: tableView.center.x)
+        imageView.contentMode = .scaleAspectFit
+        headerView.addSubview(imageView)
+        imagePickerButton.frame = CGRect(x: 2*tableView.center.x - 40, y: tableView.center.x - 40, width: 40, height: 20)
+        imagePickerButton.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
+        imagePickerButton.setTitleColor(.systemBlue, for: .normal)
+        imagePickerButton.addTarget(self, action: #selector(toggleImagePicker), for: .touchUpInside)
+        headerView.addSubview(imagePickerButton)
+        return headerView
+    }
+    
+    @objc func toggleImagePicker() {
+        self.imagePicker.present(from: imagePickerButton)
+        //print(Database.shared.loadRecentComics(limit: 5).count)
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return tableView.center.x
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -236,5 +287,12 @@ extension AddToShelfViewController: ModalDelegate {
         }
         organizeBy = organizeByData[organizeByIndex]
         tableView.reloadData()
+    }
+}
+
+extension AddToShelfViewController: ImagePickerDelegate {
+    
+    func didSelect(image: UIImage?) {
+        self.imageView.image = image
     }
 }
