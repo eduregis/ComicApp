@@ -38,7 +38,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="PQu-aW-BdK" kind="presentation" identifier="PickerItemViewSegue" id="IBg-1Y-PQt"/>
+                        <segue destination="ixN-Ad-uXj" kind="show" identifier="PickerItemViewSegue" id="egW-a4-rIo"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hhX-hx-iaD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -68,11 +68,36 @@
                             <outlet property="delegate" destination="PQu-aW-BdK" id="Ypv-Dm-Gcz"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="Yqo-6M-Sw9"/>
+                    <navigationItem key="navigationItem" id="Yqo-6M-Sw9">
+                        <barButtonItem key="leftBarButtonItem" title="Voltar" id="Vwi-kp-ea2">
+                            <connections>
+                                <action selector="dismissViewController:" destination="PQu-aW-BdK" id="3mt-tt-Jph"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xIK-eK-3RF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2839" y="163"/>
+            <point key="canvasLocation" x="3884.057971014493" y="162.72321428571428"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="K1f-57-uXy">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ixN-Ad-uXj" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="hqb-yG-GFp"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="ye5-52-QhY">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="PQu-aW-BdK" kind="relationship" relationship="rootViewController" id="2jQ-ha-EEU"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="X0k-VG-S3z" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2904" y="163"/>
         </scene>
     </scenes>
 </document>
