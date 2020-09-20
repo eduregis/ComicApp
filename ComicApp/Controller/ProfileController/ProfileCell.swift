@@ -12,19 +12,6 @@ class ProfileCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        //self.backgroundColor = .red
     }
 
-    /*
-    func loadViewFromNib() -> UIView {
-        let nib: UINib = UINib(nibName: "ProfileCell", bundle: .main)
-        let view: UITableViewCell?
-        view = nib.instantiate(withOwner: self, options: nil).last as? UITableViewCell ?? nil
-        guard let viewProgress = view else {
-            fatalError()
-        }
-
-        return viewProgress
-    }
-    */
 }

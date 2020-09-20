@@ -11,16 +11,20 @@ import UIKit
 class ProfileView: UIViewController {
     
     
-    @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var tableView: UITableView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        
+        xibConfigure()
+    }
+    
+    func xibConfigure() {
         let nib = UINib.init(nibName: "ProfileCell", bundle: nil)
         self.tableView.register(nib, forCellReuseIdentifier: "ProfileCell")
-
-        // Do any additional setup after loading the view.
     }
 
 }
