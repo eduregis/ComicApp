@@ -10,6 +10,12 @@ import UIKit
 
 class ProfileCell: UITableViewCell {
 
+    @IBOutlet weak var comicImage: UIImageView!
+    
+    @IBOutlet weak var comicName: UILabel!
+    
+    @IBOutlet weak var comicStatus: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }

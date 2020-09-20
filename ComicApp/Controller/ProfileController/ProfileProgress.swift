@@ -51,14 +51,15 @@ class ProfileProgress: UIView {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setup()
+        setupXib()
         
         constraintsProgress(progress: progressWantRead)
         constraintsProgress(progress: progressRead)
         constraintsProgress(progress: progressReading)
+        setupLayout()
     }
     
-    func setup() {
+    func setupXib() {
         self.viewXib = self.loadViewFromNib()
         self.viewXib.frame = bounds
         self.addSubview(self.viewXib)
@@ -88,5 +89,11 @@ class ProfileProgress: UIView {
             progress.trailingAnchor.constraint(equalTo:
                 self.viewXib.trailingAnchor, constant: -20)
         ])
+    }
+    
+    func setupLayout() {
+        readNumber.text = Database.shared.loadData(from: .read)?.count.description
+        readingNumber.text = Database.shared.loadData(from: .reading)?.count.description
+        wantReadNumber.text = Database.shared.loadData(from: .wantToRead)?.count.description
     }
 }
