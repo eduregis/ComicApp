@@ -28,11 +28,8 @@ class ShelfViewController: UIViewController {
         }
     }
     
-    let teste: UIView = {
-        let vis = UIView()
-        vis.backgroundColor = .red
-        return vis
-    }()
+    @IBOutlet weak var segmentedControl: CustomSegmentedControl!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         fileHandler()
@@ -41,16 +38,14 @@ class ShelfViewController: UIViewController {
         comicCollectionView.delegate = self
         comicCollectionView.dataSource = self
         setCollectionView()
-        setView()
     }
     
-    func setView() {
-        self.view.addSubview(teste)
-        teste.translatesAutoresizingMaskIntoConstraints = false
-        teste.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        teste.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        teste.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: (UIScreen.main.bounds.width)/3 * 2).isActive = true
-        teste.removeConstraints(teste.constraints)
+    override func viewDidAppear(_ animated: Bool) {
+        for subview in segmentedControl.subviews {
+            if !subview.responds(to: #selector(setter: UITabBarItem.badgeValue)), subview.subviews.count == 1 {
+                subview.isHidden = true
+            }
+        }
     }
     
     func setCollectionView() {
@@ -72,6 +67,11 @@ class ShelfViewController: UIViewController {
         }
         listOfComics = list
     }
+    
+    @IBAction func indexChanged(_ sender: CustomSegmentedControl) {
+        segmentedControl.indexChanged(newIndex: sender.selectedSegmentIndex)
+    }
+    
 }
 
 extension ShelfViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

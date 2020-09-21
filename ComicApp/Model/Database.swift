@@ -84,7 +84,7 @@ class Database {
         case .read:
             type = read
         }
-    
+        
         do {
             let file = try Data(contentsOf: type)
             loadedArray = try JSONDecoder().decode([Comic].self, from: file)
@@ -94,6 +94,32 @@ class Database {
         }
         
         return loadedArray
+    }
+    
+    func loadRecentComics(limit: Int) -> [Comic] {
+        let wantToReadList: [Comic]? = loadData(from: .wantToRead)
+        let readingList: [Comic]? = loadData(from: .reading)
+        let readList: [Comic]? = loadData(from: .read)
+        
+        var list: [Comic] = []
+        list.append(contentsOf: wantToReadList ?? [])
+        list.append(contentsOf: readingList ?? [])
+        list.append(contentsOf: readList ?? [])
+        
+        list = list.sorted(by: { $0.lastEdit! > $1.lastEdit! })
+        
+        var limitedList: [Comic] = []
+        let limitNumber = min(limit, list.count)
+        for index in 0 ..< limitNumber {
+            limitedList.append(list[index])
+        }
+        return limitedList
+    }
+    
+    func addData(comic: Comic, statusType: StatusType) {
+        var list = Database.shared.loadData(from: statusType)
+        list?.append(comic)
+        Database.shared.saveData(from: list!, to: statusType)
     }
     
     @discardableResult func saveData(from array: [Comic], to list: StatusType) -> Bool {
