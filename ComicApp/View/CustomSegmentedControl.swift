@@ -16,8 +16,6 @@ class CustomSegmentedControl: UISegmentedControl {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = UIColor.systemPink
-        UIView.animate(withDuration: 0.5, animations: {
-                view.layoutIfNeeded() })
         return view
     }()
     
@@ -59,12 +57,9 @@ class CustomSegmentedControl: UISegmentedControl {
         
         segmentIndicator.widthAnchor.constraint(equalToConstant: CGFloat(15 + seg.count * 20)).isActive = true
         segmentIndicator.center = CGPoint(x: self.center.x/CGFloat(numberOfSegments), y: self.center.y)
-        print(self.center.x/CGFloat(numberOfSegments))
     }
     
     func indexChanged(newIndex: Int) {
-        
-        configure()
         
         segmentIndicator.translatesAutoresizingMaskIntoConstraints = false
         
@@ -72,8 +67,9 @@ class CustomSegmentedControl: UISegmentedControl {
         leading = segmentIndicator.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: (UIScreen.main.bounds.width)/3 * CGFloat(newIndex))
         leading.isActive = true
         
-        segmentIndicator.layoutIfNeeded()
-
+        UIView.animate(withDuration: 0.5, animations: {
+            self.layoutIfNeeded() })
+        configure()
     }
 
 }
