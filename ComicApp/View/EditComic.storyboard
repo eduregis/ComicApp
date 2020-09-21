@@ -6,10 +6,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Table View Controller-->
+        <!--Edit Comic View Controller-->
         <scene sceneID="KLw-iI-qPU">
             <objects>
-                <tableViewController id="exD-C0-bWV" sceneMemberID="viewController">
+                <tableViewController id="exD-C0-bWV" customClass="EditComicViewController" customModule="ComicApp" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="pvt-rZ-Voc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -38,10 +38,10 @@
             </objects>
             <point key="canvasLocation" x="-33" y="149"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Picker Item View Controller-->
         <scene sceneID="e95-ae-Pfh">
             <objects>
-                <tableViewController id="joK-fa-XdF" sceneMemberID="viewController">
+                <tableViewController id="joK-fa-XdF" customClass="PickerItemViewController" customModule="ComicApp" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="EKZ-EK-28d">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -65,7 +65,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xeg-ih-nUd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1730.4347826086957" y="146.65178571428569"/>
+            <point key="canvasLocation" x="1690" y="149"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="RWy-Is-Lzv">
