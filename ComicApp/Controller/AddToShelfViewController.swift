@@ -247,6 +247,5 @@ extension AddToShelfViewController: UIPickerViewDelegate, UIPickerViewDataSource
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return typePickerViewData[row]
     }
-    
-    
+
 }

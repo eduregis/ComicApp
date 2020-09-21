@@ -24,6 +24,8 @@
 		2E6036FE251389A0002D234A /* AddToShelf.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E6036FD251389A0002D234A /* AddToShelf.storyboard */; };
 		2EFD6B5B2512537D00BFC3AF /* ShelfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFD6B5A2512537D00BFC3AF /* ShelfViewController.swift */; };
 		2EFD6B5F25125E1E00BFC3AF /* AddToShelfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFD6B5E25125E1E00BFC3AF /* AddToShelfViewController.swift */; };
+		EC374E372514DA7400AE6B99 /* ShelfCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC374E362514DA7400AE6B99 /* ShelfCollectionViewCell.swift */; };
+		EC374E3A2514E31000AE6B99 /* ComicCustomLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC374E392514E31000AE6B99 /* ComicCustomLayout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +69,8 @@
 		2E6036FD251389A0002D234A /* AddToShelf.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AddToShelf.storyboard; sourceTree = "<group>"; };
 		2EFD6B5A2512537D00BFC3AF /* ShelfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelfViewController.swift; sourceTree = "<group>"; };
 		2EFD6B5E25125E1E00BFC3AF /* AddToShelfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToShelfViewController.swift; sourceTree = "<group>"; };
+		EC374E362514DA7400AE6B99 /* ShelfCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelfCollectionViewCell.swift; sourceTree = "<group>"; };
+		EC374E392514E31000AE6B99 /* ComicCustomLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicCustomLayout.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,11 +164,13 @@
 		2E504AA1250FAC510045D142 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				EC374E382514E2ED00AE6B99 /* Custom Layout */,
 				2E504AA3250FACCC0045D142 /* TabBar.storyboard */,
 				2E504AA5250FAD8E0045D142 /* Shelf.storyboard */,
 				2E504AA7250FAE350045D142 /* Profile.storyboard */,
 				2E504AA9250FAE6A0045D142 /* Settings.storyboard */,
 				2E6036FD251389A0002D234A /* AddToShelf.storyboard */,
+				EC374E362514DA7400AE6B99 /* ShelfCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -177,6 +183,14 @@
 				2E2E103B2512D14B0058AA34 /* PickerItemViewController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		EC374E382514E2ED00AE6B99 /* Custom Layout */ = {
+			isa = PBXGroup;
+			children = (
+				EC374E392514E31000AE6B99 /* ComicCustomLayout.swift */,
+			);
+			path = "Custom Layout";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -337,12 +351,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E504A6E250FA1E80045D142 /* AppDelegate.swift in Sources */,
+				EC374E372514DA7400AE6B99 /* ShelfCollectionViewCell.swift in Sources */,
 				2EFD6B5B2512537D00BFC3AF /* ShelfViewController.swift in Sources */,
 				2E2A9C912510133500718B76 /* Comic.swift in Sources */,
 				2E2A9C93251015E500718B76 /* Database.swift in Sources */,
 				2EFD6B5F25125E1E00BFC3AF /* AddToShelfViewController.swift in Sources */,
 				2E2E103C2512D14B0058AA34 /* PickerItemViewController.swift in Sources */,
 				2E504A70250FA1E80045D142 /* SceneDelegate.swift in Sources */,
+				EC374E3A2514E31000AE6B99 /* ComicCustomLayout.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

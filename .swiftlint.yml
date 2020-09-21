@@ -2,4 +2,4 @@ disabled_rules:
 - trailing_whitespace
 - unused_optional_binding
 
-line_length: 300
+line_length: 500
