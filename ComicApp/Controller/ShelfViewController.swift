@@ -9,26 +9,31 @@
 import UIKit
 
 class ShelfViewController: UIViewController {
-
+    
+    @IBOutlet weak var segmentedControl: CustomSegmentedControl!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Minha Estante"
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        // Do any additional setup after loading the view.
+    
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        for subview in segmentedControl.subviews {
+            if !subview.responds(to: #selector(setter: UITabBarItem.badgeValue)), subview.subviews.count == 1 {
+                subview.isHidden = true
+            }
+        }
+    }
+    
+    @IBAction func indexChanged(_ sender: CustomSegmentedControl) {
+        segmentedControl.indexChanged(newIndex: sender.selectedSegmentIndex)
+        
     }
     
     @IBAction func addToSheftButton(_ sender: Any) {
         performSegue(withIdentifier: "AddToShelfSegue", sender: self)
+        
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

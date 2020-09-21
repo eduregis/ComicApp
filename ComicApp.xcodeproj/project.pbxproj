@@ -24,6 +24,7 @@
 		2E6036FE251389A0002D234A /* AddToShelf.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E6036FD251389A0002D234A /* AddToShelf.storyboard */; };
 		2EFD6B5B2512537D00BFC3AF /* ShelfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFD6B5A2512537D00BFC3AF /* ShelfViewController.swift */; };
 		2EFD6B5F25125E1E00BFC3AF /* AddToShelfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFD6B5E25125E1E00BFC3AF /* AddToShelfViewController.swift */; };
+		56EAC51625139D48002671E7 /* CustomSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56EAC51525139D48002671E7 /* CustomSegmentedControl.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		2E6036FD251389A0002D234A /* AddToShelf.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AddToShelf.storyboard; sourceTree = "<group>"; };
 		2EFD6B5A2512537D00BFC3AF /* ShelfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelfViewController.swift; sourceTree = "<group>"; };
 		2EFD6B5E25125E1E00BFC3AF /* AddToShelfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToShelfViewController.swift; sourceTree = "<group>"; };
+		56EAC51525139D48002671E7 /* CustomSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControl.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +167,7 @@
 				2E504AA7250FAE350045D142 /* Profile.storyboard */,
 				2E504AA9250FAE6A0045D142 /* Settings.storyboard */,
 				2E6036FD251389A0002D234A /* AddToShelf.storyboard */,
+				56EAC51525139D48002671E7 /* CustomSegmentedControl.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -343,6 +346,7 @@
 				2EFD6B5F25125E1E00BFC3AF /* AddToShelfViewController.swift in Sources */,
 				2E2E103C2512D14B0058AA34 /* PickerItemViewController.swift in Sources */,
 				2E504A70250FA1E80045D142 /* SceneDelegate.swift in Sources */,
+				56EAC51625139D48002671E7 /* CustomSegmentedControl.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
