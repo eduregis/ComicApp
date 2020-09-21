@@ -93,4 +93,8 @@ extension ShelfViewController: UICollectionViewDataSource, UICollectionViewDeleg
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "EditComicSegue", sender: self)
+    }
+    
 }
