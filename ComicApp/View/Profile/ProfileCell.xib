@@ -16,27 +16,26 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Kxx-fa-DFH">
-                    <rect key="frame" x="0.0" y="0.0" width="49" height="74"/>
-                    <color key="backgroundColor" systemColor="systemIndigoColor"/>
+                    <rect key="frame" x="5" y="5" width="49" height="64"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="74" id="55g-6h-ZeH"/>
-                        <constraint firstAttribute="width" constant="49" id="Hre-dg-78T"/>
+                        <constraint firstAttribute="width" constant="49" id="Gte-Oi-p3S"/>
+                        <constraint firstAttribute="height" priority="900" constant="64" id="hdJ-Hy-pfA"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Nome Comic" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="snW-Lm-vDg">
-                    <rect key="frame" x="57" y="10" width="296" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nome Comic" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="snW-Lm-vDg">
+                    <rect key="frame" x="62" y="10" width="98.5" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" systemColor="systemRedColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Adicionado a:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LVj-fe-KG4">
-                    <rect key="frame" x="57" y="49" width="54" height="10"/>
+                    <rect key="frame" x="62" y="49" width="54" height="10"/>
                     <fontDescription key="fontDescription" type="system" pointSize="8"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comic Status" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cTg-vF-Deu">
-                    <rect key="frame" x="115" y="49" width="53" height="10"/>
+                    <rect key="frame" x="120" y="49" width="53" height="10"/>
                     <fontDescription key="fontDescription" type="system" pointSize="8"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -47,19 +46,20 @@
             <constraints>
                 <constraint firstItem="snW-Lm-vDg" firstAttribute="leading" secondItem="Kxx-fa-DFH" secondAttribute="trailing" constant="8" symbolic="YES" id="4IL-bY-lnM"/>
                 <constraint firstItem="LVj-fe-KG4" firstAttribute="leading" secondItem="Kxx-fa-DFH" secondAttribute="trailing" constant="8" id="67h-S3-U7g"/>
-                <constraint firstItem="Kxx-fa-DFH" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="Lrq-7j-8Jf"/>
+                <constraint firstItem="Kxx-fa-DFH" firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottom" constant="-5" id="Lrq-7j-8Jf"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="snW-Lm-vDg" secondAttribute="bottom" constant="43" id="M7b-ee-bgv"/>
                 <constraint firstItem="LVj-fe-KG4" firstAttribute="top" secondItem="snW-Lm-vDg" secondAttribute="bottom" constant="18" id="QgE-Z5-sH8"/>
                 <constraint firstItem="cTg-vF-Deu" firstAttribute="top" secondItem="snW-Lm-vDg" secondAttribute="bottom" constant="18" id="RiE-jY-RZF"/>
-                <constraint firstItem="Kxx-fa-DFH" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="Z5j-5c-9jW"/>
+                <constraint firstItem="Kxx-fa-DFH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="5" id="Z5j-5c-9jW"/>
+                <constraint firstAttribute="top" secondItem="Kxx-fa-DFH" secondAttribute="top" constant="-5" id="n12-bb-ydR"/>
                 <constraint firstAttribute="top" secondItem="snW-Lm-vDg" secondAttribute="top" constant="-10" id="t2M-cv-cq6"/>
                 <constraint firstItem="cTg-vF-Deu" firstAttribute="leading" secondItem="LVj-fe-KG4" secondAttribute="trailing" constant="4" id="yNL-F8-HX4"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="comicStatus" destination="cTg-vF-Deu" id="PIP-zv-fNo"/>
-                <outlet property="imageComic" destination="Kxx-fa-DFH" id="HeY-k8-1Vd"/>
-                <outlet property="nameComic" destination="snW-Lm-vDg" id="MUG-Ck-zx7"/>
+                <outlet property="comicImage" destination="Kxx-fa-DFH" id="nJC-vr-HdH"/>
+                <outlet property="comicName" destination="snW-Lm-vDg" id="XgL-cc-tCi"/>
+                <outlet property="comicStatus" destination="cTg-vF-Deu" id="V1L-oU-dK7"/>
             </connections>
             <point key="canvasLocation" x="137.68115942028987" y="152.67857142857142"/>
         </view>
@@ -67,9 +67,6 @@
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemIndigoColor">
-            <color red="0.34509803921568627" green="0.33725490196078434" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemRedColor">
             <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

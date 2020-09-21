@@ -180,7 +180,7 @@ class Database {
         case .read:
             finalStatusProgress = ((statusRead+statusReading) / (statusRead+statusReading+statusWantReading))
         case .reading:
-            finalStatusProgress = statusRead / (statusRead+statusReading+statusWantReading)
+            finalStatusProgress = statusReading / (statusRead+statusReading+statusWantReading)
         case .wantToRead:
             finalStatusProgress = 1
         }

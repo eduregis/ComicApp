@@ -13,7 +13,8 @@ class ProfileView: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var userImage: UIImageView!
     
-    //let lastComics = Database.shared.
+    let lastComics = Database.shared.loadRecentComics(limit: 5)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.delegate = self
@@ -35,15 +36,20 @@ class ProfileView: UIViewController {
 }
 
 extension ProfileView: UITableViewDelegate, UITableViewDataSource {
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = self.tableView.dequeueReusableCell(withIdentifier: "ProfileCell") as? ProfileCell
+        guard let cell = self.tableView.dequeueReusableCell(withIdentifier: "ProfileCell") as? ProfileCell else {
+            fatalError()
+        }
         
-        //cell?.comicImage.image = UIImage(named: Database.shared.loadData(from: <#T##StatusType#>))
-        return cell!
+        cell.comicImage.image = UIImage(named: lastComics[indexPath.row].imageURL ?? "")
+        cell.comicName.text = lastComics[indexPath.row].title
+        cell.comicStatus.text = lastComics[indexPath.row].status
+        
+        return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 9
+        return lastComics.count
     }
-    
 }
