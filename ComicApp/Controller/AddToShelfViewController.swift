@@ -109,7 +109,7 @@ class AddToShelfViewController: UITableViewController {
         author = authorTextField.text
         artist = artistTextField.text
         
-        var comic = Comic(title: comicTitle!, imageURL: nil, progressNumber: progressNumber, finishedNumber: finishNumber, type: type!, organizeBy: organizeBy!, status: "-", author: author, artist: artist)
+        var comic = Comic(title: comicTitle!, imageURL: nil, progressNumber: progressNumber, finishNumber: finishNumber, type: type!, organizeBy: organizeBy!, status: "-", author: author, artist: artist)
         var statusType: StatusType
         if progressNumber == 0 {
             comic.status = "Quero Ler"

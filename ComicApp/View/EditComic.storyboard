@@ -30,6 +30,13 @@
                             <outlet property="delegate" destination="exD-C0-bWV" id="61P-L5-IFR"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" id="nKw-hV-PMR">
+                        <barButtonItem key="rightBarButtonItem" title="Feito" id="x3f-Oi-1JA">
+                            <connections>
+                                <action selector="doneButton:" destination="exD-C0-bWV" id="F5K-wg-lga"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <segue destination="D8I-Wt-JYd" kind="show" identifier="PickerItemViewSegue" id="jZH-dW-Gbi"/>
                     </connections>
