@@ -8,7 +8,17 @@
 
 import UIKit
 
+protocol ModalDelegate {
+    func changeValue(value: Int)
+}
+
 class AddToShelfViewController: UITableViewController {
+    
+    var checkmark = 0
+    
+    var imagePicker: ImagePicker!
+    
+    var imagePickerButton = UIButton()
     
     var comicTitle: String?
     var imageURL: String?
@@ -20,17 +30,22 @@ class AddToShelfViewController: UITableViewController {
     var author: String?
     var artist: String?
     
+    var imageView = UIImageView()
+    
     let comicTitleTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 250, height: 50))
     let stepper = UIStepper()
+    let progressNumberTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
     let finishNumberTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-    let typeTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
     let authorTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
     let artistTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
     
-    let pickerView = UIPickerView()
+    var pickerFieldName: String = ""
+    var pickerData: [String] = []
     
-    let typePickerViewData = ["Quadrinho", "Livro"]
+    let typeData = ["Quadrinho", "Livro"]
+    var typeIndex = 0
     let organizeByData = ["Página", "Capítulo", "Volume"]
+    var organizeByIndex = 2
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,8 +55,33 @@ class AddToShelfViewController: UITableViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
         self.view.addGestureRecognizer(tapGesture)
         initNewitem()
-        pickerView.delegate = self
-        pickerView.dataSource = self
+        pickerFieldName = "OrganizeBy"
+        progressNumberTextField.keyboardType = .numberPad
+        finishNumberTextField.keyboardType = .numberPad
+        self.imagePicker = ImagePicker(presentationController: self, delegate: self)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow), name:
+            UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide), name:
+            UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[
+            UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height - 100
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -51,31 +91,72 @@ class AddToShelfViewController: UITableViewController {
     func initNewitem() {
         comicTitle = "-"
         progressNumber = 0
-        organizeBy = "Volume"
+        organizeBy = organizeByData[organizeByIndex]
     }
     
     @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
         comicTitleTextField.resignFirstResponder()
+        progressNumberTextField.resignFirstResponder()
         finishNumberTextField.resignFirstResponder()
-        typeTextField.resignFirstResponder()
         authorTextField.resignFirstResponder()
         artistTextField.resignFirstResponder()
     }
     
     @IBAction func doneButton(_ sender: Any) {
+        comicTitle = comicTitleTextField.text
+        type = typeData[typeIndex]
+        organizeBy = organizeByData[organizeByIndex]
+        author = authorTextField.text
+        artist = artistTextField.text
+        
+        var comic = Comic(title: comicTitle!, imageURL: nil, progressNumber: progressNumber, finishedNumber: finishNumber, type: type!, organizeBy: organizeBy!, status: "-", author: author, artist: artist)
+        var statusType: StatusType
+        if progressNumber == 0 {
+            comic.status = "Quero Ler"
+            statusType = .wantToRead
+        } else if progressNumber == finishNumber {
+            comic.status = "Lido"
+            statusType = .read
+        } else {
+            comic.status = "Lendo"
+            statusType = .reading
+        }
+        Database.shared.addData(comic: comic, statusType: statusType)
+        
         navigationController?.popViewController(animated: true)
     }
     
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 9
+        return 7
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        imageView.backgroundColor = .black
+        imageView.frame = CGRect(x: 0, y: 0, width: 2*tableView.center.x, height: tableView.center.x)
+        imageView.contentMode = .scaleAspectFit
+        headerView.addSubview(imageView)
+        imagePickerButton.frame = CGRect(x: 2*tableView.center.x - 40, y: tableView.center.x - 40, width: 40, height: 20)
+        imagePickerButton.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
+        imagePickerButton.setTitleColor(.systemBlue, for: .normal)
+        imagePickerButton.addTarget(self, action: #selector(toggleImagePicker), for: .touchUpInside)
+        headerView.addSubview(imagePickerButton)
+        return headerView
+    }
+    
+    @objc func toggleImagePicker() {
+        self.imagePicker.present(from: imagePickerButton)
+        //print(Database.shared.loadRecentComics(limit: 5).count)
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return tableView.center.x
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -89,37 +170,46 @@ class AddToShelfViewController: UITableViewController {
         case 1:
             if let organizeBy = organizeBy {
                 if let progressNumber = progressNumber {
-                    stepper.value = Double(progressNumber)
-                    stepper.addTarget(self, action: #selector(stepperValueChanged), for: .valueChanged)
                     if let finishNumber = finishNumber {
                         cell.textLabel?.text = "\(progressNumber)/\(finishNumber) (em \(organizeBy.lowercased())s)"
                     } else {
                         cell.textLabel?.text = "\(progressNumber)/- (em \(organizeBy.lowercased())s)"
                     }
+                    if organizeBy != organizeByData[0] {
+                        stepper.value = Double(progressNumber)
+                        stepper.addTarget(self, action: #selector(stepperValueChanged), for: .valueChanged)
+                        cell.accessoryView = stepper
+                    } else {
+                        progressNumberTextField.textAlignment = .right
+                        progressNumberTextField.placeholder = "-"
+                        progressNumberTextField.addTarget(self, action: #selector(progressNumberValueChanged), for: .editingDidEnd)
+                        cell.accessoryView = progressNumberTextField
+                    }
                 }
             }
-            cell.accessoryView = stepper
+            
         case 2:
             cell.textLabel?.text = "\(organizeBy ?? "-") final "
             finishNumberTextField.textAlignment = .right
             finishNumberTextField.placeholder = "-"
+            finishNumberTextField.addTarget(self, action: #selector(finishNumberValueChanged), for: .editingDidEnd)
             cell.accessoryView = finishNumberTextField
         case 3:
             cell.textLabel?.text = "Tipo "
-            typeTextField.textAlignment = .right
-            typeTextField.placeholder = "Quadrinho"
-            let toolbar = UIToolbar()
-            toolbar.sizeToFit()
-            let doneBtn = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(changeType))
-            toolbar.setItems([doneBtn], animated: true)
-            typeTextField.inputAccessoryView = toolbar
-            typeTextField.inputView = pickerView
-            cell.accessoryView = typeTextField
+            let button = UIButton(type: .custom)
+            button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+            button.setTitle("\(typeData[typeIndex]) ", for: .normal)
+            button.setTitleColor(.systemGray, for: .normal)
+            button.addTarget(self, action: #selector(changeType), for: .touchUpInside)
+            button.tag = indexPath.row
+            button.semanticContentAttribute = .forceRightToLeft
+            button.sizeToFit()
+            cell.accessoryView = button
         case 4:
             cell.textLabel?.text = "Organizar por "
             let button = UIButton(type: .custom)
             button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
-            button.setTitle("Volume ", for: .normal)
+            button.setTitle("\(organizeByData[organizeByIndex]) ", for: .normal)
             button.setTitleColor(.systemGray, for: .normal)
             button.addTarget(self, action: #selector(changeOrganizeBy), for: .touchUpInside)
             button.tag = indexPath.row
@@ -127,22 +217,11 @@ class AddToShelfViewController: UITableViewController {
             button.sizeToFit()
             cell.accessoryView = button
         case 5:
-            cell.textLabel?.text = "Status "
-            let button = UIButton(type: .custom)
-            button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
-            button.setTitle("Quero Ler ", for: .normal)
-            button.setTitleColor(.systemGray, for: .normal)
-            button.addTarget(self, action: #selector(changeStatus), for: .touchUpInside)
-            button.tag = indexPath.row
-            button.semanticContentAttribute = .forceRightToLeft
-            button.sizeToFit()
-            cell.accessoryView = button
-        case 6:
             cell.textLabel?.text = "Autor/Roteiro "
             authorTextField.textAlignment = .right
             authorTextField.placeholder = "-"
             cell.accessoryView = authorTextField
-        case 7:
+        case 6:
             cell.textLabel?.text = "Ilustração "
             artistTextField.textAlignment = .right
             artistTextField.placeholder = "-"
@@ -160,93 +239,60 @@ class AddToShelfViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    @objc func changeType() {
-        self.view.endEditing(true)
+    @objc func progressNumberValueChanged() {
+        progressNumber = Int(progressNumberTextField.text ?? "0")
+        tableView.reloadData()
     }
     
-    @objc func changeOrganizeBy() {
+    @objc func finishNumberValueChanged() {
+        finishNumber = Int(finishNumberTextField.text ?? "0")
+        tableView.reloadData()
+    }
+    
+    @objc func changeType() {
+        pickerFieldName = "Type"
+        pickerData = typeData
+        checkmark = typeIndex
         performSegue(withIdentifier: "PickerItemViewSegue", sender: self)
     }
     
-    @objc func changeStatus() {
-        print("aaaa")
+    @objc func changeOrganizeBy() {
+        pickerFieldName = "OrganizeBy"
+        pickerData = organizeByData
+        checkmark = organizeByIndex
+        performSegue(withIdentifier: "PickerItemViewSegue", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.destination is PickerItemViewController {
-            let viewController = segue.destination as? PickerItemViewController
-            viewController?.pickerData = organizeByData
+        if let navVC = segue.destination as? UINavigationController {
+            let tableVC = navVC.topViewController as? PickerItemViewController
+            tableVC?.delegate = self
+            tableVC?.checkmark = checkmark
+            tableVC?.pickerFieldName = pickerFieldName
+            tableVC?.pickerData = pickerData
         }
     }
-    /*
-     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-     let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-     
-     // Configure the cell...
-     
-     return cell
-     }
-     */
-    
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-    
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
 }
 
-extension AddToShelfViewController: UIPickerViewDelegate, UIPickerViewDataSource {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
+extension AddToShelfViewController: ModalDelegate {
+    func changeValue(value: Int) {
+        checkmark = value
+        switch pickerFieldName {
+        case "Type":
+            typeIndex = checkmark
+        case "OrganizeBy":
+            organizeByIndex = checkmark
+        default:
+            break
+        }
+        organizeBy = organizeByData[organizeByIndex]
+        tableView.reloadData()
     }
+}
+
+extension AddToShelfViewController: ImagePickerDelegate {
     
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return typePickerViewData.count
+    func didSelect(image: UIImage?) {
+        self.imageView.image = image
     }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return typePickerViewData[row]
-    }
-    
-    
 }

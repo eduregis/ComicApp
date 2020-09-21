@@ -28,12 +28,10 @@ class ShelfViewController: UIViewController {
     
     @IBAction func indexChanged(_ sender: CustomSegmentedControl) {
         segmentedControl.indexChanged(newIndex: sender.selectedSegmentIndex)
-        
     }
-    
+
     @IBAction func addToSheftButton(_ sender: Any) {
         performSegue(withIdentifier: "AddToShelfSegue", sender: self)
-        
     }
 
 }

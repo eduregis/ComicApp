@@ -10,16 +10,34 @@ import UIKit
 
 class PickerItemViewController: UITableViewController {
 
+    var pickerFieldName: String?
     var pickerData: [String]?
     
-    var checkmark: Int = 2
+    var delegate: ModalDelegate?
+    
+    var checkmark: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Organizar por"
+        switch pickerFieldName {
+        case "Type":
+            self.title = "Tipo"
+        case "OrganizeBy":
+            self.title = "Organizar por"
+        default:
+            break
+        }
+       
         tableView.tableFooterView = UIView()
     }
 
+    @IBAction func dismissViewController(_ sender: Any) {
+        if let delegate = self.delegate {
+            delegate.changeValue(value: checkmark)
+        }
+        dismiss(animated: true, completion: nil)
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
