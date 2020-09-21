@@ -47,6 +47,8 @@ class EditComicViewController: UITableViewController {
     let organizeByData = ["Página", "Capítulo", "Volume"]
     var organizeByIndex = 2
     
+    let alert = UIAlertController(title: "Atenção", message: "Esse item irá ser apagado, deseja continuar", preferredStyle: .alert)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Editar Item"
@@ -67,6 +69,7 @@ class EditComicViewController: UITableViewController {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillHide), name:
             UIResponder.keyboardWillHideNotification, object: nil)
+        addActions()
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -99,24 +102,52 @@ class EditComicViewController: UITableViewController {
             switch comic.type {
             case "Quadrinho":
                 type = typeData[0]
+                typeIndex = 0
             case "Livro":
                 type = typeData[1]
+                typeIndex = 1
             default:
                 break
             }
             switch comic.organizeBy {
             case "Página":
                 organizeBy = organizeByData[0]
+                organizeByIndex = 0
             case "Capítulo":
                 organizeBy = organizeByData[1]
+                organizeByIndex = 1
             case "Volume":
                 organizeBy = organizeByData[2]
+                organizeByIndex = 2
             default:
                 break
             }
             status = comic.status
             organizeBy = organizeByData[organizeByIndex]
         }
+    }
+    
+    func addActions() {
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Cancelar", comment: "Default action"), style: .default, handler: { _ in
+        NSLog("The \"OK\" alert occured.")
+        }))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Confirmar", comment: "Default action"), style: .destructive, handler: { _ in
+            self.deleteData()
+        }))
+    }
+    
+    func deleteData() {
+        switch comic?.status {
+        case "Quero Ler":
+            Database.shared.deleteData(from: .wantToRead, at: oldIndex!)
+        case "Lido":
+            Database.shared.deleteData(from: .read, at: oldIndex!)
+        case "Lendo":
+            Database.shared.deleteData(from: .reading, at: oldIndex!)
+        default:
+            break
+        }
+        navigationController?.popViewController(animated: true)
     }
     
     @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
@@ -148,16 +179,7 @@ class EditComicViewController: UITableViewController {
             editComic.status = "Lendo"
             statusType = .reading
         }
-        switch comic?.status {
-        case "Quero Ler":
-            Database.shared.deleteData(from: .wantToRead, at: oldIndex!)
-        case "Lido":
-            Database.shared.deleteData(from: .read, at: oldIndex!)
-        case "Lendo":
-            Database.shared.deleteData(from: .reading, at: oldIndex!)
-        default:
-            break
-        }
+        deleteData()
         Database.shared.addData(comic: editComic, statusType: statusType)
         
         navigationController?.popViewController(animated: true)
@@ -226,7 +248,7 @@ class EditComicViewController: UITableViewController {
         case 2:
             cell.textLabel?.text = "\(organizeBy ?? "-") final "
             finishNumberTextField.textAlignment = .right
-            finishNumberTextField.text = "\(String(describing: finishNumber))"
+            finishNumberTextField.text = "\(finishNumber ?? 0)"
             finishNumberTextField.addTarget(self, action: #selector(finishNumberValueChanged), for: .editingDidEnd)
             cell.accessoryView = finishNumberTextField
         case 3:
@@ -265,6 +287,7 @@ class EditComicViewController: UITableViewController {
             let button = UIButton(type: .custom)
             button.setTitle("Excluir item ", for: .normal)
             button.setTitleColor(.systemRed, for: .normal)
+            button.addTarget(self, action: #selector(deleteTrigger), for: .touchUpInside)
             button.sizeToFit()
             cell.accessoryView = button
         default:
@@ -273,6 +296,10 @@ class EditComicViewController: UITableViewController {
         cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 16.0)
         cell.backgroundColor = .systemGray6
         return cell
+    }
+    
+    @objc func deleteTrigger () {
+        self.present(alert, animated: true, completion: nil)
     }
     
     @objc func stepperValueChanged() {

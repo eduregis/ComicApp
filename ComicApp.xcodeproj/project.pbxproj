@@ -25,6 +25,7 @@
 		2E6036FE251389A0002D234A /* AddToShelf.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E6036FD251389A0002D234A /* AddToShelf.storyboard */; };
 		2E756AE72518FB9A00BE4DC0 /* EditComic.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E756AE62518FB9A00BE4DC0 /* EditComic.storyboard */; };
 		2E756AE9251907A200BE4DC0 /* EditComicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E756AE8251907A200BE4DC0 /* EditComicViewController.swift */; };
+		2E756AEB25193D1000BE4DC0 /* PickerItem.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E756AEA25193D1000BE4DC0 /* PickerItem.storyboard */; };
 		2EFD6B5B2512537D00BFC3AF /* ShelfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFD6B5A2512537D00BFC3AF /* ShelfViewController.swift */; };
 		2EFD6B5F25125E1E00BFC3AF /* AddToShelfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFD6B5E25125E1E00BFC3AF /* AddToShelfViewController.swift */; };
 		56EAC51625139D48002671E7 /* CustomSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56EAC51525139D48002671E7 /* CustomSegmentedControl.swift */; };
@@ -74,6 +75,7 @@
 		2E6036FD251389A0002D234A /* AddToShelf.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AddToShelf.storyboard; sourceTree = "<group>"; };
 		2E756AE62518FB9A00BE4DC0 /* EditComic.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EditComic.storyboard; sourceTree = "<group>"; };
 		2E756AE8251907A200BE4DC0 /* EditComicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditComicViewController.swift; sourceTree = "<group>"; };
+		2E756AEA25193D1000BE4DC0 /* PickerItem.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PickerItem.storyboard; sourceTree = "<group>"; };
 		2EFD6B5A2512537D00BFC3AF /* ShelfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelfViewController.swift; sourceTree = "<group>"; };
 		2EFD6B5E25125E1E00BFC3AF /* AddToShelfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToShelfViewController.swift; sourceTree = "<group>"; };
 		56EAC51525139D48002671E7 /* CustomSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControl.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 				2E504AA7250FAE350045D142 /* Profile.storyboard */,
 				2E504AA9250FAE6A0045D142 /* Settings.storyboard */,
 				2E6036FD251389A0002D234A /* AddToShelf.storyboard */,
+				2E756AEA25193D1000BE4DC0 /* PickerItem.storyboard */,
 				EC374E362514DA7400AE6B99 /* ShelfCollectionViewCell.swift */,
 				56EAC51525139D48002671E7 /* CustomSegmentedControl.swift */,
 				2E756AE62518FB9A00BE4DC0 /* EditComic.storyboard */,
@@ -319,6 +322,7 @@
 				2E504AA4250FACCC0045D142 /* TabBar.storyboard in Resources */,
 				2E504AA6250FAD8E0045D142 /* Shelf.storyboard in Resources */,
 				2E504AAA250FAE6A0045D142 /* Settings.storyboard in Resources */,
+				2E756AEB25193D1000BE4DC0 /* PickerItem.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
