@@ -22,6 +22,10 @@ class ProfileView: UIViewController {
         
         xibConfigure()
         setupLayout()
+        
+        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        tableView.sectionIndexColor = .clear
+        tableView.backgroundColor = .clear
     }
     
     func xibConfigure() {
@@ -42,14 +46,33 @@ extension ProfileView: UITableViewDelegate, UITableViewDataSource {
             fatalError()
         }
         
-        cell.comicImage.image = UIImage(named: lastComics[indexPath.row].imageURL ?? "")
-        cell.comicName.text = lastComics[indexPath.row].title
-        cell.comicStatus.text = lastComics[indexPath.row].status
+        cell.comicImage.image = UIImage(named: lastComics[indexPath.section].imageURL ?? "")
+        cell.comicName.text = lastComics[indexPath.section].title
+        cell.comicStatus.text = lastComics[indexPath.section].status
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
         return lastComics.count
+    }
+    
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 20
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        headerView.backgroundColor = .clear
+        return headerView
     }
 }

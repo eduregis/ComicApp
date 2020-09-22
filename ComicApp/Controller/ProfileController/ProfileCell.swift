@@ -28,6 +28,10 @@ class ProfileCell: UITableViewCell {
         self.layer.shadowOpacity = 0.2
 
         self.layer.masksToBounds = true
+        
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 10, left: 10, bottom: 100, right: 10))
+        
+        self.backgroundColor = .systemGray6
     }
 
 }
