@@ -32,11 +32,12 @@ class ShelfViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fileHandler()
+        Database.shared.mocking()
         self.title = "Minha Estante"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         comicCollectionView.delegate = self
         comicCollectionView.dataSource = self
+        fileHandler(statusType: .reading)
         setCollectionView()
     }
     
@@ -51,7 +52,7 @@ class ShelfViewController: UIViewController {
     func setCollectionView() {
            self.view.addSubview(comicCollectionView)
            comicCollectionView.translatesAutoresizingMaskIntoConstraints = false
-           comicCollectionView.topAnchor.constraint(equalToSystemSpacingBelow: self.view.topAnchor, multiplier: 20).isActive = true
+        comicCollectionView.topAnchor.constraint(equalToSystemSpacingBelow: segmentedControl.bottomAnchor, multiplier: 3).isActive = true
             comicCollectionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
            comicCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 17).isActive = true
             comicCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
@@ -61,8 +62,8 @@ class ShelfViewController: UIViewController {
         performSegue(withIdentifier: "AddToShelfSegue", sender: self)
     }
     
-    func fileHandler() {
-        guard let list = Database.shared.loadData(from: .read) else {
+    func fileHandler(statusType: StatusType) {
+        guard let list = Database.shared.loadData(from: statusType) else {
             fatalError()
         }
         listOfComics = list
@@ -70,6 +71,28 @@ class ShelfViewController: UIViewController {
     
     @IBAction func indexChanged(_ sender: CustomSegmentedControl) {
         segmentedControl.indexChanged(newIndex: sender.selectedSegmentIndex)
+        switchData(sender: sender)
+    }
+    
+    func switchData(sender: CustomSegmentedControl) {
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            fileHandler(statusType: .reading)
+        case 1:
+            fileHandler(statusType: .read)
+        case 2:
+            fileHandler(statusType: .wantToRead)
+        default:
+            fileHandler(statusType: .reading)
+        }
+    }
+    
+    func animateCell(progressView: UIProgressView) {
+        DispatchQueue.main.asyncAfter(deadline:.now() + 2){
+        UIView.animate(withDuration: 2) {
+            progressView.setProgress(1, animated: true)
+            }
+        }
     }
     
 }
@@ -78,10 +101,6 @@ extension ShelfViewController: UICollectionViewDataSource, UICollectionViewDeleg
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         listOfComics.count
     }
-    
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        
-    }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = comicCollectionView.dequeueReusableCell(withReuseIdentifier: "ShelfCell", for: indexPath) as? ShelfCollectionViewCell else {
@@ -89,8 +108,8 @@ extension ShelfViewController: UICollectionViewDataSource, UICollectionViewDeleg
         }
         if let imageUrl = listOfComics[indexPath.row].imageURL {
             cell.configImage(image: imageUrl)
+            animateCell(progressView: cell.progressView)
         }
         return cell
     }
-    
 }
