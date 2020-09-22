@@ -220,6 +220,8 @@
 				77D34B872513AC8900FB1586 /* ProfileCell.swift */,
 			);
 			path = ProfileController;
+			sourceTree = "<group>";
+		};
 		EC374E382514E2ED00AE6B99 /* Custom Layout */ = {
 			isa = PBXGroup;
 			children = (
