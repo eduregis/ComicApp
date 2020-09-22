@@ -54,6 +54,7 @@ class Database {
         readComics.append(Comic(title: "Bleach", imageURL: "bleach_73_cover", progressNumber: 74, finishNumber: 74, type: "Quadrinho", organizeBy: "Volume", status: "Lido", author: "Tite Kubo", artist: "Tite Kubo"))
         readComics.append(Comic(title: "Nijigahara Holograph", imageURL: "nijigahara_holograph_cover", progressNumber: 1, finishNumber: 1, type: "Quadrinho", organizeBy: "Volume", status: "Lido", author: "Inio Asano", artist: "Inio Asano"))
         readComics.append(Comic(title: "Solanin", imageURL: "solanin_cover", progressNumber: 2, finishNumber: 2, type: "Quadrinho", organizeBy: "Volume", status: "Lido", author: "Inio Asano", artist: "Inio Asano"))
+
         saveData(from: readComics, to: .read)
         
         deleteAllListComics(from: .reading)
