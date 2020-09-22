@@ -168,4 +168,23 @@ class Database {
         return true
         
     }
+    
+    func statusProgress(statusFrom: StatusType) -> Double {
+        mocking()
+        
+        let statusRead = Double(loadData(from: .read)!.count)
+        let statusReading = Double(loadData(from: .reading)!.count)
+        let statusWantReading = Double(loadData(from: .wantToRead)!.count)
+        let finalStatusProgress: Double
+        switch statusFrom {
+        case .read:
+            finalStatusProgress = ((statusRead+statusReading) / (statusRead+statusReading+statusWantReading))
+        case .reading:
+            finalStatusProgress = statusReading / (statusRead+statusReading+statusWantReading)
+        case .wantToRead:
+            finalStatusProgress = 1
+        }
+        
+        return finalStatusProgress
+    }
 }
