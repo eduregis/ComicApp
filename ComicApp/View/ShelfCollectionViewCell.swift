@@ -12,9 +12,9 @@ class ShelfCollectionViewCell: UICollectionViewCell {
     
     let progressView: UIProgressView = {
         let progressView = UIProgressView()
-        progressView.setProgress(0, animated: true)
+        progressView.setProgress(1, animated: true)
         progressView.trackTintColor = .clear
-        progressView.tintColor = .green
+        progressView.tintColor = .systemBlue
         return progressView
     }()
     
@@ -59,9 +59,4 @@ class ShelfCollectionViewCell: UICollectionViewCell {
         progressView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -2).isActive = true
     }
     
-    func animateProgress() {
-        UIView.animate(withDuration: 5) {
-            self.progressView.setProgress(1, animated: true)
-        }
-    }
 }

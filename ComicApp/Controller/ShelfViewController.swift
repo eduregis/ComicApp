@@ -88,8 +88,8 @@ class ShelfViewController: UIViewController {
     }
     
     func animateCell(progressView: UIProgressView) {
-        DispatchQueue.main.asyncAfter(deadline:.now() + 2){
-        UIView.animate(withDuration: 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            UIView.animate(withDuration: 0.5) {
             progressView.setProgress(1, animated: true)
             }
         }
@@ -108,7 +108,17 @@ extension ShelfViewController: UICollectionViewDataSource, UICollectionViewDeleg
         }
         if let imageUrl = listOfComics[indexPath.row].imageURL {
             cell.configImage(image: imageUrl)
+        }
+        if listOfComics[indexPath.row].status == "Lendo"{
+            cell.progressView.setProgress(0, animated: true)
+            cell.progressView.tintColor = .systemBlue
             animateCell(progressView: cell.progressView)
+        }
+        if listOfComics[indexPath.row].status == "Quero Ler"{
+            cell.progressView.setProgress(0, animated: true)
+        }
+        if listOfComics[indexPath.row].status == "Lido"{
+            cell.progressView.tintColor = .systemGreen
         }
         return cell
     }
