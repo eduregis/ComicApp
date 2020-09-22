@@ -51,9 +51,9 @@ class Database {
         
         deleteAllListComics(from: .read)
         var readComics: [Comic] = []
-        readComics.append(Comic(title: "Bleach", imageURL: "bleach_73_cover", progressNumber: 74, finishedNumber: 74, type: "Quadrinho", organizeBy: "Volume", status: "Lido", author: "Tite Kubo", artist: "Tite Kubo"))
+        readComics.append(Comic(title: "Bleach", imageURL: "bleach_73_cover", progressNumber: 50, finishedNumber: 74, type: "Quadrinho", organizeBy: "Volume", status: "Lido", author: "Tite Kubo", artist: "Tite Kubo"))
         readComics.append(Comic(title: "Nijigahara Holograph", imageURL: "nijigahara_holograph_cover", progressNumber: 1, finishedNumber: 1, type: "Quadrinho", organizeBy: "Volume", status: "Lido", author: "Inio Asano", artist: "Inio Asano"))
-        readComics.append(Comic(title: "Solanin", imageURL: "solanin_cover", progressNumber: 2, finishedNumber: 2, type: "Quadrinho", organizeBy: "Volume", status: "Lido", author: "Inio Asano", artist: "Inio Asano"))
+        readComics.append(Comic(title: "Solanin", imageURL: "solanin_cover", progressNumber: 4, finishedNumber: 4, type: "Quadrinho", organizeBy: "Volume", status: "Lido", author: "Inio Asano", artist: "Inio Asano"))
         saveData(from: readComics, to: .read)
         
         deleteAllListComics(from: .reading)
