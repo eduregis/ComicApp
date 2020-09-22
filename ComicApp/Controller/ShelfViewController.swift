@@ -30,9 +30,9 @@ class ShelfViewController: UIViewController {
 //                print(Database.shared.loadData(from: .wantToRead)?.count)
 //                print(Database.shared.loadData(from: .read)?.count)
 //                print(Database.shared.loadData(from: .reading)?.count)
-                self.listOfComics.forEach {
-                    print($0.title)
-                }
+//                self.listOfComics.forEach {
+//                    print($0.title)
+//                }
             }
         }
     }

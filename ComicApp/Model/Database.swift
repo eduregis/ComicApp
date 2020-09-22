@@ -61,7 +61,7 @@ class Database {
         var readingComics: [Comic] = []
         readingComics.append(Comic(title: "Miss Marvel", imageURL: "miss_marvel_1_cover", progressNumber: 1, finishNumber: nil, type: "Quadrinho", organizeBy: "Volume", status: "Lendo", author: "Gerry Conwan", artist: "John Buscema"))
         readingComics.append(Comic(title: "Assassination Classroom", imageURL: "assassination_classroom_1_cover", progressNumber: 12, finishNumber: 21, type: "Quadrinho", organizeBy: "Volume", status: "Lendo", author: "Yuusei Matsui", artist: "Yuusei Matsui"))
-        readingComics.append(Comic(title: "O Rei do Inverno", imageURL: "o_rei_do_inverno_cover", progressNumber: 137, finishNumber: 544, type: "Livro", organizeBy: "Página", status: "Lendo", author: "Bernard Cornwell", artist: nil))
+        readingComics.append(Comic(title: "O Rei do Inverno", imageURL: "o_rei do_inverno_cover", progressNumber: 137, finishNumber: 544, type: "Livro", organizeBy: "Página", status: "Lendo", author: "Bernard Cornwell", artist: nil))
         saveData(from: readingComics, to: .reading)
         
         deleteAllListComics(from: .wantToRead)

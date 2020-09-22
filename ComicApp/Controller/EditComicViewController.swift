@@ -46,6 +46,8 @@ class EditComicViewController: UITableViewController {
     var typeIndex = 0
     let organizeByData = ["Página", "Capítulo", "Volume"]
     var organizeByIndex = 2
+    let statusData = ["Lendo", "Lido", "Quero Ler"]
+    var statusIndex = 0
     
     let alert = UIAlertController(title: "Atenção", message: "Esse item irá ser apagado, deseja continuar", preferredStyle: .alert)
     
@@ -109,6 +111,7 @@ class EditComicViewController: UITableViewController {
             default:
                 break
             }
+            
             switch comic.organizeBy {
             case "Página":
                 organizeBy = organizeByData[0]
@@ -122,7 +125,21 @@ class EditComicViewController: UITableViewController {
             default:
                 break
             }
-            status = comic.status
+            
+            switch comic.status {
+            case "Lendo":
+                //status = statusData[0]
+                statusIndex = 0
+            case "Lido":
+                //status = statusData[1]
+                statusIndex = 1
+            case "Quero Ler":
+                //status = statusData[2]
+                statusIndex = 2
+            default:
+                break
+            }
+            //status = comic.status
             organizeBy = organizeByData[organizeByIndex]
         }
     }
@@ -179,6 +196,21 @@ class EditComicViewController: UITableViewController {
             editComic.status = "Lendo"
             statusType = .reading
         }
+        
+        if let status = status {
+            switch status {
+            case "Quero Ler":
+                statusType = .wantToRead
+            case "Lido":
+                statusType = .read
+            case "Lendo":
+                statusType = .reading
+            default:
+                break
+            }
+            editComic.status = status
+        }
+        print(status)
         deleteData()
         Database.shared.addData(comic: editComic, statusType: statusType)
         
@@ -191,7 +223,7 @@ class EditComicViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 //        if section == 0 {
-            return 8
+            return 9
 //        } else {
 //            return 1
 //        }
@@ -284,22 +316,32 @@ class EditComicViewController: UITableViewController {
             button.sizeToFit()
             cell.accessoryView = button
         case 5:
+            cell.textLabel?.text = "Status "
+            let button = UIButton(type: .custom)
+            button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+            button.setTitle("\(statusData[statusIndex]) ", for: .normal)
+            button.setTitleColor(.systemGray, for: .normal)
+            button.addTarget(self, action: #selector(changeStatus), for: .touchUpInside)
+            button.tag = indexPath.row
+            button.semanticContentAttribute = .forceRightToLeft
+            button.sizeToFit()
+            cell.accessoryView = button
+        case 6:
             cell.textLabel?.text = "Autor/Roteiro "
             authorTextField.textAlignment = .right
             authorTextField.text = author
             cell.accessoryView = authorTextField
-        case 6:
+        case 7:
             cell.textLabel?.text = "Ilustração "
             artistTextField.textAlignment = .right
             artistTextField.text = artist
             cell.accessoryView = artistTextField
-        case 7:
+        case 8:
             let button = UIButton(type: .custom)
             button.setTitle("Excluir item ", for: .normal)
             button.setTitleColor(.systemRed, for: .normal)
             button.addTarget(self, action: #selector(deleteTrigger), for: .touchUpInside)
             button.sizeToFit()
-            print(tableView.rowHeight)
             button.center = CGPoint(x: tableView.center.x, y: 22)
             cell.addSubview(button)
         default:
@@ -343,6 +385,13 @@ class EditComicViewController: UITableViewController {
         performSegue(withIdentifier: "PickerItemViewSegue", sender: self)
     }
     
+    @objc func changeStatus() {
+        pickerFieldName = "Status"
+        pickerData = statusData
+        checkmark = statusIndex
+        performSegue(withIdentifier: "PickerItemViewSegue", sender: self)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let navVC = segue.destination as? UINavigationController {
             let tableVC = navVC.topViewController as? PickerItemViewController
@@ -362,6 +411,9 @@ extension EditComicViewController: ModalDelegate {
             typeIndex = checkmark
         case "OrganizeBy":
             organizeByIndex = checkmark
+        case "Status":
+            statusIndex = checkmark
+            status = statusData[statusIndex]
         default:
             break
         }
