@@ -190,20 +190,26 @@ class EditComicViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 8
+//        if section == 0 {
+            return 8
+//        } else {
+//            return 1
+//        }
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
-        imageView.backgroundColor = .black
-        imageView.frame = CGRect(x: 0, y: 0, width: 2*tableView.center.x, height: tableView.center.x)
-        imageView.contentMode = .scaleAspectFit
-        headerView.addSubview(imageView)
-        imagePickerButton.frame = CGRect(x: 2*tableView.center.x - 40, y: tableView.center.x - 40, width: 40, height: 20)
-        imagePickerButton.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
-        imagePickerButton.setTitleColor(.systemBlue, for: .normal)
-        imagePickerButton.addTarget(self, action: #selector(toggleImagePicker), for: .touchUpInside)
-        headerView.addSubview(imagePickerButton)
+//        if section == 0 {
+            imageView.backgroundColor = .black
+            imageView.frame = CGRect(x: 0, y: 0, width: 2*tableView.center.x, height: tableView.center.x)
+            imageView.contentMode = .scaleAspectFit
+            headerView.addSubview(imageView)
+            imagePickerButton.frame = CGRect(x: 2*tableView.center.x - 40, y: tableView.center.x - 40, width: 40, height: 20)
+            imagePickerButton.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
+            imagePickerButton.setTitleColor(.systemBlue, for: .normal)
+            imagePickerButton.addTarget(self, action: #selector(toggleImagePicker), for: .touchUpInside)
+            headerView.addSubview(imagePickerButton)
+//        }
         return headerView
     }
     
@@ -213,7 +219,11 @@ class EditComicViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        if section == 0 {
         return tableView.center.x
+//        } else {
+//            return tableView.center.x/4.0
+//        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -289,7 +299,9 @@ class EditComicViewController: UITableViewController {
             button.setTitleColor(.systemRed, for: .normal)
             button.addTarget(self, action: #selector(deleteTrigger), for: .touchUpInside)
             button.sizeToFit()
-            cell.accessoryView = button
+            print(tableView.rowHeight)
+            button.center = CGPoint(x: tableView.center.x, y: 22)
+            cell.addSubview(button)
         default:
             break
         }

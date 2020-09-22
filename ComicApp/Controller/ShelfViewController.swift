@@ -27,6 +27,12 @@ class ShelfViewController: UIViewController {
         didSet {
             DispatchQueue.main.async {
                 self.comicCollectionView.reloadData()
+//                print(Database.shared.loadData(from: .wantToRead)?.count)
+//                print(Database.shared.loadData(from: .read)?.count)
+//                print(Database.shared.loadData(from: .reading)?.count)
+                self.listOfComics.forEach {
+                    print($0.title)
+                }
             }
         }
     }
@@ -34,14 +40,13 @@ class ShelfViewController: UIViewController {
     @IBOutlet weak var segmentedControl: CustomSegmentedControl!
     
     override func viewDidLoad() {
-        Database.shared.mocking()
         super.viewDidLoad()
-        
+        Database.shared.mocking()
         self.title = "Minha Estante"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         comicCollectionView.delegate = self
         comicCollectionView.dataSource = self
-        fileHandler(statusType: .reading)
+        //fileHandler(statusType: .reading)
         setCollectionView()
         
     }
@@ -52,9 +57,11 @@ class ShelfViewController: UIViewController {
                 subview.isHidden = true
             }
         }
+        loadListData()
     }
     
     func setCollectionView() {
+        
         self.view.addSubview(comicCollectionView)
         comicCollectionView.translatesAutoresizingMaskIntoConstraints = false
         comicCollectionView.topAnchor.constraint(equalToSystemSpacingBelow: segmentedControl.bottomAnchor, multiplier: 3).isActive = true
@@ -80,6 +87,10 @@ class ShelfViewController: UIViewController {
     }
     
     func switchData(sender: CustomSegmentedControl) {
+        loadListData()
+    }
+    
+    func loadListData () {
         switch segmentedControl.selectedSegmentIndex {
         case 0:
             fileHandler(statusType: .reading)
@@ -93,8 +104,8 @@ class ShelfViewController: UIViewController {
     }
     
     func animateCell(progressView: UIProgressView) {
-        DispatchQueue.main.asyncAfter(deadline:.now() + 0.5) {
-            UIView.animate(withDuration: 1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            UIView.animate(withDuration: 2) {
                 progressView.setProgress(1, animated: true)
             }
         }
