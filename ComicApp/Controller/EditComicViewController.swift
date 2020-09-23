@@ -176,7 +176,7 @@ class EditComicViewController: UITableViewController {
     }
     
     @IBAction func doneButton(_ sender: Any) {
-        
+        ajustStepper()
         comicTitle = comicTitleTextField.text
         type = typeData[typeIndex]
         organizeBy = organizeByData[organizeByIndex]
@@ -358,17 +358,31 @@ class EditComicViewController: UITableViewController {
     
     @objc func stepperValueChanged() {
         progressNumber = Int(stepper.value)
+        ajustStepper()
         tableView.reloadData()
     }
     
     @objc func progressNumberValueChanged() {
         progressNumber = Int(progressNumberTextField.text ?? "0")
+        ajustStepper()
         tableView.reloadData()
     }
     
     @objc func finishNumberValueChanged() {
         finishNumber = Int(finishNumberTextField.text ?? "0")
+        ajustStepper()
         tableView.reloadData()
+    }
+    
+    func ajustStepper () {
+        if let max = finishNumber {
+            if let min = progressNumber {
+                if max < min {
+                    progressNumber = max
+                }
+            }
+            stepper.maximumValue = Double(max)
+        }
     }
     
     @objc func changeType() {
