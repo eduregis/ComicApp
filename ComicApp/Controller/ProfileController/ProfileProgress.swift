@@ -17,7 +17,7 @@ class ProfileProgress: UIView {
     var numberOfReading: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
-        label.textColor = .systemGreen
+        label.textColor = .systemBlue
         label.text = Database.shared.loadData(from: .reading)?.count.description
         return label
     }()
@@ -25,7 +25,7 @@ class ProfileProgress: UIView {
     var numberOfRead: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
-        label.textColor = .systemBlue
+        label.textColor = .systemGreen
         label.text = Database.shared.loadData(from: .read)?.count.description
         return label
     }()
@@ -50,7 +50,7 @@ class ProfileProgress: UIView {
     var progressRead: UIProgressView = {
         let progress = UIProgressView()
         progress.progress = Float(Database.shared.statusProgress(statusFrom: .read))
-        progress.progressTintColor = .systemBlue
+        progress.progressTintColor = .systemGreen
         progress.trackTintColor = .clear
         progress.transform = progress.transform.scaledBy(x: 1, y: 2)
         return progress
@@ -59,7 +59,7 @@ class ProfileProgress: UIView {
     var progressReading: UIProgressView = {
         let progress = UIProgressView()
         progress.progress = Float(Database.shared.statusProgress(statusFrom: .reading))
-        progress.progressTintColor = .systemGreen
+        progress.progressTintColor = .systemBlue
         progress.trackTintColor = .clear
         progress.transform = progress.transform.scaledBy(x: 1, y: 2)
         return progress
