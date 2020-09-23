@@ -22,6 +22,9 @@
 		2E504AA8250FAE350045D142 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E504AA7250FAE350045D142 /* Profile.storyboard */; };
 		2E504AAA250FAE6A0045D142 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E504AA9250FAE6A0045D142 /* Settings.storyboard */; };
 		2E6036FE251389A0002D234A /* AddToShelf.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E6036FD251389A0002D234A /* AddToShelf.storyboard */; };
+		2E756AE72518FB9A00BE4DC0 /* EditComic.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E756AE62518FB9A00BE4DC0 /* EditComic.storyboard */; };
+		2E756AE9251907A200BE4DC0 /* EditComicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E756AE8251907A200BE4DC0 /* EditComicViewController.swift */; };
+		2E756AEB25193D1000BE4DC0 /* PickerItem.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E756AEA25193D1000BE4DC0 /* PickerItem.storyboard */; };
 		2EFD6B5B2512537D00BFC3AF /* ShelfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFD6B5A2512537D00BFC3AF /* ShelfViewController.swift */; };
 		2EFD6B5F25125E1E00BFC3AF /* AddToShelfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFD6B5E25125E1E00BFC3AF /* AddToShelfViewController.swift */; };
 		56EAC51625139D48002671E7 /* CustomSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56EAC51525139D48002671E7 /* CustomSegmentedControl.swift */; };
@@ -33,6 +36,7 @@
 		77DB739A251A3BB4007709CB /* ComicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77DB7399251A3BB4007709CB /* ComicTests.swift */; };
 		EC374E372514DA7400AE6B99 /* ShelfCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC374E362514DA7400AE6B99 /* ShelfCollectionViewCell.swift */; };
 		EC374E3A2514E31000AE6B99 /* ComicCustomLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC374E392514E31000AE6B99 /* ComicCustomLayout.swift */; };
+		ECBE613B251ADAC500A8E3A6 /* PopUpModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECBE613A251ADAC500A8E3A6 /* PopUpModalView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +78,9 @@
 		2E504AA7250FAE350045D142 /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		2E504AA9250FAE6A0045D142 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		2E6036FD251389A0002D234A /* AddToShelf.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AddToShelf.storyboard; sourceTree = "<group>"; };
+		2E756AE62518FB9A00BE4DC0 /* EditComic.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EditComic.storyboard; sourceTree = "<group>"; };
+		2E756AE8251907A200BE4DC0 /* EditComicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditComicViewController.swift; sourceTree = "<group>"; };
+		2E756AEA25193D1000BE4DC0 /* PickerItem.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PickerItem.storyboard; sourceTree = "<group>"; };
 		2EFD6B5A2512537D00BFC3AF /* ShelfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelfViewController.swift; sourceTree = "<group>"; };
 		2EFD6B5E25125E1E00BFC3AF /* AddToShelfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToShelfViewController.swift; sourceTree = "<group>"; };
 		56EAC51525139D48002671E7 /* CustomSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControl.swift; sourceTree = "<group>"; };
@@ -85,6 +92,7 @@
 		77DB7399251A3BB4007709CB /* ComicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicTests.swift; sourceTree = "<group>"; };
 		EC374E362514DA7400AE6B99 /* ShelfCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelfCollectionViewCell.swift; sourceTree = "<group>"; };
 		EC374E392514E31000AE6B99 /* ComicCustomLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicCustomLayout.swift; sourceTree = "<group>"; };
+		ECBE613A251ADAC500A8E3A6 /* PopUpModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpModalView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,8 +192,10 @@
 				2E504AA5250FAD8E0045D142 /* Shelf.storyboard */,
 				2E504AA9250FAE6A0045D142 /* Settings.storyboard */,
 				2E6036FD251389A0002D234A /* AddToShelf.storyboard */,
+				2E756AEA25193D1000BE4DC0 /* PickerItem.storyboard */,
 				EC374E362514DA7400AE6B99 /* ShelfCollectionViewCell.swift */,
 				56EAC51525139D48002671E7 /* CustomSegmentedControl.swift */,
+				2E756AE62518FB9A00BE4DC0 /* EditComic.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -198,6 +208,8 @@
 				2EFD6B5E25125E1E00BFC3AF /* AddToShelfViewController.swift */,
 				2E2E103B2512D14B0058AA34 /* PickerItemViewController.swift */,
 				2E1453102514E0E1003D7A1E /* ImagePicker.swift */,
+				2E756AE8251907A200BE4DC0 /* EditComicViewController.swift */,
+				ECBE613A251ADAC500A8E3A6 /* PopUpModalView.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -341,9 +353,11 @@
 				2E6036FE251389A0002D234A /* AddToShelf.storyboard in Resources */,
 				2E504A7A250FA1E90045D142 /* LaunchScreen.storyboard in Resources */,
 				2E504A77250FA1E90045D142 /* Assets.xcassets in Resources */,
+				2E756AE72518FB9A00BE4DC0 /* EditComic.storyboard in Resources */,
 				2E504AA4250FACCC0045D142 /* TabBar.storyboard in Resources */,
 				2E504AA6250FAD8E0045D142 /* Shelf.storyboard in Resources */,
 				2E504AAA250FAE6A0045D142 /* Settings.storyboard in Resources */,
+				2E756AEB25193D1000BE4DC0 /* PickerItem.storyboard in Resources */,
 				77D34B80251398A000FB1586 /* ProfileProgress.xib in Resources */,
 				77D34B862513AA4300FB1586 /* ProfileCell.xib in Resources */,
 			);
@@ -393,8 +407,10 @@
 				77D34B7E251392E100FB1586 /* ProfileViewController.swift in Sources */,
 				2E504A6E250FA1E80045D142 /* AppDelegate.swift in Sources */,
 				EC374E372514DA7400AE6B99 /* ShelfCollectionViewCell.swift in Sources */,
+				ECBE613B251ADAC500A8E3A6 /* PopUpModalView.swift in Sources */,
 				2EFD6B5B2512537D00BFC3AF /* ShelfViewController.swift in Sources */,
 				2E2A9C912510133500718B76 /* Comic.swift in Sources */,
+				2E756AE9251907A200BE4DC0 /* EditComicViewController.swift in Sources */,
 				77D34B8225139F5800FB1586 /* ProfileProgress.swift in Sources */,
 				2E2A9C93251015E500718B76 /* Database.swift in Sources */,
 				2EFD6B5F25125E1E00BFC3AF /* AddToShelfViewController.swift in Sources */,

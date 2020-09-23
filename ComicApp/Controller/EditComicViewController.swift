@@ -1,22 +1,22 @@
 //
-//  AddToShelfViewController.swift
+//  EditComicViewController.swift
 //  ComicApp
 //
-//  Created by Eduardo Oliveira on 16/09/20.
+//  Created by Eduardo Oliveira on 21/09/20.
 //  Copyright © 2020 Eduardo Oliveira. All rights reserved.
 //
 
 import UIKit
 
-protocol ModalDelegate {
-    func changeValue(value: Int)
-}
-
-class AddToShelfViewController: UITableViewController {
+class EditComicViewController: UITableViewController {
     
     var checkmark = 0
     
     var imagePicker: ImagePicker!
+    
+    var comic: Comic?
+    
+    var oldIndex: Int?
     
     var imagePickerButton = UIButton()
     
@@ -46,15 +46,19 @@ class AddToShelfViewController: UITableViewController {
     var typeIndex = 0
     let organizeByData = ["Página", "Capítulo", "Volume"]
     var organizeByIndex = 2
+    let statusData = ["Lendo", "Lido", "Quero Ler"]
+    var statusIndex = 0
+    
+    let alert = UIAlertController(title: "Atenção", message: "Esse item irá ser apagado, deseja continuar", preferredStyle: .alert)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Criar Item"
+        self.title = "Editar Item"
         navigationItem.largeTitleDisplayMode = .never
         tableView.tableFooterView = UIView()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
         self.view.addGestureRecognizer(tapGesture)
-        initNewitem()
+        loaditem()
         pickerFieldName = "OrganizeBy"
         progressNumberTextField.keyboardType = .numberPad
         finishNumberTextField.keyboardType = .numberPad
@@ -67,6 +71,7 @@ class AddToShelfViewController: UITableViewController {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillHide), name:
             UIResponder.keyboardWillHideNotification, object: nil)
+        addActions()
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -88,10 +93,78 @@ class AddToShelfViewController: UITableViewController {
         super.didReceiveMemoryWarning()
     }
     
-    func initNewitem() {
-        comicTitle = "-"
-        progressNumber = 0
-        organizeBy = organizeByData[organizeByIndex]
+    func loaditem() {
+        if let comic = comic {
+            comicTitle = comic.title
+            progressNumber = comic.progressNumber
+            finishNumber = comic.finishNumber
+            imageURL = comic.imageURL
+            author = comic.author
+            artist = comic.artist
+            switch comic.type {
+            case "Quadrinho":
+                type = typeData[0]
+                typeIndex = 0
+            case "Livro":
+                type = typeData[1]
+                typeIndex = 1
+            default:
+                break
+            }
+            
+            switch comic.organizeBy {
+            case "Página":
+                organizeBy = organizeByData[0]
+                organizeByIndex = 0
+            case "Capítulo":
+                organizeBy = organizeByData[1]
+                organizeByIndex = 1
+            case "Volume":
+                organizeBy = organizeByData[2]
+                organizeByIndex = 2
+            default:
+                break
+            }
+            
+            switch comic.status {
+            case "Lendo":
+                //status = statusData[0]
+                statusIndex = 0
+            case "Lido":
+                //status = statusData[1]
+                statusIndex = 1
+            case "Quero Ler":
+                //status = statusData[2]
+                statusIndex = 2
+            default:
+                break
+            }
+            //status = comic.status
+            organizeBy = organizeByData[organizeByIndex]
+        }
+    }
+    
+    func addActions() {
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Cancelar", comment: "Default action"), style: .default, handler: { _ in
+        NSLog("The \"OK\" alert occured.")
+        }))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Confirmar", comment: "Default action"), style: .destructive, handler: { _ in
+            self.deleteData()
+        }))
+    }
+    
+    func deleteData() {
+        switch comic?.status {
+        case "Quero Ler":
+            Database.shared.deleteData(from: .wantToRead, at: oldIndex!)
+        case "Lido":
+            Database.shared.deleteData(from: .read, at: oldIndex!)
+        case "Lendo":
+            Database.shared.deleteData(from: .reading, at: oldIndex!)
+        default:
+            break
+        }
+        navigationController?.popViewController(animated: true)
     }
     
     @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
@@ -103,50 +176,72 @@ class AddToShelfViewController: UITableViewController {
     }
     
     @IBAction func doneButton(_ sender: Any) {
+        
         comicTitle = comicTitleTextField.text
         type = typeData[typeIndex]
         organizeBy = organizeByData[organizeByIndex]
         author = authorTextField.text
         artist = artistTextField.text
         
-        var comic = Comic(title: comicTitle!, imageURL: nil, progressNumber: progressNumber, finishNumber: finishNumber, type: type!, organizeBy: organizeBy!, status: "-", author: author, artist: artist)
+        var editComic = Comic(title: comicTitle!, imageURL: imageURL, progressNumber: progressNumber, finishNumber: finishNumber, type: type!, organizeBy: organizeBy!, status: "-", author: author, artist: artist)
+       
         var statusType: StatusType
         if progressNumber == 0 {
-            comic.status = "Quero Ler"
+            editComic.status = "Quero Ler"
             statusType = .wantToRead
         } else if progressNumber == finishNumber {
-            comic.status = "Lido"
+            editComic.status = "Lido"
             statusType = .read
         } else {
-            comic.status = "Lendo"
+            editComic.status = "Lendo"
             statusType = .reading
         }
-        Database.shared.addData(comic: comic, statusType: statusType)
+        
+        if let status = status {
+            switch status {
+            case "Quero Ler":
+                statusType = .wantToRead
+            case "Lido":
+                statusType = .read
+            case "Lendo":
+                statusType = .reading
+            default:
+                break
+            }
+            editComic.status = status
+        }
+        print(status)
+        deleteData()
+        Database.shared.addData(comic: editComic, statusType: statusType)
         
         navigationController?.popViewController(animated: true)
     }
-    
-    // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 7
+//        if section == 0 {
+            return 9
+//        } else {
+//            return 1
+//        }
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
-        imageView.backgroundColor = .black
-        imageView.frame = CGRect(x: 0, y: 0, width: 2*tableView.center.x, height: tableView.center.x)
-        imageView.contentMode = .scaleAspectFit
-        headerView.addSubview(imageView)
-        imagePickerButton.frame = CGRect(x: 2*tableView.center.x - 40, y: tableView.center.x - 40, width: 40, height: 20)
-        imagePickerButton.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
-        imagePickerButton.setTitleColor(.systemBlue, for: .normal)
-        imagePickerButton.addTarget(self, action: #selector(toggleImagePicker), for: .touchUpInside)
-        headerView.addSubview(imagePickerButton)
+//        if section == 0 {
+            imageView.backgroundColor = .black
+            imageView.frame = CGRect(x: 0, y: 0, width: 2*tableView.center.x, height: tableView.center.x)
+            imageView.contentMode = .scaleAspectFit
+            headerView.addSubview(imageView)
+            imagePickerButton.frame = CGRect(x: 2*tableView.center.x - 40, y: tableView.center.x - 40, width: 40, height: 20)
+            imagePickerButton.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
+            imagePickerButton.setTitleColor(.systemBlue, for: .normal)
+            imagePickerButton.addTarget(self, action: #selector(toggleImagePicker), for: .touchUpInside)
+            headerView.addSubview(imagePickerButton)
+//        }
         return headerView
     }
     
@@ -156,7 +251,11 @@ class AddToShelfViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        if section == 0 {
         return tableView.center.x
+//        } else {
+//            return tableView.center.x/4.0
+//        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -165,7 +264,7 @@ class AddToShelfViewController: UITableViewController {
         case 0:
             cell.textLabel?.text = "Nome "
             comicTitleTextField.textAlignment = .right
-            comicTitleTextField.placeholder = "-"
+            comicTitleTextField.text = comicTitle
             cell.accessoryView = comicTitleTextField
         case 1:
             if let organizeBy = organizeBy {
@@ -181,7 +280,7 @@ class AddToShelfViewController: UITableViewController {
                         cell.accessoryView = stepper
                     } else {
                         progressNumberTextField.textAlignment = .right
-                        progressNumberTextField.placeholder = "-"
+                        progressNumberTextField.text = "\(String(describing: progressNumber))"
                         progressNumberTextField.addTarget(self, action: #selector(progressNumberValueChanged), for: .editingDidEnd)
                         cell.accessoryView = progressNumberTextField
                     }
@@ -191,7 +290,7 @@ class AddToShelfViewController: UITableViewController {
         case 2:
             cell.textLabel?.text = "\(organizeBy ?? "-") final "
             finishNumberTextField.textAlignment = .right
-            finishNumberTextField.placeholder = "-"
+            finishNumberTextField.text = "\(finishNumber ?? 0)"
             finishNumberTextField.addTarget(self, action: #selector(finishNumberValueChanged), for: .editingDidEnd)
             cell.accessoryView = finishNumberTextField
         case 3:
@@ -217,21 +316,44 @@ class AddToShelfViewController: UITableViewController {
             button.sizeToFit()
             cell.accessoryView = button
         case 5:
+            cell.textLabel?.text = "Status "
+            let button = UIButton(type: .custom)
+            button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+            button.setTitle("\(statusData[statusIndex]) ", for: .normal)
+            button.setTitleColor(.systemGray, for: .normal)
+            button.addTarget(self, action: #selector(changeStatus), for: .touchUpInside)
+            button.tag = indexPath.row
+            button.semanticContentAttribute = .forceRightToLeft
+            button.sizeToFit()
+            cell.accessoryView = button
+        case 6:
             cell.textLabel?.text = "Autor/Roteiro "
             authorTextField.textAlignment = .right
-            authorTextField.placeholder = "-"
+            authorTextField.text = author
             cell.accessoryView = authorTextField
-        case 6:
+        case 7:
             cell.textLabel?.text = "Ilustração "
             artistTextField.textAlignment = .right
-            artistTextField.placeholder = "-"
+            artistTextField.text = artist
             cell.accessoryView = artistTextField
+        case 8:
+            let button = UIButton(type: .custom)
+            button.setTitle("Excluir item ", for: .normal)
+            button.setTitleColor(.systemRed, for: .normal)
+            button.addTarget(self, action: #selector(deleteTrigger), for: .touchUpInside)
+            button.sizeToFit()
+            button.center = CGPoint(x: tableView.center.x, y: 22)
+            cell.addSubview(button)
         default:
             break
         }
         cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 16.0)
         cell.backgroundColor = .systemGray6
         return cell
+    }
+    
+    @objc func deleteTrigger () {
+        self.present(alert, animated: true, completion: nil)
     }
     
     @objc func stepperValueChanged() {
@@ -263,6 +385,13 @@ class AddToShelfViewController: UITableViewController {
         performSegue(withIdentifier: "PickerItemViewSegue", sender: self)
     }
     
+    @objc func changeStatus() {
+        pickerFieldName = "Status"
+        pickerData = statusData
+        checkmark = statusIndex
+        performSegue(withIdentifier: "PickerItemViewSegue", sender: self)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let navVC = segue.destination as? UINavigationController {
             let tableVC = navVC.topViewController as? PickerItemViewController
@@ -274,7 +403,7 @@ class AddToShelfViewController: UITableViewController {
     }
 }
 
-extension AddToShelfViewController: ModalDelegate {
+extension EditComicViewController: ModalDelegate {
     func changeValue(value: Int) {
         checkmark = value
         switch pickerFieldName {
@@ -282,6 +411,9 @@ extension AddToShelfViewController: ModalDelegate {
             typeIndex = checkmark
         case "OrganizeBy":
             organizeByIndex = checkmark
+        case "Status":
+            statusIndex = checkmark
+            status = statusData[statusIndex]
         default:
             break
         }
@@ -290,7 +422,7 @@ extension AddToShelfViewController: ModalDelegate {
     }
 }
 
-extension AddToShelfViewController: ImagePickerDelegate {
+extension EditComicViewController: ImagePickerDelegate {
     
     func didSelect(image: UIImage?) {
         self.imageView.image = image

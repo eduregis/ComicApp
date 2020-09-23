@@ -15,7 +15,7 @@ class ComicCustomLayout: UICollectionViewFlowLayout {
   private let cellPadding: CGFloat = 6
     
   //Um array para armazenar os atributos calculados. Quando você chamar o método prepare(), você calculará os atributos para todos os itens e adiciona-los ao cache. Quando a collectionview solicitar os atributos de layout, você consegue facilmente salvar os atributos sem precisar ficar recalculando.
-  private var cache: [UICollectionViewLayoutAttributes] = []
+   var cache: [UICollectionViewLayoutAttributes] = []
 
   //Duas propriedades para armazenar os tamanhos dos conteúdos. Você incrementa o ContentHeight conforme adiciona fotos e calcula contentWidth based on the collectionview width e o seu conteudo insets.
   private var contentHeight: CGFloat = 0
@@ -36,7 +36,7 @@ class ComicCustomLayout: UICollectionViewFlowLayout {
   override func prepare() {
 
     // Só precisaremos calcular os atributos se o cache estiver vazio e a collectionView existir
-    guard cache.isEmpty, let collectionView = collectionView else {
+    guard let collectionView = collectionView else {
       return
     }
 
@@ -71,7 +71,6 @@ class ComicCustomLayout: UICollectionViewFlowLayout {
       contentHeight = max(contentHeight, frame.maxY)
       yOffSet[column] = yOffSet[column] + height
       column = column < (numberOfColumns - 1) ? (column + 1) : 0
-
     }
 }
 
@@ -101,5 +100,9 @@ class ComicCustomLayout: UICollectionViewFlowLayout {
         } else {
             return 400
         }
+    }
+    
+    func zerarCache() {
+        cache = []
     }
 }

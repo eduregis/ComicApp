@@ -47,6 +47,7 @@
                     <connections>
                         <outlet property="segmentedControl" destination="kFb-Z6-dIV" id="j6V-qj-Aoj"/>
                         <segue destination="t5c-Xx-YJq" kind="show" identifier="AddToShelfSegue" id="dor-CP-qm0"/>
+                        <segue destination="UZM-LF-m9A" kind="show" identifier="EditComicSegue" id="zRN-A7-mo4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q0d-xJ-bIF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -81,7 +82,17 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JY1-pc-jOC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1786" y="163"/>
+            <point key="canvasLocation" x="1758" y="-6"/>
+        </scene>
+        <!--EditComic-->
+        <scene sceneID="QhK-BO-t4V">
+            <objects>
+                <viewControllerPlaceholder storyboardName="EditComic" id="UZM-LF-m9A" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="bi4-nU-aaL"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HbI-fd-qYg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1786" y="340"/>
         </scene>
     </scenes>
     <color key="tintColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

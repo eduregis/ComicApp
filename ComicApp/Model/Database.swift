@@ -51,23 +51,24 @@ class Database {
         
         deleteAllListComics(from: .read)
         var readComics: [Comic] = []
-        readComics.append(Comic(title: "Bleach", imageURL: "bleach_73_cover", progressNumber: 50, finishedNumber: 74, type: "Quadrinho", organizeBy: "Volume", status: "Lido", author: "Tite Kubo", artist: "Tite Kubo"))
-        readComics.append(Comic(title: "Nijigahara Holograph", imageURL: "nijigahara_holograph_cover", progressNumber: 1, finishedNumber: 1, type: "Quadrinho", organizeBy: "Volume", status: "Lido", author: "Inio Asano", artist: "Inio Asano"))
-        readComics.append(Comic(title: "Solanin", imageURL: "solanin_cover", progressNumber: 4, finishedNumber: 4, type: "Quadrinho", organizeBy: "Volume", status: "Lido", author: "Inio Asano", artist: "Inio Asano"))
+        readComics.append(Comic(title: "Bleach", imageURL: "bleach_73_cover", progressNumber: 74, finishNumber: 74, type: "Quadrinho", organizeBy: "Volume", status: "Lido", author: "Tite Kubo", artist: "Tite Kubo"))
+        readComics.append(Comic(title: "Nijigahara Holograph", imageURL: "nijigahara_holograph_cover", progressNumber: 1, finishNumber: 1, type: "Quadrinho", organizeBy: "Volume", status: "Lido", author: "Inio Asano", artist: "Inio Asano"))
+        readComics.append(Comic(title: "Solanin", imageURL: "solanin_cover", progressNumber: 2, finishNumber: 2, type: "Quadrinho", organizeBy: "Volume", status: "Lido", author: "Inio Asano", artist: "Inio Asano"))
+
         saveData(from: readComics, to: .read)
         
         deleteAllListComics(from: .reading)
         var readingComics: [Comic] = []
-        readingComics.append(Comic(title: "Miss Marvel", imageURL: "miss_marvel_1_cover", progressNumber: 1, finishedNumber: nil, type: "Quadrinho", organizeBy: "Volume", status: "Lendo", author: "Gerry Conwan", artist: "John Buscema"))
-        readingComics.append(Comic(title: "Assassination Classroom", imageURL: "assassination_classroom_1_cover", progressNumber: 12, finishedNumber: 21, type: "Quadrinho", organizeBy: "Volume", status: "Lendo", author: "Yuusei Matsui", artist: "Yuusei Matsui"))
-        readingComics.append(Comic(title: "O Rei do Inverno", imageURL: "o_rei_do_inverno_cover", progressNumber: 137, finishedNumber: 544, type: "Livro", organizeBy: "Página", status: "Lendo", author: "Bernard Cornwell", artist: nil))
+        readingComics.append(Comic(title: "Miss Marvel", imageURL: "miss_marvel_1_cover", progressNumber: 1, finishNumber: nil, type: "Quadrinho", organizeBy: "Volume", status: "Lendo", author: "Gerry Conwan", artist: "John Buscema"))
+        readingComics.append(Comic(title: "Assassination Classroom", imageURL: "assassination_classroom_1_cover", progressNumber: 12, finishNumber: 21, type: "Quadrinho", organizeBy: "Volume", status: "Lendo", author: "Yuusei Matsui", artist: "Yuusei Matsui"))
+        readingComics.append(Comic(title: "O Rei do Inverno", imageURL: "o_rei do_inverno_cover", progressNumber: 137, finishNumber: 544, type: "Livro", organizeBy: "Página", status: "Lendo", author: "Bernard Cornwell", artist: nil))
         saveData(from: readingComics, to: .reading)
         
         deleteAllListComics(from: .wantToRead)
         var wantToReadComics: [Comic] = []
-        wantToReadComics.append(Comic(title: "Spider-Man: Miles Morales", imageURL: "spider_man_miles_morales_1_cover", progressNumber: 0, finishedNumber: nil, type: "Quadrinho", organizeBy: "Volume", status: "Quero Ler", author: nil, artist: nil))
-        wantToReadComics.append(Comic(title: "Slam Dunk", imageURL: "slam_dunk_5_cover", progressNumber: 0, finishedNumber: 22, type: "Quadrinho", organizeBy: "Volume", status: "Quero Ler", author: "Takehiko Inoue", artist: "Takehiko Inoue"))
-        wantToReadComics.append(Comic(title: "Sandman", imageURL: "sandman_cover", progressNumber: 0, finishedNumber: 1, type: "Quadrinho", organizeBy: "Volume", status: "Quero Ler", author: "Neil Gaiman", artist: nil))
+        wantToReadComics.append(Comic(title: "Spider-Man: Miles Morales", imageURL: "spider_man_miles_morales_1_cover", progressNumber: 0, finishNumber: nil, type: "Quadrinho", organizeBy: "Volume", status: "Quero Ler", author: nil, artist: nil))
+        wantToReadComics.append(Comic(title: "Slam Dunk", imageURL: "slam_dunk_5_cover", progressNumber: 0, finishNumber: 22, type: "Quadrinho", organizeBy: "Volume", status: "Quero Ler", author: "Takehiko Inoue", artist: "Takehiko Inoue"))
+        wantToReadComics.append(Comic(title: "Sandman", imageURL: "sandman_cover", progressNumber: 0, finishNumber: 1, type: "Quadrinho", organizeBy: "Volume", status: "Quero Ler", author: "Neil Gaiman", artist: nil))
         saveData(from: wantToReadComics, to: .wantToRead)
     }
     
@@ -167,6 +168,19 @@ class Database {
         saveData(from: loadedArray, to: list)
         return true
         
+    }
+    
+    func deleteAllComicLists () {
+        let documentsUrl =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+
+        do {
+            let fileURLs = try FileManager.default.contentsOfDirectory(at: documentsUrl,
+                                                                       includingPropertiesForKeys: nil,
+                                                                       options: .skipsHiddenFiles)
+            for fileURL in fileURLs {
+                try FileManager.default.removeItem(at: fileURL)
+            }
+        } catch  { print(error) }
     }
     
     func statusProgress(statusFrom: StatusType) -> Double {
