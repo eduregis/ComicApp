@@ -32,11 +32,19 @@ class PickerItemViewController: UITableViewController {
     }
 
     @IBAction func dismissViewController(_ sender: Any) {
+//        if let delegate = self.delegate {
+//            delegate.changeValue(value: checkmark)
+//        }
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func doneButton(_ sender: Any) {
         if let delegate = self.delegate {
             delegate.changeValue(value: checkmark)
         }
         dismiss(animated: true, completion: nil)
     }
+    
     
     // MARK: - Table view data source
 

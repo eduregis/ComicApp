@@ -10,6 +10,9 @@ import UIKit
 
 class ShelfViewController: UIViewController {
     
+    var selectedComic: Comic?
+    var selectedIndex: Int?
+    
     let comicCollectionView: UICollectionView = {
         let layout = ComicCustomLayout()
         layout.scrollDirection = .vertical
@@ -24,6 +27,12 @@ class ShelfViewController: UIViewController {
         didSet {
             DispatchQueue.main.async {
                 self.comicCollectionView.reloadData()
+//                print(Database.shared.loadData(from: .wantToRead)?.count)
+//                print(Database.shared.loadData(from: .read)?.count)
+//                print(Database.shared.loadData(from: .reading)?.count)
+//                self.listOfComics.forEach {
+//                    print($0.title)
+//                }
             }
         }
     }
@@ -55,8 +64,9 @@ class ShelfViewController: UIViewController {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         comicCollectionView.delegate = self
         comicCollectionView.dataSource = self
-        fileHandler(statusType: .reading)
+        //fileHandler(statusType: .reading)
         setCollectionView()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -65,16 +75,17 @@ class ShelfViewController: UIViewController {
                 subview.isHidden = true
             }
         }
+        loadListData()
     }
     
     func setCollectionView() {
-           self.view.addSubview(comicCollectionView)
-           comicCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(comicCollectionView)
+        comicCollectionView.translatesAutoresizingMaskIntoConstraints = false
         comicCollectionView.topAnchor.constraint(equalToSystemSpacingBelow: segmentedControl.bottomAnchor, multiplier: 3).isActive = true
-            comicCollectionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-           comicCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 17).isActive = true
-            comicCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-       }
+        comicCollectionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        comicCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 17).isActive = true
+        comicCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+    }
     
     func setImageForModal(fromImage: UIImage) {
         view.addSubview(imageForModal)
@@ -119,6 +130,7 @@ class ShelfViewController: UIViewController {
             self.lableForTitleInModal.removeFromSuperview()
         }
     }
+    
     @IBAction func addToSheftButton(_ sender: Any) {
         performSegue(withIdentifier: "AddToShelfSegue", sender: self)
     }
@@ -136,6 +148,10 @@ class ShelfViewController: UIViewController {
     }
     
     func switchData(sender: CustomSegmentedControl) {
+        loadListData()
+    }
+    
+    func loadListData () {
         switch segmentedControl.selectedSegmentIndex {
         case 0:
             fileHandler(statusType: .reading)
@@ -147,13 +163,29 @@ class ShelfViewController: UIViewController {
             fileHandler(statusType: .reading)
         }
     }
+    
+    func animateCell(progressView: UIProgressView) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            UIView.animate(withDuration: 2) {
+                progressView.setProgress(1, animated: true)
+            }
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is EditComicViewController {
+            let tableVC = segue.destination as? EditComicViewController
+            tableVC?.comic = selectedComic
+            tableVC?.oldIndex = selectedIndex
+        }
+    }
 }
 
 extension ShelfViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return listOfComics.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = comicCollectionView.dequeueReusableCell(withReuseIdentifier: "ShelfCell", for: indexPath) as? ShelfCollectionViewCell else {
             fatalError()
@@ -161,5 +193,11 @@ extension ShelfViewController: UICollectionViewDataSource, UICollectionViewDeleg
         cell.configCell(from: listOfComics[indexPath.row])
         cell.delegate = self
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedComic = listOfComics[indexPath.row]
+        selectedIndex = indexPath.row
+        performSegue(withIdentifier: "EditComicSegue", sender: self)
     }
 }
