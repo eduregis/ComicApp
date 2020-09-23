@@ -18,7 +18,7 @@ struct Comic: Codable, Equatable {
         if let progressNumber = progressNumber {
             self.progressNumber = progressNumber
         }
-        if let finishNumber = finishedNumber {
+        if let finishNumber = finishNumber {
             self.finishNumber = finishNumber
         }
         self.type = type

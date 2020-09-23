@@ -14,7 +14,7 @@ class ComicTests: XCTestCase {
     func test_init_batmanTitle_returnsBatman() {
         
         //Given
-        let sut = Comic(title: "Batman", imageURL: nil, progressNumber: nil, finishedNumber: nil, type: "", organizeBy: "", status: "", author: nil, artist: nil)
+        let sut = Comic(title: "Batman", imageURL: nil, progressNumber: nil, finishNumber: nil, type: "", organizeBy: "", status: "", author: nil, artist: nil)
         
         //When
         let title = sut.title
@@ -26,7 +26,7 @@ class ComicTests: XCTestCase {
     func test_init_noImageURL_shouldBeNil() {
         
         //Given
-        let sut = Comic(title: "", imageURL: nil, progressNumber: nil, finishedNumber: nil, type: "", organizeBy: "", status: "", author: nil, artist: nil)
+        let sut = Comic(title: "", imageURL: nil, progressNumber: nil, finishNumber: nil, type: "", organizeBy: "", status: "", author: nil, artist: nil)
         
         //When
         let imageUrl = sut.imageURL
@@ -38,7 +38,7 @@ class ComicTests: XCTestCase {
     func test_init_finishNumberFive_returnsNotNil() {
         
         //Given
-        let sut = Comic(title: "", imageURL: nil, progressNumber: nil, finishedNumber: 5, type: "", organizeBy: "", status: "", author: nil, artist: nil)
+        let sut = Comic(title: "", imageURL: nil, progressNumber: nil, finishNumber: 5, type: "", organizeBy: "", status: "", author: nil, artist: nil)
         
         //When
         let finishNumber = sut.finishNumber
@@ -50,7 +50,7 @@ class ComicTests: XCTestCase {
     func test_getData_retunsNowData() {
         
         //Given
-        let sut = Comic(title: "", imageURL: nil, progressNumber: nil, finishedNumber: nil, type: "", organizeBy: "", status: "", author: nil, artist: nil)
+        let sut = Comic(title: "", imageURL: nil, progressNumber: nil, finishNumber: nil, type: "", organizeBy: "", status: "", author: nil, artist: nil)
         
         //When
         let data = sut.getDate()

@@ -117,10 +117,10 @@ class Database {
         return limitedList
     }
     
-    func addData(comic: Comic, statusType: StatusType) {
+    @discardableResult func addData(comic: Comic, statusType: StatusType) -> Bool {
         var list = Database.shared.loadData(from: statusType)
         list?.append(comic)
-        Database.shared.saveData(from: list!, to: statusType)
+        return Database.shared.saveData(from: list!, to: statusType)
     }
     
     @discardableResult func saveData(from array: [Comic], to list: StatusType) -> Bool {
@@ -165,14 +165,13 @@ class Database {
         }
         loadedArray.removeAll()
         
-        saveData(from: loadedArray, to: list)
-        return true
+        return saveData(from: loadedArray, to: list)
         
     }
     
     func deleteAllComicLists () {
         let documentsUrl =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-
+        
         do {
             let fileURLs = try FileManager.default.contentsOfDirectory(at: documentsUrl,
                                                                        includingPropertiesForKeys: nil,
@@ -180,7 +179,7 @@ class Database {
             for fileURL in fileURLs {
                 try FileManager.default.removeItem(at: fileURL)
             }
-        } catch  { print(error) }
+        } catch { print(error) }
     }
     
     func statusProgress(statusFrom: StatusType) -> Double {

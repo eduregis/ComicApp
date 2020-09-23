@@ -28,6 +28,7 @@
 		2EFD6B5B2512537D00BFC3AF /* ShelfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFD6B5A2512537D00BFC3AF /* ShelfViewController.swift */; };
 		2EFD6B5F25125E1E00BFC3AF /* AddToShelfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFD6B5E25125E1E00BFC3AF /* AddToShelfViewController.swift */; };
 		56EAC51625139D48002671E7 /* CustomSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56EAC51525139D48002671E7 /* CustomSegmentedControl.swift */; };
+		77CDFC42251B8E080070D7C6 /* DatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77CDFC41251B8E080070D7C6 /* DatabaseTests.swift */; };
 		77D34B7E251392E100FB1586 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D34B7D251392E100FB1586 /* ProfileViewController.swift */; };
 		77D34B80251398A000FB1586 /* ProfileProgress.xib in Resources */ = {isa = PBXBuildFile; fileRef = 77D34B7F251398A000FB1586 /* ProfileProgress.xib */; };
 		77D34B8225139F5800FB1586 /* ProfileProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D34B8125139F5800FB1586 /* ProfileProgress.swift */; };
@@ -84,6 +85,7 @@
 		2EFD6B5A2512537D00BFC3AF /* ShelfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelfViewController.swift; sourceTree = "<group>"; };
 		2EFD6B5E25125E1E00BFC3AF /* AddToShelfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToShelfViewController.swift; sourceTree = "<group>"; };
 		56EAC51525139D48002671E7 /* CustomSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControl.swift; sourceTree = "<group>"; };
+		77CDFC41251B8E080070D7C6 /* DatabaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseTests.swift; sourceTree = "<group>"; };
 		77D34B7D251392E100FB1586 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		77D34B7F251398A000FB1586 /* ProfileProgress.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileProgress.xib; sourceTree = "<group>"; };
 		77D34B8125139F5800FB1586 /* ProfileProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileProgress.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				77DB7399251A3BB4007709CB /* ComicTests.swift */,
+				77CDFC41251B8E080070D7C6 /* DatabaseTests.swift */,
 				2E504A86250FA1EA0045D142 /* Info.plist */,
 			);
 			path = ComicAppTests;
@@ -427,6 +430,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77CDFC42251B8E080070D7C6 /* DatabaseTests.swift in Sources */,
 				77DB739A251A3BB4007709CB /* ComicTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
