@@ -170,6 +170,19 @@ class Database {
         
     }
     
+    func deleteAllComicLists () {
+        let documentsUrl =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+
+        do {
+            let fileURLs = try FileManager.default.contentsOfDirectory(at: documentsUrl,
+                                                                       includingPropertiesForKeys: nil,
+                                                                       options: .skipsHiddenFiles)
+            for fileURL in fileURLs {
+                try FileManager.default.removeItem(at: fileURL)
+            }
+        } catch  { print(error) }
+    }
+    
     func statusProgress(statusFrom: StatusType) -> Double {
         mocking()
         
