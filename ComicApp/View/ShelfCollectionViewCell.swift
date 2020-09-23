@@ -10,11 +10,20 @@ import UIKit
 
 class ShelfCollectionViewCell: UICollectionViewCell {
     
+//    var registerTransition : Bool = false {
+//        didSet {
+//            animateCell(progressView: self.progressView)
+//        }
+//    }
+    weak var delegate: PopUpModalDelegate?
+    
+    var comic: Comic?
+    var imageForCell: UIImage?
+    
     let progressView: UIProgressView = {
         let progressView = UIProgressView()
         progressView.setProgress(0, animated: true)
         progressView.trackTintColor = .clear
-        progressView.tintColor = .green
         return progressView
     }()
     
@@ -22,9 +31,25 @@ class ShelfCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         return imageView
     }()
-    
-    func configImage(image: String) {
+
+    func configCell(from: Comic) {
+        if let image = from.imageURL {
         self.imageView.image = UIImage(named: image)
+            self.imageForCell = UIImage(named: image)
+        }
+        if from.status == "Lendo"{
+            self.progressView.tintColor = .blue
+            animateCell(progressView: self.progressView, progress: 1)
+        }
+        if from.status == "Lido"{
+            self.progressView.setProgress(1, animated: false)
+            self.progressView.tintColor = .green
+        }
+        
+        if from.status == "Quero Ler"{
+            self.progressView.setProgress(0, animated: false)
+        }
+        self.comic = from
     }
     
     override init(frame: CGRect) {
@@ -59,9 +84,21 @@ class ShelfCollectionViewCell: UICollectionViewCell {
         progressView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -2).isActive = true
     }
     
-    func animateProgress() {
-        UIView.animate(withDuration: 5) {
-            self.progressView.setProgress(1, animated: true)
+    func animateCell(progressView: UIProgressView, progress: Float) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            UIView.animate(withDuration: 0.5) {
+            progressView.setProgress(progress, animated: true)
+            }
         }
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+            if let image = self.imageForCell{
+                    delegate?.popUpModal(image: image)
+        }
+    }
+}
+
+protocol PopUpModalDelegate: AnyObject {
+    func popUpModal(image: UIImage)
 }
