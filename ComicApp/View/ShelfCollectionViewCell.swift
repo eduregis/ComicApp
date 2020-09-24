@@ -31,6 +31,11 @@ class ShelfCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         return imageView
     }()
+    
+//    let gesture: UITapGestureRecognizer = {
+//        let gesture = UITapGestureRecognizer(target: self, action: #selector(invokeModal))
+//        return gesture
+//    }()
 
     func configCell(from: Comic) {
         if let image = from.imageURL {
@@ -56,6 +61,7 @@ class ShelfCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         setupView()
         setupConstraints()
+//        self.addGestureRecognizer(gesture)
     }
     
     required init?(coder: NSCoder) {
@@ -93,12 +99,12 @@ class ShelfCollectionViewCell: UICollectionViewCell {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-            if let image = self.imageForCell{
-                    delegate?.popUpModal(image: image)
+        if let image = self.imageForCell, let comic = self.comic{
+                delegate?.popUpModal(image: image, comic: comic)
         }
     }
 }
 
 protocol PopUpModalDelegate: AnyObject {
-    func popUpModal(image: UIImage)
+    func popUpModal(image: UIImage, comic: Comic)
 }
