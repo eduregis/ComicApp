@@ -33,20 +33,10 @@ class ShelfViewController: UIViewController {
     }
     
     let blurEffectView: UIVisualEffectView = {
-        let effect = UIBlurEffect(style: .light)
+        let effect = UIBlurEffect(style: .prominent)
         let blurEffectView = UIVisualEffectView(effect: effect)
         return blurEffectView
     }()
-    
-//    let gestureForRemoveModal : UITapGestureRecognizer = {
-//        let gesture = UITapGestureRecognizer(target: self, action: #selector(removeModal))
-//        return gesture
-//    }()
-    
-//    let gestureForPerformSegue : UITapGestureRecognizer = {
-//        let gesture = UITapGestureRecognizer(target: ShelfViewController.self, action: #selector(executarSegue))
-//        return gesture
-//    }()
     
     let imageForModal: UIImageView = {
         let imageView = UIImageView()
@@ -199,6 +189,7 @@ class ShelfViewController: UIViewController {
     
     @objc func executarSegue(){
         performSegue(withIdentifier: "EditComicSegue", sender: self)
+        removeModal()
     }
 
 }
