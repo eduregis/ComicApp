@@ -59,6 +59,10 @@ class ShelfViewController: UIViewController {
     @IBOutlet weak var segmentedControl: CustomSegmentedControl!
     
     override func viewDidLoad() {
+        // Database.shared.mocking()
+        Database.shared.deleteAllListComics(from: .read)
+        Database.shared.deleteAllListComics(from: .reading)
+        Database.shared.deleteAllListComics(from: .wantToRead)
         super.viewDidLoad()
         self.title = "Minha Estante"
         self.navigationController?.navigationBar.prefersLargeTitles = true

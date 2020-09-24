@@ -10,10 +10,10 @@ import Foundation
 
 struct Comic: Codable, Equatable {
     
-    init (title: String, imageURL: String?, progressNumber: Int?, finishNumber: Int?, type: String, organizeBy: String, status: String, author: String?, artist: String?) {
+    init (title: String, image: Data?, progressNumber: Int?, finishNumber: Int?, type: String, organizeBy: String, status: String, author: String?, artist: String?) {
         self.title = title
-        if let imageURL = imageURL {
-            self.imageURL = imageURL
+        if let image = image {
+            self.image = image
         }
         if let progressNumber = progressNumber {
             self.progressNumber = progressNumber
@@ -34,7 +34,7 @@ struct Comic: Codable, Equatable {
     }
     
     var title: String
-    var imageURL: String?
+    var image: Data?
     var progressNumber: Int?
     var finishNumber: Int?
     var type: String

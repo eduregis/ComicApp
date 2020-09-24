@@ -46,7 +46,7 @@ extension ProfileView: UITableViewDelegate, UITableViewDataSource {
             fatalError()
         }
         
-        cell.comicImage.image = UIImage(named: lastComics[indexPath.section].imageURL ?? "")
+        //cell.comicImage.image = UIImage(named: lastComics[indexPath.section].imageURL ?? "")
         cell.comicName.text = lastComics[indexPath.section].title
         cell.comicStatus.text = lastComics[indexPath.section].status
         

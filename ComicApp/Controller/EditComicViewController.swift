@@ -21,7 +21,7 @@ class EditComicViewController: UITableViewController {
     var imagePickerButton = UIButton()
     
     var comicTitle: String?
-    var imageURL: String?
+    var image: Data?
     var progressNumber: Int?
     var finishNumber: Int?
     var type: String?
@@ -98,7 +98,7 @@ class EditComicViewController: UITableViewController {
             comicTitle = comic.title
             progressNumber = comic.progressNumber
             finishNumber = comic.finishNumber
-            imageURL = comic.imageURL
+            //imageURL = comic.imageURL
             author = comic.author
             artist = comic.artist
             switch comic.type {
@@ -183,7 +183,7 @@ class EditComicViewController: UITableViewController {
         author = authorTextField.text
         artist = artistTextField.text
         
-        var editComic = Comic(title: comicTitle!, imageURL: imageURL, progressNumber: progressNumber, finishNumber: finishNumber, type: type!, organizeBy: organizeBy!, status: "-", author: author, artist: artist)
+        var editComic = Comic(title: comicTitle!, image: image, progressNumber: progressNumber, finishNumber: finishNumber, type: type!, organizeBy: organizeBy!, status: "-", author: author, artist: artist)
        
         var statusType: StatusType
         if progressNumber == 0 {
