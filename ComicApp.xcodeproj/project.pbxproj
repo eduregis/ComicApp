@@ -37,6 +37,7 @@
 		77DB739A251A3BB4007709CB /* ComicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77DB7399251A3BB4007709CB /* ComicTests.swift */; };
 		EC374E372514DA7400AE6B99 /* ShelfCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC374E362514DA7400AE6B99 /* ShelfCollectionViewCell.swift */; };
 		EC374E3A2514E31000AE6B99 /* ComicCustomLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC374E392514E31000AE6B99 /* ComicCustomLayout.swift */; };
+		EC3771C4251CCC1700A14E7C /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC3771C3251CCC1700A14E7C /* CloudKit.framework */; };
 		ECBE613B251ADAC500A8E3A6 /* PopUpModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECBE613A251ADAC500A8E3A6 /* PopUpModalView.swift */; };
 /* End PBXBuildFile section */
 
@@ -94,6 +95,8 @@
 		77DB7399251A3BB4007709CB /* ComicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicTests.swift; sourceTree = "<group>"; };
 		EC374E362514DA7400AE6B99 /* ShelfCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelfCollectionViewCell.swift; sourceTree = "<group>"; };
 		EC374E392514E31000AE6B99 /* ComicCustomLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicCustomLayout.swift; sourceTree = "<group>"; };
+		EC3771C1251CCC0000A14E7C /* ComicApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ComicApp.entitlements; sourceTree = "<group>"; };
+		EC3771C3251CCC1700A14E7C /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		ECBE613A251ADAC500A8E3A6 /* PopUpModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpModalView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -102,6 +105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC3771C4251CCC1700A14E7C /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,6 +134,7 @@
 				2E504A83250FA1EA0045D142 /* ComicAppTests */,
 				2E504A8E250FA1EA0045D142 /* ComicAppUITests */,
 				2E504A6B250FA1E80045D142 /* Products */,
+				EC3771C2251CCC1700A14E7C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -146,6 +151,7 @@
 		2E504A6C250FA1E80045D142 /* ComicApp */ = {
 			isa = PBXGroup;
 			children = (
+				EC3771C1251CCC0000A14E7C /* ComicApp.entitlements */,
 				2E504AA0250FAC4B0045D142 /* Model */,
 				2E504AA1250FAC510045D142 /* View */,
 				2E504AA2250FAC590045D142 /* Controller */,
@@ -243,6 +249,14 @@
 				EC374E392514E31000AE6B99 /* ComicCustomLayout.swift */,
 			);
 			path = "Custom Layout";
+			sourceTree = "<group>";
+		};
+		EC3771C2251CCC1700A14E7C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EC3771C3251CCC1700A14E7C /* CloudKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -588,8 +602,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ComicApp/ComicApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = P3PDP2RPN7;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ComicApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -606,8 +621,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ComicApp/ComicApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = P3PDP2RPN7;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ComicApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

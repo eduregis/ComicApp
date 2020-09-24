@@ -9,13 +9,19 @@
 import UIKit
 
 extension ShelfViewController: PopUpModalDelegate {
-    func popUpModal(image: UIImage) {
-        blurEffectView.frame = view.frame
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(removeModal))
-        blurEffectView.addGestureRecognizer(gesture)
-        self.view.addSubview(blurEffectView)
-        blurEffectView.alpha = 1
+    
+    func popUpModal(image: UIImage, comic: Comic) {
+        self.selectedComic = comic
+        prepareForTransition()
+        setBlurEffectView()
         setImageForModal(fromImage: image)
-        setLableForTitleInModal(fromText: "Teste")
+        setLableForTitleInModal(fromText: comic.title)
     }
+    
+     func prepareForTransition() {
+         if let comic = self.selectedComic {
+             self.selectedIndex = listOfComics.firstIndex(of: comic)
+         }
+     }
+    
 }

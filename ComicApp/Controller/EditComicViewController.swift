@@ -21,7 +21,7 @@ class EditComicViewController: UITableViewController {
     var imagePickerButton = UIButton()
     
     var comicTitle: String?
-    var imageURL: String?
+    var pickedImage: Data?
     var progressNumber: Int?
     var finishNumber: Int?
     var type: String?
@@ -98,7 +98,7 @@ class EditComicViewController: UITableViewController {
             comicTitle = comic.title
             progressNumber = comic.progressNumber
             finishNumber = comic.finishNumber
-            imageURL = comic.imageURL
+            pickedImage = comic.image
             author = comic.author
             artist = comic.artist
             switch comic.type {
@@ -176,14 +176,14 @@ class EditComicViewController: UITableViewController {
     }
     
     @IBAction func doneButton(_ sender: Any) {
-        
+        ajustStepper()
         comicTitle = comicTitleTextField.text
         type = typeData[typeIndex]
         organizeBy = organizeByData[organizeByIndex]
         author = authorTextField.text
         artist = artistTextField.text
         
-        var editComic = Comic(title: comicTitle!, imageURL: imageURL, progressNumber: progressNumber, finishNumber: finishNumber, type: type!, organizeBy: organizeBy!, status: "-", author: author, artist: artist)
+        var editComic = Comic(title: comicTitle!, image: pickedImage, progressNumber: progressNumber, finishNumber: finishNumber, type: type!, organizeBy: organizeBy!, status: "-", author: author, artist: artist)
        
         var statusType: StatusType
         if progressNumber == 0 {
@@ -234,6 +234,9 @@ class EditComicViewController: UITableViewController {
 //        if section == 0 {
             imageView.backgroundColor = .black
             imageView.frame = CGRect(x: 0, y: 0, width: 2*tableView.center.x, height: tableView.center.x)
+            if let image = pickedImage {
+                imageView.image = UIImage(data: image)
+            }
             imageView.contentMode = .scaleAspectFit
             headerView.addSubview(imageView)
             imagePickerButton.frame = CGRect(x: 2*tableView.center.x - 40, y: tableView.center.x - 40, width: 40, height: 20)
@@ -358,17 +361,31 @@ class EditComicViewController: UITableViewController {
     
     @objc func stepperValueChanged() {
         progressNumber = Int(stepper.value)
+        ajustStepper()
         tableView.reloadData()
     }
     
     @objc func progressNumberValueChanged() {
         progressNumber = Int(progressNumberTextField.text ?? "0")
+        ajustStepper()
         tableView.reloadData()
     }
     
     @objc func finishNumberValueChanged() {
         finishNumber = Int(finishNumberTextField.text ?? "0")
+        ajustStepper()
         tableView.reloadData()
+    }
+    
+    func ajustStepper () {
+        if let max = finishNumber {
+            if let min = progressNumber {
+                if max < min {
+                    progressNumber = max
+                }
+            }
+            stepper.maximumValue = Double(max)
+        }
     }
     
     @objc func changeType() {
@@ -426,5 +443,8 @@ extension EditComicViewController: ImagePickerDelegate {
     
     func didSelect(image: UIImage?) {
         self.imageView.image = image
+        if let data = image?.pngData() {
+            pickedImage = data
+        }
     }
 }
