@@ -9,16 +9,12 @@
 import UIKit
 
 class ShelfCollectionViewCell: UICollectionViewCell {
-    
-//    var registerTransition : Bool = false {
-//        didSet {
-//            animateCell(progressView: self.progressView)
-//        }
-//    }
+
     weak var delegate: PopUpModalDelegate?
     
     var comic: Comic?
     var imageForCell: UIImage?
+    var gesture : UITapGestureRecognizer?
     
     let progressView: UIProgressView = {
         let progressView = UIProgressView()
@@ -31,11 +27,6 @@ class ShelfCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         return imageView
     }()
-    
-//    let gesture: UITapGestureRecognizer = {
-//        let gesture = UITapGestureRecognizer(target: self, action: #selector(invokeModal))
-//        return gesture
-//    }()
 
     func configCell(from: Comic) {
         if let image = from.imageURL {
@@ -61,7 +52,8 @@ class ShelfCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         setupView()
         setupConstraints()
-//        self.addGestureRecognizer(gesture)
+        gesture = UITapGestureRecognizer(target: self, action: #selector(openModal))
+        self.addGestureRecognizer(gesture!)
     }
     
     required init?(coder: NSCoder) {
@@ -88,7 +80,7 @@ class ShelfCollectionViewCell: UICollectionViewCell {
         progressView.heightAnchor.constraint(equalToConstant: 5).isActive = true
         progressView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         progressView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -2).isActive = true
-    }
+        }
     
     func animateCell(progressView: UIProgressView, progress: Float) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -98,11 +90,14 @@ class ShelfCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    @objc func openModal() {
         if let image = self.imageForCell, let comic = self.comic{
-                delegate?.popUpModal(image: image, comic: comic)
+                      delegate?.popUpModal(image: image, comic: comic)
         }
     }
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//
+//    }
 }
 
 protocol PopUpModalDelegate: AnyObject {
