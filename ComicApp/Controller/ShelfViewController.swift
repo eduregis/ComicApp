@@ -27,24 +27,20 @@ class ShelfViewController: UIViewController {
         didSet {
             DispatchQueue.main.async {
                 self.comicCollectionView.reloadData()
-//                print(Database.shared.loadData(from: .wantToRead)?.count)
-//                print(Database.shared.loadData(from: .read)?.count)
-//                print(Database.shared.loadData(from: .reading)?.count)
-//                self.listOfComics.forEach {
-//                    print($0.title)
-//                }
+
             }
         }
     }
     
     let blurEffectView: UIVisualEffectView = {
-        let effect = UIBlurEffect(style: .light)
+        let effect = UIBlurEffect(style: .prominent)
         let blurEffectView = UIVisualEffectView(effect: effect)
         return blurEffectView
     }()
     
     let imageForModal: UIImageView = {
         let imageView = UIImageView()
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
     
@@ -59,12 +55,12 @@ class ShelfViewController: UIViewController {
     @IBOutlet weak var segmentedControl: CustomSegmentedControl!
     
     override func viewDidLoad() {
+        Database.shared.mocking()
         super.viewDidLoad()
         self.title = "Minha Estante"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         comicCollectionView.delegate = self
         comicCollectionView.dataSource = self
-        //fileHandler(statusType: .reading)
         setCollectionView()
         
     }
@@ -90,26 +86,37 @@ class ShelfViewController: UIViewController {
     func setImageForModal(fromImage: UIImage) {
         view.addSubview(imageForModal)
         imageForModal.image = fromImage
-        imageForModal.contentMode = .scaleAspectFill
+        imageForModal.contentMode = .scaleAspectFit
         imageForModal.clipsToBounds = true
         imageForModal.translatesAutoresizingMaskIntoConstraints = false
         imageForModal.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         imageForModal.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
-        imageForModal.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        imageForModal.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        imageForModal.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        imageForModal.widthAnchor.constraint(equalToConstant: 300).isActive = true
         imageForModal.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
         imageForModal.alpha = 0
-        UIView.animate(withDuration: 0.4) {
+        UIView.animate(withDuration: 0.4, animations: {
             self.imageForModal.alpha = 1
             self.imageForModal.transform = CGAffineTransform.identity
+        }) { _ in
+            let gesture = UITapGestureRecognizer(target: self, action: #selector(self.executarSegue))
+            self.imageForModal.addGestureRecognizer(gesture)
         }
+    }
+    
+    func setBlurEffectView() {
+        blurEffectView.frame = view.frame
+        self.view.addSubview(blurEffectView)
+        blurEffectView.alpha = 1
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(self.removeModal))
+        self.blurEffectView.addGestureRecognizer(gesture)
     }
     
     func setLableForTitleInModal(fromText: String) {
         view.addSubview(lableForTitleInModal)
         lableForTitleInModal.translatesAutoresizingMaskIntoConstraints = false
         lableForTitleInModal.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true 
-        lableForTitleInModal.bottomAnchor.constraint(equalTo: imageForModal.topAnchor).isActive = true
+        lableForTitleInModal.bottomAnchor.constraint(equalTo: imageForModal.topAnchor, constant: -17).isActive = true
         lableForTitleInModal.alpha = 0
         lableForTitleInModal.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
         UIView.animate(withDuration: 0.4) {
@@ -179,6 +186,12 @@ class ShelfViewController: UIViewController {
             tableVC?.oldIndex = selectedIndex
         }
     }
+    
+    @objc func executarSegue(){
+        performSegue(withIdentifier: "EditComicSegue", sender: self)
+        removeModal()
+    }
+
 }
 
 extension ShelfViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -194,10 +207,5 @@ extension ShelfViewController: UICollectionViewDataSource, UICollectionViewDeleg
         cell.delegate = self
         return cell
     }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        selectedComic = listOfComics[indexPath.row]
-        selectedIndex = indexPath.row
-        performSegue(withIdentifier: "EditComicSegue", sender: self)
-    }
 }
+
