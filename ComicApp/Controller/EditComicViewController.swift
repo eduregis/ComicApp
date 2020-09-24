@@ -98,7 +98,7 @@ class EditComicViewController: UITableViewController {
             comicTitle = comic.title
             progressNumber = comic.progressNumber
             finishNumber = comic.finishNumber
-            //imageURL = comic.imageURL
+            image = comic.image
             author = comic.author
             artist = comic.artist
             switch comic.type {
@@ -234,6 +234,9 @@ class EditComicViewController: UITableViewController {
 //        if section == 0 {
             imageView.backgroundColor = .black
             imageView.frame = CGRect(x: 0, y: 0, width: 2*tableView.center.x, height: tableView.center.x)
+            if let image = image {
+                imageView.image = UIImage(data: image)
+            }
             imageView.contentMode = .scaleAspectFit
             headerView.addSubview(imageView)
             imagePickerButton.frame = CGRect(x: 2*tableView.center.x - 40, y: tableView.center.x - 40, width: 40, height: 20)
