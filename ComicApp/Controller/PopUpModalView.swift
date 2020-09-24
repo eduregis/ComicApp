@@ -15,7 +15,7 @@ extension ShelfViewController: PopUpModalDelegate {
         prepareForTransition()
         setBlurEffectView()
         setImageForModal(fromImage: image)
-        setLableForTitleInModal(fromText: "Teste")
+        setLableForTitleInModal(fromText: comic.title)
     }
     
      func prepareForTransition() {
