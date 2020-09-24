@@ -21,7 +21,7 @@ class AddToShelfViewController: UITableViewController {
     var imagePickerButton = UIButton()
     
     var comicTitle: String?
-    var imageURL: String?
+    var pickedImage: Data?
     var progressNumber: Int?
     var finishNumber: Int?
     var type: String?
@@ -110,7 +110,7 @@ class AddToShelfViewController: UITableViewController {
         author = authorTextField.text
         artist = artistTextField.text
         
-        var comic = Comic(title: comicTitle!, imageURL: nil, progressNumber: progressNumber, finishNumber: finishNumber, type: type!, organizeBy: organizeBy!, status: "-", author: author, artist: artist)
+        var comic = Comic(title: comicTitle!, image: pickedImage, progressNumber: progressNumber, finishNumber: finishNumber, type: type!, organizeBy: organizeBy!, status: "-", author: author, artist: artist)
         var statusType: StatusType
         if progressNumber == 0 {
             comic.status = "Quero Ler"
@@ -139,7 +139,7 @@ class AddToShelfViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
-        imageView.backgroundColor = .black
+        imageView.backgroundColor = .systemGray5
         imageView.frame = CGRect(x: 0, y: 0, width: 2*tableView.center.x, height: tableView.center.x)
         imageView.contentMode = .scaleAspectFit
         headerView.addSubview(imageView)
@@ -309,5 +309,8 @@ extension AddToShelfViewController: ImagePickerDelegate {
     
     func didSelect(image: UIImage?) {
         self.imageView.image = image
+        if let data = image?.pngData() {
+            pickedImage = data
+        }
     }
 }
