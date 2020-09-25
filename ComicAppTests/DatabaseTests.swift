@@ -22,27 +22,7 @@ class DatabaseTests: XCTestCase {
     override func tearDownWithError() throws {
         deleteAllCommic()
     }
-    
-    /*
-    func test_init_createAllFiles() {
-        
-        //Given
-        deleteAllCommic()
-        let sut = Database.shared
-        
-        //When
-        let readFileExits = FileManager.default.fileExists(atPath: Database.shared.read.path)
-        let readingFileExits = FileManager.default.fileExists(atPath: Database.shared.reading.path)
-        let wantReadFileExits = FileManager.default.fileExists(atPath: Database.shared.wantToRead.path)
-        
-        let arrayOfFilesExits = [readFileExits, readingFileExits, wantReadFileExits]
-        
-        //Then
-        XCTAssertEqual(arrayOfFilesExits, [true, true, true])
-        
-    }
-    */
-    
+
     func test_loadData_statusRead_countNotBeEqualZero() {
         
         //Given
@@ -84,7 +64,7 @@ class DatabaseTests: XCTestCase {
         
         //Given
         let sut = Database.shared
-        let comic = Comic(title: "", imageURL: nil, progressNumber: nil, finishNumber: nil, type: "", organizeBy: "", status: "", author: nil, artist: nil)
+        let comic = Comic(title: "", image: nil, progressNumber: nil, finishNumber: nil, type: "", organizeBy: "", status: "", author: nil, artist: nil)
         
         //When
         let addDataResult = sut.addData(comic: comic, statusType: .reading)
@@ -99,7 +79,7 @@ class DatabaseTests: XCTestCase {
         let sut = Database.shared
         
         //When
-        let comic = Comic(title: "", imageURL: nil, progressNumber: nil, finishNumber: nil, type: "", organizeBy: "", status: "", author: nil, artist: nil)
+        let comic = Comic(title: "", image: nil, progressNumber: nil, finishNumber: nil, type: "", organizeBy: "", status: "", author: nil, artist: nil)
         let saveResult = sut.saveData(from: [comic], to: .wantToRead)
         
         //Then
