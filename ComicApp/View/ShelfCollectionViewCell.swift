@@ -77,7 +77,7 @@ class ShelfCollectionViewCell: UICollectionViewCell {
         imageView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
 
         progressView.translatesAutoresizingMaskIntoConstraints = false
-        progressView.heightAnchor.constraint(equalToConstant: 5).isActive = true
+        progressView.heightAnchor.constraint(equalToConstant: 7).isActive = true
         progressView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         progressView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -2).isActive = true
         }

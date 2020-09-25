@@ -35,6 +35,7 @@ class Database {
         reading = documentsFolder.appendingPathComponent(readingFileName)
         read = documentsFolder.appendingPathComponent(readFileName)
         
+        print(read)
         //Caso os arquivos não existam, eles são criados no init
         if !(FileManager.default.fileExists(atPath: wantToRead.path)) {
             saveData(from: emptyArray, to: .wantToRead)
@@ -183,9 +184,7 @@ class Database {
         } catch  { print(error) }
     }
     
-    func statusProgress(statusFrom: StatusType) -> Double {
-        mocking()
-        
+    func statusProgress(statusFrom: StatusType) -> Double {        
         let statusRead = Double(loadData(from: .read)!.count)
         let statusReading = Double(loadData(from: .reading)!.count)
         let statusWantReading = Double(loadData(from: .wantToRead)!.count)

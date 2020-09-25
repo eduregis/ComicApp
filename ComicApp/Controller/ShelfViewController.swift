@@ -55,8 +55,8 @@ class ShelfViewController: UIViewController {
     @IBOutlet weak var segmentedControl: CustomSegmentedControl!
     
     override func viewDidLoad() {
-        Database.shared.mocking()
         super.viewDidLoad()
+        Database.shared.mocking()
         self.title = "Minha Estante"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         comicCollectionView.delegate = self
@@ -79,7 +79,7 @@ class ShelfViewController: UIViewController {
         comicCollectionView.translatesAutoresizingMaskIntoConstraints = false
         comicCollectionView.topAnchor.constraint(equalToSystemSpacingBelow: segmentedControl.bottomAnchor, multiplier: 3).isActive = true
         comicCollectionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        comicCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 17).isActive = true
+        comicCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         comicCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
     }
     

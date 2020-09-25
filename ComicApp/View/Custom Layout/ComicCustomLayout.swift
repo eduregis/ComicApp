@@ -93,13 +93,7 @@ class ComicCustomLayout: UICollectionViewFlowLayout {
       -> UICollectionViewLayoutAttributes? {
     return cache[indexPath.item]
   }
-//    func prepareWidthFromIndex(index: Int, width: CGFloat) -> CGFloat{
-//        if index == 0 {
-//            return width * 2
-//        } else {
-//            return width
-//        }
-//    }
+
     func prepareHeightFromIndex(index: Int) -> CGFloat {
         if index % 3 == 0 {
             return 180
