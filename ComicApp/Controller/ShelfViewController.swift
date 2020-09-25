@@ -56,7 +56,6 @@ class ShelfViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        Database.shared.mocking()
         self.title = "Minha Estante"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         comicCollectionView.delegate = self
