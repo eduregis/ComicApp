@@ -58,7 +58,7 @@
         <scene sceneID="aQ7-YO-f8J">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="HQO-Fo-bbD" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="R0P-OI-aHV">
+                    <tabBarItem key="tabBarItem" title="Item" image="shelf_empty" selectedImage="shelf_fill" id="R0P-OI-aHV">
                         <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="4"/>
                     </tabBarItem>
                     <toolbarItems/>
@@ -100,5 +100,7 @@
     <color key="tintColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
     <resources>
         <image name="plus" catalog="system" width="128" height="113"/>
+        <image name="shelf_empty" width="34" height="25"/>
+        <image name="shelf_fill" width="35" height="25"/>
     </resources>
 </document>
