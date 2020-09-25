@@ -29,9 +29,9 @@ class ShelfCollectionViewCell: UICollectionViewCell {
     }()
 
     func configCell(from: Comic) {
-        if let image = from.imageURL {
-        self.imageView.image = UIImage(named: image)
-            self.imageForCell = UIImage(named: image)
+        if let image = from.image {
+            self.imageView.image = UIImage(data: image)
+            self.imageForCell = UIImage(data: image)
         }
         if from.status == "Lendo"{
             self.progressView.tintColor = .blue

@@ -114,6 +114,7 @@ class ShelfViewController: UIViewController {
     
     func setLableForTitleInModal(fromText: String) {
         view.addSubview(lableForTitleInModal)
+        lableForTitleInModal.text = fromText
         lableForTitleInModal.translatesAutoresizingMaskIntoConstraints = false
         lableForTitleInModal.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true 
         lableForTitleInModal.bottomAnchor.constraint(equalTo: imageForModal.topAnchor, constant: -17).isActive = true
