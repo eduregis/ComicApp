@@ -171,14 +171,6 @@ class ShelfViewController: UIViewController {
         }
     }
     
-    func animateCell(progressView: UIProgressView) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            UIView.animate(withDuration: 2) {
-                progressView.setProgress(1, animated: true)
-            }
-        }
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.destination is EditComicViewController {
             let tableVC = segue.destination as? EditComicViewController
