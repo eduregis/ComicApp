@@ -56,7 +56,6 @@ class ShelfViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.title = "Minha Estante"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         comicCollectionView.delegate = self
@@ -79,7 +78,7 @@ class ShelfViewController: UIViewController {
         comicCollectionView.translatesAutoresizingMaskIntoConstraints = false
         comicCollectionView.topAnchor.constraint(equalToSystemSpacingBelow: segmentedControl.bottomAnchor, multiplier: 3).isActive = true
         comicCollectionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        comicCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 17).isActive = true
+        comicCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         comicCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
     }
     
@@ -169,14 +168,6 @@ class ShelfViewController: UIViewController {
             fileHandler(statusType: .wantToRead)
         default:
             fileHandler(statusType: .reading)
-        }
-    }
-    
-    func animateCell(progressView: UIProgressView) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            UIView.animate(withDuration: 2) {
-                progressView.setProgress(1, animated: true)
-            }
         }
     }
     
