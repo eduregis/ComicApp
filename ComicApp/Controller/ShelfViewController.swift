@@ -55,7 +55,6 @@ class ShelfViewController: UIViewController {
     @IBOutlet weak var segmentedControl: CustomSegmentedControl!
     
     override func viewDidLoad() {
-        // Database.shared.mocking()
         super.viewDidLoad()
         self.title = "Minha Estante"
         self.navigationController?.navigationBar.prefersLargeTitles = true
