@@ -35,6 +35,7 @@ class Database {
         reading = documentsFolder.appendingPathComponent(readingFileName)
         read = documentsFolder.appendingPathComponent(readFileName)
         
+        print(read)
         //Caso os arquivos não existam, eles são criados no init
         if !(FileManager.default.fileExists(atPath: wantToRead.path)) {
             saveData(from: emptyArray, to: .wantToRead)

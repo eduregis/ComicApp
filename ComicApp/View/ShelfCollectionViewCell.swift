@@ -14,7 +14,7 @@ class ShelfCollectionViewCell: UICollectionViewCell {
     
     var comic: Comic?
     var imageForCell: UIImage?
-    var gesture : UITapGestureRecognizer?
+    var gesture: UITapGestureRecognizer?
     
     let progressView: UIProgressView = {
         let progressView = UIProgressView()
@@ -35,7 +35,10 @@ class ShelfCollectionViewCell: UICollectionViewCell {
         }
         if from.status == "Lendo"{
             self.progressView.tintColor = .blue
-            animateCell(progressView: self.progressView, progress: 1)
+            if let finishNumber = from.finishNumber, let progressNumber = from.progressNumber{
+                
+                animateCell(progressView: self.progressView, progress: (Float(progressNumber)/Float(finishNumber)))
+            }
         }
         if from.status == "Lido"{
             self.progressView.setProgress(1, animated: false)
@@ -77,7 +80,7 @@ class ShelfCollectionViewCell: UICollectionViewCell {
         imageView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
 
         progressView.translatesAutoresizingMaskIntoConstraints = false
-        progressView.heightAnchor.constraint(equalToConstant: 5).isActive = true
+        progressView.heightAnchor.constraint(equalToConstant: 7).isActive = true
         progressView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         progressView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -2).isActive = true
         }
@@ -95,9 +98,6 @@ class ShelfCollectionViewCell: UICollectionViewCell {
                       delegate?.popUpModal(image: image, comic: comic)
         }
     }
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//
-//    }
 }
 
 protocol PopUpModalDelegate: AnyObject {
