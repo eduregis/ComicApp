@@ -8,11 +8,9 @@
 
 import UIKit
 
-class EditComicViewController: UITableViewController {
+class EditComicViewController: UITableViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     
     var checkmark = 0
-    
-    var imagePicker: ImagePicker!
     
     var comic: Comic?
     
@@ -38,6 +36,7 @@ class EditComicViewController: UITableViewController {
     let finishNumberTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
     let authorTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
     let artistTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
+    let imagePicker = UIImagePickerController()
     
     var pickerFieldName: String = ""
     var pickerData: [String] = []
@@ -62,7 +61,7 @@ class EditComicViewController: UITableViewController {
         pickerFieldName = "OrganizeBy"
         progressNumberTextField.keyboardType = .numberPad
         finishNumberTextField.keyboardType = .numberPad
-        self.imagePicker = ImagePicker(presentationController: self, delegate: self)
+        self.imagePicker.delegate = self
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow), name:
@@ -146,7 +145,7 @@ class EditComicViewController: UITableViewController {
     
     func addActions() {
         alert.addAction(UIAlertAction(title: NSLocalizedString("Cancelar", comment: "Default action"), style: .default, handler: { _ in
-        NSLog("The \"OK\" alert occured.")
+            NSLog("The \"OK\" alert occured.")
         }))
         alert.addAction(UIAlertAction(title: NSLocalizedString("Confirmar", comment: "Default action"), style: .destructive, handler: { _ in
             self.deleteData()
@@ -184,7 +183,7 @@ class EditComicViewController: UITableViewController {
         artist = artistTextField.text
         
         var editComic = Comic(title: comicTitle!, image: pickedImage, progressNumber: progressNumber, finishNumber: finishNumber, type: type!, organizeBy: organizeBy!, status: "-", author: author, artist: artist)
-       
+        
         var statusType: StatusType
         if progressNumber == 0 {
             editComic.status = "Quero Ler"
@@ -222,43 +221,34 @@ class EditComicViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        if section == 0 {
-            return 9
-//        } else {
-//            return 1
-//        }
+        return 9
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
-//        if section == 0 {
-            imageView.backgroundColor = .black
-            imageView.frame = CGRect(x: 0, y: 0, width: 2*tableView.center.x, height: tableView.center.x)
-            if let image = pickedImage {
-                imageView.image = UIImage(data: image)
-            }
-            imageView.contentMode = .scaleAspectFit
-            headerView.addSubview(imageView)
-            imagePickerButton.frame = CGRect(x: 2*tableView.center.x - 40, y: tableView.center.x - 40, width: 40, height: 20)
-            imagePickerButton.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
-            imagePickerButton.setTitleColor(.systemBlue, for: .normal)
-            imagePickerButton.addTarget(self, action: #selector(toggleImagePicker), for: .touchUpInside)
-            headerView.addSubview(imagePickerButton)
-//        }
+        imageView.backgroundColor = .systemGray2
+        imageView.frame = CGRect(x: 0, y: 0, width: 2*tableView.center.x, height: tableView.center.x)
+        if let image = pickedImage {
+            imageView.image = UIImage(data: image)
+        }
+        imageView.contentMode = .scaleAspectFit
+        headerView.addSubview(imageView)
+        imagePickerButton.frame = CGRect(x: 2*tableView.center.x - 40, y: tableView.center.x - 40, width: 40, height: 20)
+        imagePickerButton.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
+        imagePickerButton.setTitleColor(.systemBlue, for: .normal)
+        imagePickerButton.addTarget(self, action: #selector(toggleImagePicker), for: .touchUpInside)
+        headerView.addSubview(imagePickerButton)
         return headerView
     }
     
     @objc func toggleImagePicker() {
-        self.imagePicker.present(from: imagePickerButton)
-        //print(Database.shared.loadRecentComics(limit: 5).count)
+        self.imagePicker.allowsEditing = false
+        self.imagePicker.sourceType = .photoLibrary
+        present(imagePicker, animated: true, completion: nil)
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        if section == 0 {
         return tableView.center.x
-//        } else {
-//            return tableView.center.x/4.0
-//        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -418,6 +408,17 @@ class EditComicViewController: UITableViewController {
             tableVC?.pickerData = pickerData
         }
     }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            imageView.contentMode = .scaleAspectFit
+            if let data = image.pngData() {
+                imageView.image = UIImage(data: data)
+                pickedImage = data
+            }
+        }
+        dismiss(animated: true, completion: nil)
+    }
 }
 
 extension EditComicViewController: ModalDelegate {
@@ -436,15 +437,5 @@ extension EditComicViewController: ModalDelegate {
         }
         organizeBy = organizeByData[organizeByIndex]
         tableView.reloadData()
-    }
-}
-
-extension EditComicViewController: ImagePickerDelegate {
-    
-    func didSelect(image: UIImage?) {
-        self.imageView.image = image
-        if let data = image?.pngData() {
-            pickedImage = data
-        }
     }
 }

@@ -16,8 +16,6 @@ class AddToShelfViewController: UITableViewController, UIImagePickerControllerDe
     
     var checkmark = 0
     
-    //var imagePicker: ImagePicker!
-    
     var imagePickerButton = UIButton()
     
     var comicTitle: String?
@@ -60,7 +58,6 @@ class AddToShelfViewController: UITableViewController, UIImagePickerControllerDe
         progressNumberTextField.keyboardType = .numberPad
         finishNumberTextField.keyboardType = .numberPad
         self.imagePicker.delegate = self
-        //self.imagePicker = ImagePicker(presentationController: self, delegate: self)
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow), name:
@@ -157,8 +154,6 @@ class AddToShelfViewController: UITableViewController, UIImagePickerControllerDe
         self.imagePicker.allowsEditing = false
         self.imagePicker.sourceType = .photoLibrary
         present(imagePicker, animated: true, completion: nil)
-        //self.imagePicker.present(from: imagePickerButton)
-        //print(Database.shared.loadRecentComics(limit: 5).count)
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -296,14 +291,11 @@ class AddToShelfViewController: UITableViewController, UIImagePickerControllerDe
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             imageView.contentMode = .scaleAspectFit
-            //albumImage.image = pickedImage
-            //NSData().
             if let data = image.pngData() {
                 imageView.image = UIImage(data: data)
                 pickedImage = data
             }
         }
-        
         dismiss(animated: true, completion: nil)
     }
 }
