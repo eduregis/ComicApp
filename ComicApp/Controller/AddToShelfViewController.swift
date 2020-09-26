@@ -12,11 +12,11 @@ protocol ModalDelegate {
     func changeValue(value: Int)
 }
 
-class AddToShelfViewController: UITableViewController {
+class AddToShelfViewController: UITableViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     
     var checkmark = 0
     
-    var imagePicker: ImagePicker!
+    //var imagePicker: ImagePicker!
     
     var imagePickerButton = UIButton()
     
@@ -38,6 +38,7 @@ class AddToShelfViewController: UITableViewController {
     let finishNumberTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
     let authorTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
     let artistTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
+    let imagePicker = UIImagePickerController()
     
     var pickerFieldName: String = ""
     var pickerData: [String] = []
@@ -58,7 +59,8 @@ class AddToShelfViewController: UITableViewController {
         pickerFieldName = "OrganizeBy"
         progressNumberTextField.keyboardType = .numberPad
         finishNumberTextField.keyboardType = .numberPad
-        self.imagePicker = ImagePicker(presentationController: self, delegate: self)
+        self.imagePicker.delegate = self
+        //self.imagePicker = ImagePicker(presentationController: self, delegate: self)
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow), name:
@@ -152,7 +154,10 @@ class AddToShelfViewController: UITableViewController {
     }
     
     @objc func toggleImagePicker() {
-        self.imagePicker.present(from: imagePickerButton)
+        self.imagePicker.allowsEditing = false
+        self.imagePicker.sourceType = .photoLibrary
+        present(imagePicker, animated: true, completion: nil)
+        //self.imagePicker.present(from: imagePickerButton)
         //print(Database.shared.loadRecentComics(limit: 5).count)
     }
     
@@ -287,6 +292,19 @@ class AddToShelfViewController: UITableViewController {
             tableVC?.pickerData = pickerData
         }
     }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            imageView.contentMode = .scaleAspectFit
+            //albumImage.image = pickedImage
+            //NSData().
+            if let data = pickedImage.pngData() {
+                imageView.image = UIImage(data: data)
+            }
+        }
+        
+        dismiss(animated: true, completion: nil)
+    }
 }
 
 extension AddToShelfViewController: ModalDelegate {
@@ -305,12 +323,3 @@ extension AddToShelfViewController: ModalDelegate {
     }
 }
 
-extension AddToShelfViewController: ImagePickerDelegate {
-    
-    func didSelect(image: UIImage?) {
-        self.imageView.image = image
-        if let data = image?.pngData() {
-            pickedImage = data
-        }
-    }
-}
