@@ -260,6 +260,34 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
             comicTitleTextField.text = comicTitle
             cell.accessoryView = comicTitleTextField
         case 1:
+            cell.textLabel?.text = "Tipo "
+            let button = UIButton(type: .custom)
+            button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+            button.setTitle("\(typeData[typeIndex]) ", for: .normal)
+            button.setTitleColor(.systemGray, for: .normal)
+            button.addTarget(self, action: #selector(changeType), for: .touchUpInside)
+            button.tag = indexPath.row
+            button.semanticContentAttribute = .forceRightToLeft
+            button.sizeToFit()
+            cell.accessoryView = button
+        case 2:
+            cell.textLabel?.text = "Organizar por "
+            let button = UIButton(type: .custom)
+            button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+            button.setTitle("\(organizeByData[organizeByIndex]) ", for: .normal)
+            button.setTitleColor(.systemGray, for: .normal)
+            button.addTarget(self, action: #selector(changeOrganizeBy), for: .touchUpInside)
+            button.tag = indexPath.row
+            button.semanticContentAttribute = .forceRightToLeft
+            button.sizeToFit()
+            cell.accessoryView = button
+        case 3:
+            cell.textLabel?.text = "\(organizeBy ?? "-") final "
+            finishNumberTextField.textAlignment = .right
+            finishNumberTextField.text = "\(finishNumber ?? 0)"
+            finishNumberTextField.addTarget(self, action: #selector(finishNumberValueChanged), for: .editingDidEnd)
+            cell.accessoryView = finishNumberTextField
+        case 4:
             if let organizeBy = organizeBy {
                 if let progressNumber = progressNumber {
                     if let finishNumber = finishNumber {
@@ -279,35 +307,6 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
                     }
                 }
             }
-            
-        case 2:
-            cell.textLabel?.text = "\(organizeBy ?? "-") final "
-            finishNumberTextField.textAlignment = .right
-            finishNumberTextField.text = "\(finishNumber ?? 0)"
-            finishNumberTextField.addTarget(self, action: #selector(finishNumberValueChanged), for: .editingDidEnd)
-            cell.accessoryView = finishNumberTextField
-        case 3:
-            cell.textLabel?.text = "Tipo "
-            let button = UIButton(type: .custom)
-            button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
-            button.setTitle("\(typeData[typeIndex]) ", for: .normal)
-            button.setTitleColor(.systemGray, for: .normal)
-            button.addTarget(self, action: #selector(changeType), for: .touchUpInside)
-            button.tag = indexPath.row
-            button.semanticContentAttribute = .forceRightToLeft
-            button.sizeToFit()
-            cell.accessoryView = button
-        case 4:
-            cell.textLabel?.text = "Organizar por "
-            let button = UIButton(type: .custom)
-            button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
-            button.setTitle("\(organizeByData[organizeByIndex]) ", for: .normal)
-            button.setTitleColor(.systemGray, for: .normal)
-            button.addTarget(self, action: #selector(changeOrganizeBy), for: .touchUpInside)
-            button.tag = indexPath.row
-            button.semanticContentAttribute = .forceRightToLeft
-            button.sizeToFit()
-            cell.accessoryView = button
         case 5:
             cell.textLabel?.text = "Status "
             let button = UIButton(type: .custom)
