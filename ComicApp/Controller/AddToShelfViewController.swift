@@ -294,12 +294,13 @@ class AddToShelfViewController: UITableViewController, UIImagePickerControllerDe
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             imageView.contentMode = .scaleAspectFit
             //albumImage.image = pickedImage
             //NSData().
-            if let data = pickedImage.pngData() {
+            if let data = image.pngData() {
                 imageView.image = UIImage(data: data)
+                pickedImage = data
             }
         }
         
