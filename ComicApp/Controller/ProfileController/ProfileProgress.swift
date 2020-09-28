@@ -126,6 +126,9 @@ class ProfileProgress: UIView {
     
     func setupPosicionOfScreen(statusOf: StatusType) -> CGFloat {
         let sizeOfProgress = Double(UIScreen.main.bounds.width - 40)
+        if Database.shared.loadData(from: statusOf)?.count  == 0 {
+            return CGFloat(sizeOfProgress + 50)
+        }
         let statusProgress = Database.shared.statusProgress(statusFrom: statusOf)
         let labelPosition =  (sizeOfProgress * statusProgress / 2)
         
