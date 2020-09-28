@@ -12,6 +12,7 @@ class ProfileView: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var userImage: UIImageView!
+    @IBOutlet weak var profileProgressView: ProfileProgress!
     
     let lastComics = Database.shared.loadRecentComics(limit: 5)
     
@@ -26,6 +27,18 @@ class ProfileView: UIViewController {
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         tableView.sectionIndexColor = .clear
         tableView.backgroundColor = .clear
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        profileProgressView.readingLabel.text = "\(String(describing: Database.shared.loadData(from: .reading)!.count)) Lendo"
+        profileProgressView.readLabel.text = "\(String(describing: Database.shared.loadData(from: .read)!.count)) Lido"
+        profileProgressView.wantReadLabel.text = "\(String(describing: Database.shared.loadData(from: .wantToRead)!.count)) Quero ler"
+
+        profileProgressView.progressReading.progress = Float(Database.shared.statusProgress(statusFrom: .reading))
+        profileProgressView.progressRead.progress = Float(Database.shared.statusProgress(statusFrom: .read))
+        profileProgressView.progressWantRead.progress = Float(Database.shared.statusProgress(statusFrom: .wantToRead))
     }
     
     func xibConfigure() {
