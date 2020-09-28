@@ -16,6 +16,8 @@ class ShelfCollectionViewCell: UICollectionViewCell {
     var imageForCell: UIImage?
     var gesture: UITapGestureRecognizer?
     
+    let colors: [UIColor] = [.systemPink, .systemTeal, .systemIndigo, .systemPurple, .systemOrange]
+    
     let progressView: UIProgressView = {
         let progressView = UIProgressView()
         progressView.setProgress(0, animated: true)
@@ -27,7 +29,7 @@ class ShelfCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         return imageView
     }()
-
+    
     func configCell(from: Comic) {
         
         if let image = from.image {
@@ -35,19 +37,27 @@ class ShelfCollectionViewCell: UICollectionViewCell {
             self.imageForCell = UIImage(data: image)
         } else {
             let view = UIView(frame: CGRect(x: 0, y: 0, width: 63, height: 88))
-            view.backgroundColor = .systemRed
+            view.backgroundColor = colors.randomElement()
+            let label = UILabel(frame: CGRect(x: 0, y: 0, width: 63, height: 88))
+            label.textColor = .white
+            label.text = from.title
+            label.font = label.font.withSize(8)
+            label.lineBreakMode = .byWordWrapping
+            label.numberOfLines = 3
+            label.textAlignment = .center
+            view.addSubview(label)
             self.imageView.image = view.asImage()
             self.imageForCell = view.asImage()
         }
         if from.status == "Lendo" {
-            self.progressView.tintColor = .blue
+            self.progressView.tintColor = .systemBlue
             if let finishNumber = from.finishNumber, let progressNumber = from.progressNumber {
                 animateCell(progressView: self.progressView, progress: (Float(progressNumber)/Float(finishNumber)))
             }
         }
         if from.status == "Lido" {
             self.progressView.setProgress(1, animated: false)
-            self.progressView.tintColor = .green
+            self.progressView.tintColor = .systemGreen
         }
         if from.status == "Quero Ler" {
             self.progressView.setProgress(0, animated: false)
