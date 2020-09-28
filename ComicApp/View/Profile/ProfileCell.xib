@@ -23,20 +23,20 @@
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nome Comic" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="snW-Lm-vDg">
-                    <rect key="frame" x="62" y="10" width="98.5" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <rect key="frame" x="62" y="10" width="104" height="21"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                     <color key="textColor" systemColor="systemRedColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Adicionado a:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LVj-fe-KG4">
-                    <rect key="frame" x="62" y="49" width="54" height="10"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                    <rect key="frame" x="62" y="49" width="76.5" height="14.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comic Status" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cTg-vF-Deu">
-                    <rect key="frame" x="120" y="49" width="53" height="10"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                    <rect key="frame" x="142.5" y="49" width="75.5" height="14.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -47,7 +47,7 @@
                 <constraint firstItem="snW-Lm-vDg" firstAttribute="leading" secondItem="Kxx-fa-DFH" secondAttribute="trailing" constant="8" symbolic="YES" id="4IL-bY-lnM"/>
                 <constraint firstItem="LVj-fe-KG4" firstAttribute="leading" secondItem="Kxx-fa-DFH" secondAttribute="trailing" constant="8" id="67h-S3-U7g"/>
                 <constraint firstItem="Kxx-fa-DFH" firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottom" constant="-5" id="Lrq-7j-8Jf"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="snW-Lm-vDg" secondAttribute="bottom" constant="43" id="M7b-ee-bgv"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="snW-Lm-vDg" secondAttribute="bottom" priority="900" constant="43" id="M7b-ee-bgv"/>
                 <constraint firstItem="LVj-fe-KG4" firstAttribute="top" secondItem="snW-Lm-vDg" secondAttribute="bottom" constant="18" id="QgE-Z5-sH8"/>
                 <constraint firstItem="cTg-vF-Deu" firstAttribute="top" secondItem="snW-Lm-vDg" secondAttribute="bottom" constant="18" id="RiE-jY-RZF"/>
                 <constraint firstItem="Kxx-fa-DFH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="5" id="Z5j-5c-9jW"/>
