@@ -29,6 +29,7 @@ class ShelfCollectionViewCell: UICollectionViewCell {
     }()
     
     func configCell(from: Comic) {
+        
         if let image = from.image {
             self.imageView.image = UIImage(data: image)
             self.imageForCell = UIImage(data: image)

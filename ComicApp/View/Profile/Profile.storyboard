@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gE2-rc-sPJ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gE2-rc-sPJ">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -19,7 +17,7 @@
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qP3-jB-nfU">
                                 <rect key="frame" x="145" y="150" width="124" height="124"/>
-                                <color key="backgroundColor" systemColor="linkColor"/>
+                                <color key="backgroundColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="qP3-jB-nfU" secondAttribute="height" multiplier="1:1" id="93R-dE-VNU"/>
                                     <constraint firstAttribute="height" constant="124" id="Ezc-6A-hNX"/>
@@ -28,7 +26,7 @@
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pry-SG-cml" customClass="ProfileProgress" customModule="ComicApp" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="284" width="414" height="120"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="120" id="Gky-dq-2SZ"/>
                                 </constraints>
@@ -45,11 +43,10 @@
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="wGH-zY-uux">
                                 <rect key="frame" x="20" y="458" width="374" height="355"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </tableView>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="HkB-EA-WKD"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="4Gb-af-1Rv" firstAttribute="leading" secondItem="HkB-EA-WKD" secondAttribute="leading" constant="20" id="4ok-kW-grG"/>
                             <constraint firstItem="wGH-zY-uux" firstAttribute="leading" secondItem="4Gb-af-1Rv" secondAttribute="leading" id="CFa-k1-Tlc"/>
@@ -64,6 +61,7 @@
                             <constraint firstItem="qP3-jB-nfU" firstAttribute="centerX" secondItem="HkB-EA-WKD" secondAttribute="centerX" id="k4p-2Z-86T"/>
                             <constraint firstItem="pry-SG-cml" firstAttribute="centerX" secondItem="HkB-EA-WKD" secondAttribute="centerX" id="zgX-z8-VMW"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="HkB-EA-WKD"/>
                     </view>
                     <navigationItem key="navigationItem" title="Perfil" id="c9e-FM-t6q"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
@@ -80,7 +78,7 @@
         <scene sceneID="jcE-og-cHQ">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="gE2-rc-sPJ" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Perfil" id="uJj-uY-lim"/>
+                    <tabBarItem key="tabBarItem" title="Perfil" image="person" catalog="system" selectedImage="person.fill" id="uJj-uY-lim"/>
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="BNY-Hs-EZS">
@@ -98,11 +96,7 @@
         </scene>
     </scenes>
     <resources>
-        <systemColor name="linkColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
+        <image name="person" catalog="system" width="128" height="117"/>
+        <image name="person.fill" catalog="system" width="128" height="120"/>
     </resources>
 </document>
