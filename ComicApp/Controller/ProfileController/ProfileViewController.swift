@@ -14,7 +14,7 @@ class ProfileView: UIViewController {
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var profileProgressView: ProfileProgress!
     
-    let lastComics = Database.shared.loadRecentComics(limit: 5)
+    var lastComics = Database.shared.loadRecentComics(limit: 5)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,9 +28,12 @@ class ProfileView: UIViewController {
         tableView.sectionIndexColor = .clear
         tableView.backgroundColor = .clear
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        lastComics = Database.shared.loadRecentComics(limit: 5)
+        tableView.reloadData()
 
         profileProgressView.readingLabel.text = "\(String(describing: Database.shared.loadData(from: .reading)!.count)) Lendo"
         profileProgressView.readLabel.text = "\(String(describing: Database.shared.loadData(from: .read)!.count)) Lido"
@@ -39,8 +42,9 @@ class ProfileView: UIViewController {
         profileProgressView.progressReading.progress = Float(Database.shared.statusProgress(statusFrom: .reading))
         profileProgressView.progressRead.progress = Float(Database.shared.statusProgress(statusFrom: .read))
         profileProgressView.progressWantRead.progress = Float(Database.shared.statusProgress(statusFrom: .wantToRead))
+        
     }
-    
+
     func xibConfigure() {
         let nib = UINib.init(nibName: "ProfileCell", bundle: nil)
         self.tableView.register(nib, forCellReuseIdentifier: "ProfileCell")
@@ -59,7 +63,9 @@ extension ProfileView: UITableViewDelegate, UITableViewDataSource {
             fatalError()
         }
         
-        //cell.comicImage.image = UIImage(named: lastComics[indexPath.section].imageURL ?? "")
+        if let imageData = lastComics[indexPath.section].image {
+            cell.comicImage.image = UIImage(data: imageData)
+        }
         cell.comicName.text = lastComics[indexPath.section].title
         cell.comicStatus.text = lastComics[indexPath.section].status
         
@@ -72,10 +78,6 @@ extension ProfileView: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return lastComics.count
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
