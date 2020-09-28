@@ -52,6 +52,7 @@ class ShelfCollectionViewCell: UICollectionViewCell {
         if from.status == "Lendo" {
             self.progressView.tintColor = .systemBlue
             if let finishNumber = from.finishNumber, let progressNumber = from.progressNumber {
+
                 animateCell(progressView: self.progressView, progress: (Float(progressNumber)/Float(finishNumber)))
             }
         }

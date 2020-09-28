@@ -12,6 +12,7 @@ class ProfileView: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var userImage: UIImageView!
+    @IBOutlet weak var profileProgressView: ProfileProgress!
     
     var lastComics = Database.shared.loadRecentComics(limit: 5)
     
@@ -27,12 +28,23 @@ class ProfileView: UIViewController {
         tableView.sectionIndexColor = .clear
         tableView.backgroundColor = .clear
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         lastComics = Database.shared.loadRecentComics(limit: 5)
         tableView.reloadData()
+
+        profileProgressView.readingLabel.text = "\(String(describing: Database.shared.loadData(from: .reading)!.count)) Lendo"
+        profileProgressView.readLabel.text = "\(String(describing: Database.shared.loadData(from: .read)!.count)) Lido"
+        profileProgressView.wantReadLabel.text = "\(String(describing: Database.shared.loadData(from: .wantToRead)!.count)) Quero ler"
+
+        profileProgressView.progressReading.progress = Float(Database.shared.statusProgress(statusFrom: .reading))
+        profileProgressView.progressRead.progress = Float(Database.shared.statusProgress(statusFrom: .read))
+        profileProgressView.progressWantRead.progress = Float(Database.shared.statusProgress(statusFrom: .wantToRead))
+        
     }
-    
+
     func xibConfigure() {
         let nib = UINib.init(nibName: "ProfileCell", bundle: nil)
         self.tableView.register(nib, forCellReuseIdentifier: "ProfileCell")

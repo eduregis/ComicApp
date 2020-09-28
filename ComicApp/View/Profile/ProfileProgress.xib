@@ -11,8 +11,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProfileProgress" customModule="ComicApp" customModuleProvider="target">
             <connections>
+                <outlet property="readLabel" destination="Zet-P9-Scy" id="PD2-ha-mmC"/>
+                <outlet property="readingLabel" destination="CHV-1u-OVY" id="Ocm-LB-IP4"/>
                 <outlet property="statusComic" destination="tYB-a7-VVz" id="xTF-i6-wro"/>
                 <outlet property="viewXib" destination="iN0-l3-epB" id="XrQ-E6-zTs"/>
+                <outlet property="wantReadLabel" destination="TP2-5j-ILt" id="elT-Bb-ngG"/>
                 <outlet property="yourCollectionLabel" destination="fAW-X7-Dfw" id="dcH-FY-1yD"/>
             </connections>
         </placeholder>
@@ -22,12 +25,12 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sua Coleção" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fAW-X7-Dfw">
-                    <rect key="frame" x="20" y="2" width="129" height="24"/>
+                    <rect key="frame" x="20" y="2" width="200" height="24"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="129" id="3yI-vT-Bri"/>
+                        <constraint firstAttribute="width" constant="200" id="9Ua-cn-hFV"/>
                         <constraint firstAttribute="height" constant="24" id="gGO-nE-icr"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -46,7 +49,7 @@
                                 </view>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lendo" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CHV-1u-OVY">
                                     <rect key="frame" x="27" y="0.0" width="87.5" height="15"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
@@ -64,7 +67,7 @@
                                 </view>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Já lido" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zet-P9-Scy">
                                     <rect key="frame" x="30" y="0.0" width="85" height="15"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
@@ -82,7 +85,7 @@
                                 </view>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Quero Ler" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TP2-5j-ILt">
                                     <rect key="frame" x="30" y="0.0" width="84.5" height="15"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
@@ -98,7 +101,7 @@
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="a4r-XJ-8iL" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="0dF-kY-hob"/>
-                <constraint firstItem="a4r-XJ-8iL" firstAttribute="top" secondItem="fAW-X7-Dfw" secondAttribute="bottom" priority="900" constant="70" id="MFb-Ky-eoR"/>
+                <constraint firstItem="a4r-XJ-8iL" firstAttribute="top" secondItem="fAW-X7-Dfw" secondAttribute="bottom" priority="900" constant="69" id="MFb-Ky-eoR"/>
                 <constraint firstItem="fAW-X7-Dfw" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="TgI-bu-bVH"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="a4r-XJ-8iL" secondAttribute="trailing" constant="20" id="VKA-zF-rRy"/>
                 <constraint firstItem="fAW-X7-Dfw" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="2" id="W3f-Ha-G8K"/>
