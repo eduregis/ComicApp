@@ -12,11 +12,9 @@ protocol ModalDelegate {
     func changeValue(value: Int)
 }
 
-class AddToShelfViewController: UITableViewController {
+class AddToShelfViewController: UITableViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     
     var checkmark = 0
-    
-    var imagePicker: ImagePicker!
     
     var imagePickerButton = UIButton()
     
@@ -38,6 +36,7 @@ class AddToShelfViewController: UITableViewController {
     let finishNumberTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
     let authorTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
     let artistTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
+    let imagePicker = UIImagePickerController()
     
     var pickerFieldName: String = ""
     var pickerData: [String] = []
@@ -58,7 +57,7 @@ class AddToShelfViewController: UITableViewController {
         pickerFieldName = "OrganizeBy"
         progressNumberTextField.keyboardType = .numberPad
         finishNumberTextField.keyboardType = .numberPad
-        self.imagePicker = ImagePicker(presentationController: self, delegate: self)
+        self.imagePicker.delegate = self
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow), name:
@@ -152,8 +151,9 @@ class AddToShelfViewController: UITableViewController {
     }
     
     @objc func toggleImagePicker() {
-        self.imagePicker.present(from: imagePickerButton)
-        //print(Database.shared.loadRecentComics(limit: 5).count)
+        self.imagePicker.allowsEditing = false
+        self.imagePicker.sourceType = .photoLibrary
+        present(imagePicker, animated: true, completion: nil)
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -169,6 +169,34 @@ class AddToShelfViewController: UITableViewController {
             comicTitleTextField.placeholder = "-"
             cell.accessoryView = comicTitleTextField
         case 1:
+            cell.textLabel?.text = "Tipo "
+            let button = UIButton(type: .custom)
+            button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+            button.setTitle("\(typeData[typeIndex]) ", for: .normal)
+            button.setTitleColor(.systemGray, for: .normal)
+            button.addTarget(self, action: #selector(changeType), for: .touchUpInside)
+            button.tag = indexPath.row
+            button.semanticContentAttribute = .forceRightToLeft
+            button.sizeToFit()
+            cell.accessoryView = button
+        case 2:
+            cell.textLabel?.text = "Organizar por "
+            let button = UIButton(type: .custom)
+            button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+            button.setTitle("\(organizeByData[organizeByIndex]) ", for: .normal)
+            button.setTitleColor(.systemGray, for: .normal)
+            button.addTarget(self, action: #selector(changeOrganizeBy), for: .touchUpInside)
+            button.tag = indexPath.row
+            button.semanticContentAttribute = .forceRightToLeft
+            button.sizeToFit()
+            cell.accessoryView = button
+        case 3:
+            cell.textLabel?.text = "\(organizeBy ?? "-") final "
+            finishNumberTextField.textAlignment = .right
+            finishNumberTextField.placeholder = "-"
+            finishNumberTextField.addTarget(self, action: #selector(finishNumberValueChanged), for: .editingDidEnd)
+            cell.accessoryView = finishNumberTextField
+        case 4:
             if let organizeBy = organizeBy {
                 if let progressNumber = progressNumber {
                     if let finishNumber = finishNumber {
@@ -188,35 +216,6 @@ class AddToShelfViewController: UITableViewController {
                     }
                 }
             }
-            
-        case 2:
-            cell.textLabel?.text = "\(organizeBy ?? "-") final "
-            finishNumberTextField.textAlignment = .right
-            finishNumberTextField.placeholder = "-"
-            finishNumberTextField.addTarget(self, action: #selector(finishNumberValueChanged), for: .editingDidEnd)
-            cell.accessoryView = finishNumberTextField
-        case 3:
-            cell.textLabel?.text = "Tipo "
-            let button = UIButton(type: .custom)
-            button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
-            button.setTitle("\(typeData[typeIndex]) ", for: .normal)
-            button.setTitleColor(.systemGray, for: .normal)
-            button.addTarget(self, action: #selector(changeType), for: .touchUpInside)
-            button.tag = indexPath.row
-            button.semanticContentAttribute = .forceRightToLeft
-            button.sizeToFit()
-            cell.accessoryView = button
-        case 4:
-            cell.textLabel?.text = "Organizar por "
-            let button = UIButton(type: .custom)
-            button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
-            button.setTitle("\(organizeByData[organizeByIndex]) ", for: .normal)
-            button.setTitleColor(.systemGray, for: .normal)
-            button.addTarget(self, action: #selector(changeOrganizeBy), for: .touchUpInside)
-            button.tag = indexPath.row
-            button.semanticContentAttribute = .forceRightToLeft
-            button.sizeToFit()
-            cell.accessoryView = button
         case 5:
             cell.textLabel?.text = "Autor/Roteiro "
             authorTextField.textAlignment = .right
@@ -287,6 +286,17 @@ class AddToShelfViewController: UITableViewController {
             tableVC?.pickerData = pickerData
         }
     }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            imageView.contentMode = .scaleAspectFit
+            if let data = image.pngData() {
+                imageView.image = UIImage(data: data)
+                pickedImage = data
+            }
+        }
+        dismiss(animated: true, completion: nil)
+    }
 }
 
 extension AddToShelfViewController: ModalDelegate {
@@ -305,12 +315,3 @@ extension AddToShelfViewController: ModalDelegate {
     }
 }
 
-extension AddToShelfViewController: ImagePickerDelegate {
-    
-    func didSelect(image: UIImage?) {
-        self.imageView.image = image
-        if let data = image?.pngData() {
-            pickedImage = data
-        }
-    }
-}
