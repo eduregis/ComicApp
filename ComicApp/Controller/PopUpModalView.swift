@@ -16,6 +16,9 @@ extension ShelfViewController: PopUpModalDelegate {
         setBlurEffectView()
         setImageForModal(fromImage: image)
         setLableForTitleInModal(fromText: comic.title)
+        if let progressNumber = comic.progressNumber, let finishNumber = comic.finishNumber {
+            setStatusForModal(status: "\(progressNumber)/\(finishNumber)", progress: (Float(progressNumber)/Float(finishNumber)))
+        }
     }
     
      func prepareForTransition() {

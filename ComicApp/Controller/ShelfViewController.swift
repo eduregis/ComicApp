@@ -52,6 +52,16 @@ class ShelfViewController: UIViewController {
         return label
     }()
     
+    let statusLabelModal: UILabel = {
+        let statusLabel = UILabel()
+        return statusLabel
+    }()
+    
+    let progressViewModal: UIProgressView = {
+        let progressView = UIProgressView()
+        progressView.tintColor = .systemBlue
+        return progressView
+    }()
     @IBOutlet weak var segmentedControl: CustomSegmentedControl!
     
     override func viewDidLoad() {
@@ -80,11 +90,12 @@ class ShelfViewController: UIViewController {
         comicCollectionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         comicCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         comicCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        
     }
     
-    func setImageForModal(fromImage: UIImage) {
+    func setImageForModal(fromImage image: UIImage) {
         view.addSubview(imageForModal)
-        imageForModal.image = fromImage
+        imageForModal.image = image
         imageForModal.contentMode = .scaleAspectFit
         imageForModal.clipsToBounds = true
         imageForModal.translatesAutoresizingMaskIntoConstraints = false
@@ -102,7 +113,7 @@ class ShelfViewController: UIViewController {
             self.imageForModal.addGestureRecognizer(gesture)
         }
     }
-    
+
     func setBlurEffectView() {
         blurEffectView.frame = view.frame
         self.view.addSubview(blurEffectView)
@@ -124,6 +135,31 @@ class ShelfViewController: UIViewController {
             self.lableForTitleInModal.transform = CGAffineTransform.identity
         }
     }
+    
+    func setStatusForModal(status: String, progress: Float) {
+        view.addSubview(statusLabelModal)
+        view.addSubview(progressViewModal)
+        statusLabelModal.text = status
+       progressViewModal.setProgress(0, animated: true)
+        statusLabelModal.translatesAutoresizingMaskIntoConstraints = false
+        statusLabelModal.topAnchor.constraint(equalToSystemSpacingBelow: imageForModal.bottomAnchor, multiplier: 3).isActive = true
+        statusLabelModal.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        progressViewModal.translatesAutoresizingMaskIntoConstraints = false
+        progressViewModal.topAnchor.constraint(equalToSystemSpacingBelow: statusLabelModal.bottomAnchor, multiplier: 3).isActive = true
+        progressViewModal.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        progressViewModal.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.5).isActive = true
+        progressViewModal.heightAnchor.constraint(equalToConstant: 10).isActive = true
+       
+    
+        UIView.animate(withDuration: 0.4) {
+                  self.statusLabelModal.alpha = 1
+                self.progressViewModal.alpha = 1
+                  self.progressViewModal.setProgress(progress, animated: true)
+              }
+
+        
+    }
+    
     @objc func removeModal() {
         UIView.animate(withDuration: 0.4, animations: {
             self.imageForModal.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
@@ -131,10 +167,14 @@ class ShelfViewController: UIViewController {
             self.lableForTitleInModal.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
             self.lableForTitleInModal.alpha = 0
             self.blurEffectView.alpha = 0
+            self.statusLabelModal.alpha = 0
+            self.progressViewModal.alpha = 0
         }) { _ in
             self.imageForModal.removeFromSuperview()
             self.blurEffectView.removeFromSuperview()
             self.lableForTitleInModal.removeFromSuperview()
+            self.statusLabelModal.removeFromSuperview()
+            self.progressViewModal.removeFromSuperview()
         }
     }
     

@@ -27,7 +27,7 @@ class ShelfCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         return imageView
     }()
-
+    
     func configCell(from: Comic) {
         if let image = from.image {
             self.imageView.image = UIImage(data: image)
@@ -35,8 +35,8 @@ class ShelfCollectionViewCell: UICollectionViewCell {
         }
         if from.status == "Lendo"{
             self.progressView.tintColor = .blue
+            
             if let finishNumber = from.finishNumber, let progressNumber = from.progressNumber{
-                
                 animateCell(progressView: self.progressView, progress: (Float(progressNumber)/Float(finishNumber)))
             }
         }
