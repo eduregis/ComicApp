@@ -122,8 +122,6 @@ class ShelfViewController: UIViewController {
         imageForModal.translatesAutoresizingMaskIntoConstraints = false
         imageForModal.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         imageForModal.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
-        //        imageForModal.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        //        imageForModal.heightAnchor.constraint(equalToConstant: 300).isActive = true
         imageForModal.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
         imageForModal.alpha = 0
         UIView.animate(withDuration: 0.4, animations: {
