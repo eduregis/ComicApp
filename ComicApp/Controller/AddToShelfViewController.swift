@@ -106,6 +106,10 @@ class AddToShelfViewController: UITableViewController, UIImagePickerControllerDe
         comicTitle = comicTitleTextField.text
         type = typeData[typeIndex]
         organizeBy = organizeByData[organizeByIndex]
+        finishNumber = Int(finishNumberTextField.text ?? "0")
+        if progressNumberTextField.text != "" {
+            progressNumber = Int(progressNumberTextField.text ?? "0")
+        }
         author = authorTextField.text
         artist = artistTextField.text
         

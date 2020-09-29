@@ -179,6 +179,10 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
         comicTitle = comicTitleTextField.text
         type = typeData[typeIndex]
         organizeBy = organizeByData[organizeByIndex]
+        finishNumber = Int(finishNumberTextField.text ?? "0")
+        if progressNumberTextField.text != "" {
+            progressNumber = Int(progressNumberTextField.text ?? "0")
+        }
         author = authorTextField.text
         artist = artistTextField.text
         
@@ -209,7 +213,6 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
             }
             editComic.status = status
         }
-        print(status)
         deleteData()
         Database.shared.addData(comic: editComic, statusType: statusType)
         
