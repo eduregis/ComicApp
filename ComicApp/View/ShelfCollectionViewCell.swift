@@ -16,6 +16,8 @@ class ShelfCollectionViewCell: UICollectionViewCell {
     var imageForCell: UIImage?
     var gesture: UITapGestureRecognizer?
     
+    let colors: [UIColor] = [.systemPink, .systemTeal, .systemIndigo, .systemPurple, .systemOrange]
+    
     let progressView: UIProgressView = {
         let progressView = UIProgressView()
         progressView.setProgress(0, animated: true)
@@ -33,20 +35,32 @@ class ShelfCollectionViewCell: UICollectionViewCell {
         if let image = from.image {
             self.imageView.image = UIImage(data: image)
             self.imageForCell = UIImage(data: image)
+        } else {
+            let view = UIView(frame: CGRect(x: 0, y: 0, width: 63, height: 88))
+            view.backgroundColor = colors.randomElement()
+            let label = UILabel(frame: CGRect(x: 0, y: 0, width: 63, height: 88))
+            label.textColor = .white
+            label.text = from.title
+            label.font = label.font.withSize(8)
+            label.lineBreakMode = .byWordWrapping
+            label.numberOfLines = 3
+            label.textAlignment = .center
+            view.addSubview(label)
+            self.imageView.image = view.asImage()
+            self.imageForCell = view.asImage()
         }
-        if from.status == "Lendo"{
-            self.progressView.tintColor = .blue
-            
-            if let finishNumber = from.finishNumber, let progressNumber = from.progressNumber{
+        if from.status == "Lendo" {
+            self.progressView.tintColor = .systemBlue
+            if let finishNumber = from.finishNumber, let progressNumber = from.progressNumber {
+
                 animateCell(progressView: self.progressView, progress: (Float(progressNumber)/Float(finishNumber)))
             }
         }
-        if from.status == "Lido"{
+        if from.status == "Lido" {
             self.progressView.setProgress(1, animated: false)
-            self.progressView.tintColor = .green
+            self.progressView.tintColor = .systemGreen
         }
-        
-        if from.status == "Quero Ler"{
+        if from.status == "Quero Ler" {
             self.progressView.setProgress(0, animated: false)
         }
         self.comic = from
@@ -95,7 +109,7 @@ class ShelfCollectionViewCell: UICollectionViewCell {
     }
     
     @objc func openModal() {
-        if let image = self.imageForCell, let comic = self.comic{
+        if let image = self.imageForCell, let comic = self.comic {
                       delegate?.popUpModal(image: image, comic: comic)
         }
     }
@@ -103,4 +117,21 @@ class ShelfCollectionViewCell: UICollectionViewCell {
 
 protocol PopUpModalDelegate: AnyObject {
     func popUpModal(image: UIImage, comic: Comic)
+}
+
+extension UIView {
+    func asImage() -> UIImage {
+        if #available(iOS 10.0, *) {
+            let renderer = UIGraphicsImageRenderer(bounds: bounds)
+            return renderer.image { rendererContext in
+                layer.render(in: rendererContext.cgContext)
+            }
+        } else {
+            UIGraphicsBeginImageContext(self.frame.size)
+            self.layer.render(in: UIGraphicsGetCurrentContext()!)
+            let image = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            return UIImage(cgImage: image!.cgImage!)
+        }
+    }
 }
