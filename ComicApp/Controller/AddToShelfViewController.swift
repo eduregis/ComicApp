@@ -45,6 +45,8 @@ class AddToShelfViewController: UITableViewController, UIImagePickerControllerDe
     var typeIndex = 0
     let organizeByData = ["Página", "Capítulo", "Volume"]
     var organizeByIndex = 2
+    let statusData = ["Lendo", "Lido", "Quero Ler"]
+    var statusIndex = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,19 +111,32 @@ class AddToShelfViewController: UITableViewController, UIImagePickerControllerDe
         author = authorTextField.text
         artist = artistTextField.text
         
-        var comic = Comic(title: comicTitle!, image: pickedImage, progressNumber: progressNumber, finishNumber: finishNumber, type: type!, organizeBy: organizeBy!, status: "-", author: author, artist: artist)
+        var addComic = Comic(title: comicTitle!, image: pickedImage, progressNumber: progressNumber, finishNumber: finishNumber, type: type!, organizeBy: organizeBy!, status: "-", author: author, artist: artist)
         var statusType: StatusType
         if progressNumber == 0 {
-            comic.status = "Quero Ler"
+            addComic.status = "Quero Ler"
             statusType = .wantToRead
         } else if progressNumber == finishNumber {
-            comic.status = "Lido"
+            addComic.status = "Lido"
             statusType = .read
         } else {
-            comic.status = "Lendo"
+            addComic.status = "Lendo"
             statusType = .reading
         }
-        Database.shared.addData(comic: comic, statusType: statusType)
+        if let status = status {
+            switch status {
+            case "Quero Ler":
+                statusType = .wantToRead
+            case "Lido":
+                statusType = .read
+            case "Lendo":
+                statusType = .reading
+            default:
+                break
+            }
+            addComic.status = status
+        }
+        Database.shared.addData(comic: addComic, statusType: statusType)
         
         navigationController?.popViewController(animated: true)
     }
@@ -133,7 +148,7 @@ class AddToShelfViewController: UITableViewController, UIImagePickerControllerDe
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 7
+        return 8
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -226,11 +241,26 @@ class AddToShelfViewController: UITableViewController, UIImagePickerControllerDe
                 }
             }
         case 5:
+            cell.textLabel?.text = "Status "
+            let button = UIButton(type: .custom)
+            if #available(iOS 14.0, *) {
+                button.setImage(UIImage(systemName: "chevron.right"), for: .normal)
+            } else {
+                button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+            }
+            button.setTitle("\(statusData[statusIndex]) ", for: .normal)
+            button.setTitleColor(.systemGray, for: .normal)
+            button.addTarget(self, action: #selector(changeStatus), for: .touchUpInside)
+            button.tag = indexPath.row
+            button.semanticContentAttribute = .forceRightToLeft
+            button.sizeToFit()
+            cell.accessoryView = button
+        case 6:
             cell.textLabel?.text = "Autor/Roteiro "
             authorTextField.textAlignment = .right
             authorTextField.placeholder = "-"
             cell.accessoryView = authorTextField
-        case 6:
+        case 7:
             cell.textLabel?.text = "Ilustração "
             artistTextField.textAlignment = .right
             artistTextField.placeholder = "-"
@@ -259,6 +289,13 @@ class AddToShelfViewController: UITableViewController, UIImagePickerControllerDe
         finishNumber = Int(finishNumberTextField.text ?? "0")
         ajustStepper()
         tableView.reloadData()
+    }
+    
+    @objc func changeStatus() {
+        pickerFieldName = "Status"
+        pickerData = statusData
+        checkmark = statusIndex
+        performSegue(withIdentifier: "PickerItemViewSegue", sender: self)
     }
     
     func ajustStepper () {
@@ -316,6 +353,9 @@ extension AddToShelfViewController: ModalDelegate {
             typeIndex = checkmark
         case "OrganizeBy":
             organizeByIndex = checkmark
+        case "Status":
+            statusIndex = checkmark
+            status = statusData[statusIndex]
         default:
             break
         }
