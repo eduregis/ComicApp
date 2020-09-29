@@ -96,24 +96,7 @@ class ShelfViewController: UIViewController {
     func setImageForModal(fromImage image: UIImage) {
         view.addSubview(imageForModal)
         imageForModal.image = image
-        //        var aspectRatio : CGFloat = 0
-        //        if image.size.width > image.size.height {
-        //            aspectRatio = image.size.height/image.size.width
-        //            imageForModal.heightAnchor.constraint(equalTo: imageForModal.widthAnchor, multiplier: aspectRatio).isActive = true
-        //            imageForModal.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 17).isActive = true
-        //            imageForModal.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -17).isActive = true
-        //
-        //        } else {
-        //            aspectRatio = image.size.width/image.size.height
-        //            if image.size.height > 300 {
-        //                imageForModal.heightAnchor.constraint(equalToConstant: 300).isActive = true
-        //            } else {
-        //                imageForModal.heightAnchor.constraint(equalToConstant: image.size.height).isActive = true
-        //            }
-        //            imageForModal.widthAnchor.constraint(equalTo: imageForModal.heightAnchor, multiplier: aspectRatio).isActive = true
-        //        }
-        
-        var aspectRatio : CGFloat = 0
+        var aspectRatio: CGFloat = 0
         if image.size.width > image.size.height {
             aspectRatio = image.size.height/image.size.width
             if image.size.width > 300 {
@@ -122,6 +105,9 @@ class ShelfViewController: UIViewController {
                 imageForModal.widthAnchor.constraint(equalToConstant: image.size.height).isActive = true
             }
             imageForModal.heightAnchor.constraint(equalTo: imageForModal.widthAnchor, multiplier: aspectRatio).isActive = true
+        } else if image.size.width == image.size.height {
+            imageForModal.widthAnchor.constraint(equalToConstant: 300).isActive = true
+            imageForModal.heightAnchor.constraint(equalToConstant: 300).isActive = true
         } else {
             aspectRatio = image.size.width/image.size.height
             if image.size.height > 300 {
