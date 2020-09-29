@@ -36,12 +36,12 @@ class ShelfCollectionViewCell: UICollectionViewCell {
             self.imageView.image = UIImage(data: image)
             self.imageForCell = UIImage(data: image)
         } else {
-            let view = UIView(frame: CGRect(x: 0, y: 0, width: 63, height: 88))
+            let view = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 300))
             view.backgroundColor = colors.randomElement()
-            let label = UILabel(frame: CGRect(x: 0, y: 0, width: 63, height: 88))
+            let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 300))
             label.textColor = .white
             label.text = from.title
-            label.font = label.font.withSize(8)
+            label.font = label.font.withSize(25)
             label.lineBreakMode = .byWordWrapping
             label.numberOfLines = 3
             label.textAlignment = .center
