@@ -96,13 +96,32 @@ class ShelfViewController: UIViewController {
     func setImageForModal(fromImage image: UIImage) {
         view.addSubview(imageForModal)
         imageForModal.image = image
+        var aspectRatio: CGFloat = 0
+        if image.size.width > image.size.height {
+            aspectRatio = image.size.height/image.size.width
+            if image.size.width > 300 {
+                imageForModal.widthAnchor.constraint(equalToConstant: 300).isActive = true
+            } else {
+                imageForModal.widthAnchor.constraint(equalToConstant: image.size.height).isActive = true
+            }
+            imageForModal.heightAnchor.constraint(equalTo: imageForModal.widthAnchor, multiplier: aspectRatio).isActive = true
+        } else if image.size.width == image.size.height {
+            imageForModal.widthAnchor.constraint(equalToConstant: 300).isActive = true
+            imageForModal.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        } else {
+            aspectRatio = image.size.width/image.size.height
+            if image.size.height > 300 {
+                imageForModal.heightAnchor.constraint(equalToConstant: 300).isActive = true
+            } else {
+                imageForModal.heightAnchor.constraint(equalToConstant: image.size.height).isActive = true
+            }
+            imageForModal.widthAnchor.constraint(equalTo: imageForModal.heightAnchor, multiplier: aspectRatio).isActive = true
+        }
         imageForModal.contentMode = .scaleAspectFit
         imageForModal.clipsToBounds = true
         imageForModal.translatesAutoresizingMaskIntoConstraints = false
         imageForModal.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         imageForModal.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
-        imageForModal.heightAnchor.constraint(equalToConstant: 300).isActive = true
-        imageForModal.widthAnchor.constraint(equalToConstant: 300).isActive = true
         imageForModal.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
         imageForModal.alpha = 0
         UIView.animate(withDuration: 0.4, animations: {
@@ -113,7 +132,7 @@ class ShelfViewController: UIViewController {
             self.imageForModal.addGestureRecognizer(gesture)
         }
     }
-
+    
     func setBlurEffectView() {
         blurEffectView.frame = view.frame
         self.view.addSubview(blurEffectView)
@@ -140,7 +159,7 @@ class ShelfViewController: UIViewController {
         view.addSubview(statusLabelModal)
         view.addSubview(progressViewModal)
         statusLabelModal.text = status
-       progressViewModal.setProgress(0, animated: true)
+        progressViewModal.setProgress(0, animated: true)
         statusLabelModal.translatesAutoresizingMaskIntoConstraints = false
         statusLabelModal.topAnchor.constraint(equalToSystemSpacingBelow: imageForModal.bottomAnchor, multiplier: 3).isActive = true
         statusLabelModal.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
@@ -149,14 +168,12 @@ class ShelfViewController: UIViewController {
         progressViewModal.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         progressViewModal.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.5).isActive = true
         progressViewModal.heightAnchor.constraint(equalToConstant: 10).isActive = true
-       
-    
+        
         UIView.animate(withDuration: 0.4) {
-                  self.statusLabelModal.alpha = 1
-                self.progressViewModal.alpha = 1
-                  self.progressViewModal.setProgress(progress, animated: true)
-              }
-
+            self.statusLabelModal.alpha = 1
+            self.progressViewModal.alpha = 1
+            self.progressViewModal.setProgress(progress, animated: true)
+        }
         
     }
     
@@ -172,6 +189,7 @@ class ShelfViewController: UIViewController {
         }) { _ in
             self.imageForModal.removeFromSuperview()
             self.blurEffectView.removeFromSuperview()
+           self.imageForModal.removeConstraints(self.imageForModal.constraints)
             self.lableForTitleInModal.removeFromSuperview()
             self.statusLabelModal.removeFromSuperview()
             self.progressViewModal.removeFromSuperview()
@@ -223,7 +241,7 @@ class ShelfViewController: UIViewController {
         performSegue(withIdentifier: "EditComicSegue", sender: self)
         removeModal()
     }
-
+    
 }
 
 extension ShelfViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
