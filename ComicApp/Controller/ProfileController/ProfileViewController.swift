@@ -8,11 +8,13 @@
 
 import UIKit
 
-class ProfileView: UIViewController {
+class ProfileView: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var profileProgressView: ProfileProgress!
+    
+    let imagePicker = UIImagePickerController()
     
     var lastComics = Database.shared.loadRecentComics(limit: 5)
     
@@ -27,6 +29,10 @@ class ProfileView: UIViewController {
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         tableView.sectionIndexColor = .clear
         tableView.backgroundColor = .clear
+        
+        self.imagePicker.delegate = self
+        
+        setButtonUserImage()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -43,6 +49,9 @@ class ProfileView: UIViewController {
         profileProgressView.progressRead.progress = Float(Database.shared.statusProgress(statusFrom: .read))
         profileProgressView.progressWantRead.progress = Float(Database.shared.statusProgress(statusFrom: .wantToRead))
         
+        if let data = UserDefaults.standard.data(forKey: "userImage") {
+            userImage.image = UIImage(data: data)
+        }
     }
 
     func xibConfigure() {
@@ -52,6 +61,27 @@ class ProfileView: UIViewController {
     
     func setupLayout() {
         userImage.layer.cornerRadius = userImage.bounds.width / 2
+    }
+    
+    func setButtonUserImage() {
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(buttonAction))
+        userImage.addGestureRecognizer(gesture)
+    }
+    
+    @objc func buttonAction() {
+        self.imagePicker.allowsEditing = false
+        self.imagePicker.sourceType = .photoLibrary
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            if let data = image.pngData() {
+                userImage.image = UIImage(data: data)
+                UserDefaults.standard.set(data, forKey: "userImage")
+            }
+        }
+        dismiss(animated: true, completion: nil)
     }
 
 }
@@ -88,5 +118,14 @@ extension ProfileView: UITableViewDelegate, UITableViewDataSource {
         let headerView = UIView()
         headerView.backgroundColor = .clear
         return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let editComicController = UIStoryboard(name: "EditComic", bundle: nil).instantiateInitialViewController() as? EditComicViewController else {
+            fatalError("Unexpected Error; \(String(describing: Error.self))")
+        }
+        
+        editComicController.comic = lastComics[indexPath.section]
+        navigationController?.pushViewController(editComicController, animated: true)
     }
 }
