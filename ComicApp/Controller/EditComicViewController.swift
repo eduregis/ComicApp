@@ -262,7 +262,11 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
         case 1:
             cell.textLabel?.text = "Tipo "
             let button = UIButton(type: .custom)
-            button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+            if #available(iOS 14.0, *) {
+                button.setImage(UIImage(systemName: "chevron.right"), for: .normal)
+            } else {
+                button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+            }
             button.setTitle("\(typeData[typeIndex]) ", for: .normal)
             button.setTitleColor(.systemGray, for: .normal)
             button.addTarget(self, action: #selector(changeType), for: .touchUpInside)
@@ -273,7 +277,11 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
         case 2:
             cell.textLabel?.text = "Organizar por "
             let button = UIButton(type: .custom)
-            button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+            if #available(iOS 14.0, *) {
+                button.setImage(UIImage(systemName: "chevron.right"), for: .normal)
+            } else {
+                button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+            }
             button.setTitle("\(organizeByData[organizeByIndex]) ", for: .normal)
             button.setTitleColor(.systemGray, for: .normal)
             button.addTarget(self, action: #selector(changeOrganizeBy), for: .touchUpInside)
@@ -310,7 +318,11 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
         case 5:
             cell.textLabel?.text = "Status "
             let button = UIButton(type: .custom)
-            button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+            if #available(iOS 14.0, *) {
+                button.setImage(UIImage(systemName: "chevron.right"), for: .normal)
+            } else {
+                button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+            }
             button.setTitle("\(statusData[statusIndex]) ", for: .normal)
             button.setTitleColor(.systemGray, for: .normal)
             button.addTarget(self, action: #selector(changeStatus), for: .touchUpInside)
