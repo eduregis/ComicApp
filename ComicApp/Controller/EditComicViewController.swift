@@ -14,8 +14,6 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
     
     var comic: Comic?
     
-    var oldIndex: Int?
-    
     var imagePickerButton = UIButton()
     
     var comicTitle: String?
@@ -153,30 +151,13 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
     }
     
     func deleteData() {
-        if oldIndex == nil {
-            if let comic = comic {
-                switch comic.status {
-                case "Quero Ler":
-                    let list = Database.shared.loadData(from: .wantToRead)
-                    oldIndex = list?.firstIndex(of: comic)
-                case "Lido":
-                    let list = Database.shared.loadData(from: .read)
-                    oldIndex = list?.firstIndex(of: comic)
-                case "Lendo":
-                    let list = Database.shared.loadData(from: .reading)
-                    oldIndex = list?.firstIndex(of: comic)
-                default:
-                    break
-                }
-            }
-        }
         switch comic?.status {
         case "Quero Ler":
-            Database.shared.deleteData(from: .wantToRead, at: oldIndex!)
+            Database.shared.deleteData(from: .wantToRead, at: comic!.comicId)
         case "Lido":
-            Database.shared.deleteData(from: .read, at: oldIndex!)
+            Database.shared.deleteData(from: .read, at: comic!.comicId)
         case "Lendo":
-            Database.shared.deleteData(from: .reading, at: oldIndex!)
+            Database.shared.deleteData(from: .reading, at: comic!.comicId)
         default:
             break
         }
@@ -203,7 +184,7 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
         author = authorTextField.text
         artist = artistTextField.text
         
-        var editComic = Comic(title: comicTitle!, image: pickedImage, progressNumber: progressNumber, finishNumber: finishNumber, type: type!, organizeBy: organizeBy!, status: "-", author: author, artist: artist)
+        var editComic = Comic(comicId: comic!.comicId, title: comicTitle!, image: pickedImage, progressNumber: progressNumber, finishNumber: finishNumber, type: type!, organizeBy: organizeBy!, status: "-", author: author, artist: artist)
         
         var statusType: StatusType
         if progressNumber == 0 {
@@ -230,8 +211,14 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
             }
             editComic.status = status
         }
-        deleteData()
-        Database.shared.addData(comic: editComic, statusType: statusType)
+        if let oldStatus = comic?.status {
+            if oldStatus != editComic.status {
+                deleteData()
+                Database.shared.addData(comic: editComic, statusType: statusType)
+            }
+        }
+         Database.shared.editData(comic: editComic, statusType: statusType)
+
         
         navigationController?.popViewController(animated: true)
     }

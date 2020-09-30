@@ -11,7 +11,6 @@ import UIKit
 class ShelfViewController: UIViewController {
     
     var selectedComic: Comic?
-    var selectedIndex: Int?
     
     let comicCollectionView: UICollectionView = {
         let layout = ComicCustomLayout()
@@ -81,6 +80,9 @@ class ShelfViewController: UIViewController {
             }
         }
         loadListData()
+        listOfComics.forEach {
+            print($0.comicId)
+        }
     }
     
     func setCollectionView() {
@@ -233,7 +235,6 @@ class ShelfViewController: UIViewController {
         if segue.destination is EditComicViewController {
             let tableVC = segue.destination as? EditComicViewController
             tableVC?.comic = selectedComic
-            tableVC?.oldIndex = selectedIndex
         }
     }
     

@@ -23,7 +23,7 @@ extension ShelfViewController: PopUpModalDelegate {
     
      func prepareForTransition() {
          if let comic = self.selectedComic {
-             self.selectedIndex = listOfComics.firstIndex(of: comic)
+            // self.selectedIndex = listOfComics.firstIndex(of: comic)
          }
      }
     
