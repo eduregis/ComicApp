@@ -48,7 +48,7 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
     let statusData = ["Lendo", "Lido", "Quero Ler"]
     var statusIndex = 0
     
-    let alert = UIAlertController(title: "Atenção", message: "Esse item irá ser apagado, deseja continuar", preferredStyle: .alert)
+    let alert = UIAlertController(title: "Atenção", message: "Esse item irá ser apagado, deseja continuar?", preferredStyle: .alert)
     
     override func viewDidLoad() {
         super.viewDidLoad()
