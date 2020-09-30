@@ -153,6 +153,23 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
     }
     
     func deleteData() {
+        if oldIndex == nil {
+            if let comic = comic {
+                switch comic.status {
+                case "Quero Ler":
+                    let list = Database.shared.loadData(from: .wantToRead)
+                    oldIndex = list?.firstIndex(of: comic)
+                case "Lido":
+                    let list = Database.shared.loadData(from: .read)
+                    oldIndex = list?.firstIndex(of: comic)
+                case "Lendo":
+                    let list = Database.shared.loadData(from: .reading)
+                    oldIndex = list?.firstIndex(of: comic)
+                default:
+                    break
+                }
+            }
+        }
         switch comic?.status {
         case "Quero Ler":
             Database.shared.deleteData(from: .wantToRead, at: oldIndex!)
@@ -179,6 +196,10 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
         comicTitle = comicTitleTextField.text
         type = typeData[typeIndex]
         organizeBy = organizeByData[organizeByIndex]
+        finishNumber = Int(finishNumberTextField.text ?? "0")
+        if progressNumberTextField.text != "" {
+            progressNumber = Int(progressNumberTextField.text ?? "0")
+        }
         author = authorTextField.text
         artist = artistTextField.text
         
