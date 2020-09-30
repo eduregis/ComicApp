@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="HQO-Fo-bbD">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Minha estante-->
+        <scene sceneID="BFm-xg-G4v">
+            <objects>
+                <viewController title="Minha estante" id="DJe-o2-c8O" customClass="ShelfViewController" customModule="ComicApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="OAN-lP-8EI">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="kFb-Z6-dIV" customClass="CustomSegmentedControl" customModule="ComicApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="88" width="414" height="32"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <segments>
+                                    <segment title="Lendo"/>
+                                    <segment title="Lido"/>
+                                    <segment title="Quero ler"/>
+                                </segments>
+                                <connections>
+                                    <action selector="indexChanged:" destination="DJe-o2-c8O" eventType="valueChanged" id="9pH-iC-ULZ"/>
+                                </connections>
+                            </segmentedControl>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="kFb-Z6-dIV" firstAttribute="trailing" secondItem="N4J-nR-gLV" secondAttribute="trailing" id="48B-we-Fco"/>
+                            <constraint firstItem="kFb-Z6-dIV" firstAttribute="top" secondItem="N4J-nR-gLV" secondAttribute="top" id="AFD-UF-ABq"/>
+                            <constraint firstItem="kFb-Z6-dIV" firstAttribute="leading" secondItem="N4J-nR-gLV" secondAttribute="leading" id="rwW-4c-lGa"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="N4J-nR-gLV"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="I9x-L3-p1S">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="plus" catalog="system" id="Hto-G7-3MO">
+                            <connections>
+                                <action selector="addToSheftButton:" destination="DJe-o2-c8O" id="zed-ON-Zyb"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="segmentedControl" destination="kFb-Z6-dIV" id="j6V-qj-Aoj"/>
+                        <segue destination="t5c-Xx-YJq" kind="show" identifier="AddToShelfSegue" id="dor-CP-qm0"/>
+                        <segue destination="UZM-LF-m9A" kind="show" identifier="EditComicSegue" id="zRN-A7-mo4"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="q0d-xJ-bIF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1055.072463768116" y="162.72321428571428"/>
+        </scene>
+        <!--Item-->
+        <scene sceneID="aQ7-YO-f8J">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="HQO-Fo-bbD" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" image="shelf_empty" selectedImage="shelf_fill" id="R0P-OI-aHV">
+                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="4"/>
+                    </tabBarItem>
+                    <toolbarItems/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="QZ6-9G-vaw">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="DJe-o2-c8O" kind="relationship" relationship="rootViewController" id="RnT-33-6gP"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5qg-2b-Og7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="144.92753623188406" y="162.72321428571428"/>
+        </scene>
+        <!--AddToShelf-->
+        <scene sceneID="Lm1-SQ-Pmq">
+            <objects>
+                <viewControllerPlaceholder storyboardName="AddToShelf" id="t5c-Xx-YJq" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="i2N-rh-XXq"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JY1-pc-jOC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1758" y="-6"/>
+        </scene>
+        <!--EditComic-->
+        <scene sceneID="QhK-BO-t4V">
+            <objects>
+                <viewControllerPlaceholder storyboardName="EditComic" id="UZM-LF-m9A" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="bi4-nU-aaL"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HbI-fd-qYg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1786" y="340"/>
+        </scene>
+    </scenes>
+    <color key="tintColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+    <resources>
+        <image name="plus" catalog="system" width="128" height="113"/>
+        <image name="shelf_empty" width="34" height="25"/>
+        <image name="shelf_fill" width="35" height="25"/>
+    </resources>
+</document>
