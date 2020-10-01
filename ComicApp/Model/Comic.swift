@@ -10,7 +10,8 @@ import Foundation
 
 struct Comic: Codable, Equatable {
     
-    init (title: String, image: Data?, progressNumber: Int?, finishNumber: Int?, type: String, organizeBy: String, status: String, author: String?, artist: String?) {
+    init (comicId: UUID = UUID(), title: String, image: Data?, progressNumber: Int?, finishNumber: Int?, type: String, organizeBy: String, status: String, author: String?, artist: String?) {
+        self.comicId = comicId
         self.title = title
         if let image = image {
             self.image = image
@@ -33,6 +34,7 @@ struct Comic: Codable, Equatable {
         lastEdit = getDate()
     }
     
+    let comicId: UUID
     var title: String
     var image: Data?
     var progressNumber: Int?
