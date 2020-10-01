@@ -177,7 +177,11 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
         comicTitle = comicTitleTextField.text
         type = typeData[typeIndex]
         organizeBy = organizeByData[organizeByIndex]
-        finishNumber = Int(finishNumberTextField.text ?? "0")
+        if finishNumberTextField.text == "" {
+            finishNumber = nil
+        } else {
+            finishNumber = Int(finishNumberTextField.text ?? "0")
+        }
         if progressNumberTextField.text != "" {
             progressNumber = Int(progressNumberTextField.text ?? "0")
         }
@@ -299,7 +303,13 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
         case 3:
             cell.textLabel?.text = "\(organizeBy ?? "-") final "
             finishNumberTextField.textAlignment = .right
-            finishNumberTextField.text = "\(finishNumber ?? 0)"
+            var finishNumberValue = "\(finishNumber ?? 0)"
+            if finishNumberValue == "0" {
+                finishNumberValue = ""
+                finishNumberTextField.placeholder = "-"
+            }
+            finishNumberTextField.text = finishNumberValue
+            
             finishNumberTextField.addTarget(self, action: #selector(finishNumberValueChanged), for: .editingDidEnd)
             cell.accessoryView = finishNumberTextField
         case 4:
