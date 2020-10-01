@@ -172,9 +172,7 @@ class ShelfViewController: UIViewController {
         UIView.animate(withDuration: 0.4) {
             self.statusLabelModal.alpha = 1
             self.progressViewModal.alpha = 1
-            self.progressViewModal.setProgress(progress, animated: true)
         }
-        
     }
     
     @objc func removeModal() {
