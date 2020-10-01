@@ -168,13 +168,11 @@ class ShelfViewController: UIViewController {
         progressViewModal.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         progressViewModal.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.5).isActive = true
         progressViewModal.heightAnchor.constraint(equalToConstant: 10).isActive = true
-        
+        self.progressViewModal.setProgress(progress, animated: true)
         UIView.animate(withDuration: 0.4) {
             self.statusLabelModal.alpha = 1
             self.progressViewModal.alpha = 1
-            self.progressViewModal.setProgress(progress, animated: true)
         }
-        
     }
     
     @objc func removeModal() {
