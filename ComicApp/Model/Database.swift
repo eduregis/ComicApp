@@ -122,6 +122,12 @@ class Database {
         return Database.shared.saveData(from: list!, to: statusType)
     }
     
+    @discardableResult func editData(comic: Comic, statusType: StatusType) -> Bool {
+        var list: [Comic] = Database.shared.loadData(from: statusType)!
+        list = list.map { $0.comicId == comic.comicId ? comic : $0 }
+        return Database.shared.saveData(from: list, to: statusType)
+    }
+    
     @discardableResult func saveData(from array: [Comic], to list: StatusType) -> Bool {
         
         var type: URL
@@ -145,16 +151,19 @@ class Database {
         return true
     }
     
-    @discardableResult func deleteData(from list: StatusType, at index: Int) -> Comic? {
+    @discardableResult func deleteData(from list: StatusType, at comicId: UUID) -> Comic? {
 
         guard var loadedArray = loadData(from: list) else {
             return nil
         }
-        let removedElement = loadedArray.remove(at: index)
-        saveData(from: loadedArray, to: list)
-        
-        return removedElement
-        
+        let index = loadedArray.firstIndex { $0.comicId == comicId }
+        if let index = index {
+            let removedElement = loadedArray.remove(at: index)
+            saveData(from: loadedArray, to: list)
+            
+            return removedElement
+        }
+        return nil
     }
     
     @discardableResult func deleteAllListComics(from list: StatusType) -> Bool {

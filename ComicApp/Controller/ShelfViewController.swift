@@ -11,7 +11,6 @@ import UIKit
 class ShelfViewController: UIViewController {
     
     var selectedComic: Comic?
-    var selectedIndex: Int?
     
     let comicCollectionView: UICollectionView = {
         let layout = ComicCustomLayout()
@@ -81,6 +80,9 @@ class ShelfViewController: UIViewController {
             }
         }
         loadListData()
+        listOfComics.forEach {
+            print($0.comicId)
+        }
     }
     
     func setCollectionView() {
@@ -168,13 +170,11 @@ class ShelfViewController: UIViewController {
         progressViewModal.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         progressViewModal.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.5).isActive = true
         progressViewModal.heightAnchor.constraint(equalToConstant: 10).isActive = true
-        
+        self.progressViewModal.setProgress(progress, animated: true)
         UIView.animate(withDuration: 0.4) {
             self.statusLabelModal.alpha = 1
             self.progressViewModal.alpha = 1
-            self.progressViewModal.setProgress(progress, animated: true)
         }
-        
     }
     
     @objc func removeModal() {
@@ -233,7 +233,6 @@ class ShelfViewController: UIViewController {
         if segue.destination is EditComicViewController {
             let tableVC = segue.destination as? EditComicViewController
             tableVC?.comic = selectedComic
-            tableVC?.oldIndex = selectedIndex
         }
     }
     

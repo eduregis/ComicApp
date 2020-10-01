@@ -31,7 +31,7 @@ class ShelfCollectionViewCell: UICollectionViewCell {
     }()
     
     func configCell(from: Comic) {
-        
+        self.progressView.setProgress(0, animated: false)
         if let image = from.image {
             self.imageView.image = UIImage(data: image)
             self.imageForCell = UIImage(data: image)
