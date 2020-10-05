@@ -98,9 +98,9 @@ class ComicCustomLayout: UICollectionViewFlowLayout {
         if index % 3 == 0 {
             return 180
         } else if index % 3 == 1 {
-            return 230
-        } else {
             return 400
+        } else {
+            return 230
         }
     }
         
