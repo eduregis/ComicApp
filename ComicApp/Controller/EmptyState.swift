@@ -18,7 +18,7 @@ class EmptyState: UIView {
     
     let illustration: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(named: "illustrationEmptyState")
+        view.image = UIImage(named: "emptyState")
         view.contentMode = .scaleAspectFit
         return view
     }()
@@ -32,7 +32,7 @@ class EmptyState: UIView {
     
     let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.text = "Esta prateleira está vazia, Adicione seus livros e/ou quadrinhos em '+"
+        label.text = "Esta prateleira está vazia, Adicione seus livros e/ou quadrinhos em '+'"
         label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         label.numberOfLines = 0
         label.textAlignment = .center
