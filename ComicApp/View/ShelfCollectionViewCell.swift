@@ -101,8 +101,8 @@ class ShelfCollectionViewCell: UICollectionViewCell {
         }
     
     func animateCell(progressView: UIProgressView, progress: Float) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            UIView.animate(withDuration: 0.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            UIView.animate(withDuration: 0.2) {
             progressView.setProgress(progress, animated: true)
             }
         }
