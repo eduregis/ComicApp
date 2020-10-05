@@ -26,7 +26,6 @@ class ShelfViewController: UIViewController {
         didSet {
             DispatchQueue.main.async {
                 self.comicCollectionView.reloadData()
-                
             }
         }
     }
