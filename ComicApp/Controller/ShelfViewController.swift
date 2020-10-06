@@ -261,7 +261,7 @@ class ShelfViewController: UIViewController {
         }
     }
     
-    @objc func executarSegue(){
+    @objc func executarSegue() {
         performSegue(withIdentifier: "EditComicSegue", sender: self)
         removeModal()
     }
