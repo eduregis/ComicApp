@@ -16,8 +16,6 @@ class ShelfCollectionViewCell: UICollectionViewCell {
     var imageForCell: UIImage?
     var gesture: UITapGestureRecognizer?
     
-    let colors: [UIColor] = [.systemPink, .systemTeal, .systemIndigo, .systemPurple, .systemOrange]
-    
     let progressView: UIProgressView = {
         let progressView = UIProgressView()
         progressView.setProgress(0, animated: true)
@@ -37,7 +35,8 @@ class ShelfCollectionViewCell: UICollectionViewCell {
             self.imageForCell = UIImage(data: image)
         } else {
             let view = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 300))
-            view.backgroundColor = colors.randomElement()
+            print(from.comicId, from.color)
+            view.backgroundColor = UIColor(named: from.color ?? "Pink")
             let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 300))
             label.textColor = .white
             label.text = from.title
