@@ -48,7 +48,7 @@ class AddToShelfViewController: UITableViewController, UIImagePickerControllerDe
     let organizeByData = ["Página", "Capítulo", "Volume"]
     var organizeByIndex = 2
     let statusData = ["Lendo", "Lido", "Quero Ler"]
-    var statusIndex = 0
+    var statusIndex = 2
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,7 +112,18 @@ class AddToShelfViewController: UITableViewController, UIImagePickerControllerDe
     
     @IBAction func doneButton(_ sender: Any) {
         
-        ajustStepper()
+        if let finishNumberValue = finishNumberTextField.text {
+            if finishNumber != Int(finishNumberValue) {
+                ajustStatus()
+            }
+        }
+        
+        if let progressNumberValue = progressNumberTextField.text {
+            if progressNumber != Int(progressNumberValue) && progressNumberValue != "" {
+                ajustStatus()
+            }
+        }
+        
         comicTitle = comicTitleTextField.text
         if comicTitleTextField.text != "" {
             type = typeData[typeIndex]
@@ -125,33 +136,27 @@ class AddToShelfViewController: UITableViewController, UIImagePickerControllerDe
             if progressNumberTextField.text != "" {
                 progressNumber = Int(progressNumberTextField.text ?? "0")
             }
+            
             author = authorTextField.text
             artist = artistTextField.text
             
+            ajustStepper()
+            
             var addComic = Comic(title: comicTitle!, image: pickedImage, progressNumber: progressNumber, finishNumber: finishNumber, type: type!, organizeBy: organizeBy!, status: "-", author: author, artist: artist)
             var statusType: StatusType
-            if progressNumber == 0 {
-                addComic.status = "Quero Ler"
-                statusType = .wantToRead
-            } else if progressNumber == finishNumber {
-                addComic.status = "Lido"
-                statusType = .read
-            } else {
+            switch statusIndex {
+            case 0:
                 addComic.status = "Lendo"
                 statusType = .reading
-            }
-            if let status = status {
-                switch status {
-                case "Quero Ler":
-                    statusType = .wantToRead
-                case "Lido":
-                    statusType = .read
-                case "Lendo":
-                    statusType = .reading
-                default:
-                    break
-                }
-                addComic.status = status
+            case 1:
+                addComic.status = "Lido"
+                statusType = .read
+            case 2:
+                addComic.status = "Quero Ler"
+                statusType = .wantToRead
+            default:
+                addComic.status = "Quero Ler"
+                statusType = .wantToRead
             }
             Database.shared.addData(comic: addComic, statusType: statusType)
             
@@ -288,19 +293,43 @@ class AddToShelfViewController: UITableViewController, UIImagePickerControllerDe
     @objc func stepperValueChanged() {
         progressNumber = Int(stepper.value)
         ajustStepper()
+        ajustStatus()
         tableView.reloadData()
     }
     
     @objc func progressNumberValueChanged() {
         progressNumber = Int(progressNumberTextField.text ?? "0")
         ajustStepper()
+        ajustStatus()
         tableView.reloadData()
     }
     
     @objc func finishNumberValueChanged() {
         finishNumber = Int(finishNumberTextField.text ?? "0")
         ajustStepper()
+        ajustStatus()
         tableView.reloadData()
+    }
+    
+    func ajustStatus() {
+        if finishNumber != nil {
+            if progressNumber == 0 {
+                statusIndex = 2
+            } else {
+                if progressNumber == finishNumber {
+                    statusIndex = 1
+                } else {
+                    statusIndex = 0
+                }
+            }
+        } else {
+            if progressNumber == 0 {
+                statusIndex = 2
+            } else {
+                statusIndex = 0
+            }
+        }
+        
     }
     
     @objc func changeStatus() {

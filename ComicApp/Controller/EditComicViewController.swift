@@ -44,7 +44,7 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
     let organizeByData = ["Página", "Capítulo", "Volume"]
     var organizeByIndex = 2
     let statusData = ["Lendo", "Lido", "Quero Ler"]
-    var statusIndex = 0
+    var statusIndex = 2
     
     let nameRequiredAlert = UIAlertController(title: "Atenção", message: "O campo de nome deve ser preenchido", preferredStyle: .alert)
     let deleteAlert = UIAlertController(title: "Atenção", message: "Esse item irá ser apagado, deseja continuar?", preferredStyle: .alert)
@@ -126,13 +126,10 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
             
             switch comic.status {
             case "Lendo":
-                //status = statusData[0]
                 statusIndex = 0
             case "Lido":
-                //status = statusData[1]
                 statusIndex = 1
             case "Quero Ler":
-                //status = statusData[2]
                 statusIndex = 2
             default:
                 break
@@ -175,7 +172,19 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
     }
     
     @IBAction func doneButton(_ sender: Any) {
-        ajustStepper()
+        
+        if let finishNumberValue = finishNumberTextField.text {
+            if finishNumber != Int(finishNumberValue) {
+                ajustStatus()
+            }
+        }
+        
+        if let progressNumberValue = progressNumberTextField.text {
+            if progressNumber != Int(progressNumberValue) && progressNumberValue != "" {
+                ajustStatus()
+            }
+        }
+        
         comicTitle = comicTitleTextField.text
         if comicTitleTextField.text != "" {
             type = typeData[typeIndex]
@@ -190,34 +199,28 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
             }
             author = authorTextField.text
             artist = artistTextField.text
+        
+            ajustStepper()
             
             var editComic = Comic(comicId: comic!.comicId, title: comicTitle!, image: pickedImage, progressNumber: progressNumber, finishNumber: finishNumber, type: type!, organizeBy: organizeBy!, status: "-", author: author, artist: artist)
             
             var statusType: StatusType
-            if progressNumber == 0 {
-                editComic.status = "Quero Ler"
-                statusType = .wantToRead
-            } else if progressNumber == finishNumber {
-                editComic.status = "Lido"
-                statusType = .read
-            } else {
+            
+            switch statusIndex {
+            case 0:
                 editComic.status = "Lendo"
                 statusType = .reading
+            case 1:
+                editComic.status = "Lido"
+                statusType = .read
+            case 2:
+                editComic.status = "Quero Ler"
+                statusType = .wantToRead
+            default:
+                editComic.status = "Quero Ler"
+                statusType = .wantToRead
             }
             
-            if let status = status {
-                switch status {
-                case "Quero Ler":
-                    statusType = .wantToRead
-                case "Lido":
-                    statusType = .read
-                case "Lendo":
-                    statusType = .reading
-                default:
-                    break
-                }
-                editComic.status = status
-            }
             if let oldStatus = comic?.status {
                 if oldStatus != editComic.status {
                     deleteData()
@@ -378,19 +381,42 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
     @objc func stepperValueChanged() {
         progressNumber = Int(stepper.value)
         ajustStepper()
+        ajustStatus()
         tableView.reloadData()
     }
     
     @objc func progressNumberValueChanged() {
         progressNumber = Int(progressNumberTextField.text ?? "0")
         ajustStepper()
+        ajustStatus()
         tableView.reloadData()
     }
     
     @objc func finishNumberValueChanged() {
         finishNumber = Int(finishNumberTextField.text ?? "0")
         ajustStepper()
+        ajustStatus()
         tableView.reloadData()
+    }
+    
+    func ajustStatus() {
+        if finishNumber != nil {
+            if progressNumber == 0 {
+                statusIndex = 2
+            } else {
+                if progressNumber == finishNumber {
+                    statusIndex = 1
+                } else {
+                    statusIndex = 0
+                }
+            }
+        } else {
+            if progressNumber == 0 {
+                statusIndex = 2
+            } else {
+                statusIndex = 0
+            }
+        }
     }
     
     func ajustStepper () {
