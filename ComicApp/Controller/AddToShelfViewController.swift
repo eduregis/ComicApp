@@ -74,7 +74,7 @@ class AddToShelfViewController: UITableViewController, UIImagePickerControllerDe
         if let keyboardSize = (notification.userInfo?[
             UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= keyboardSize.height - 100
+                self.view.frame.origin.y -= keyboardSize.height - 80
             }
         }
     }
