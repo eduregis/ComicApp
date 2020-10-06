@@ -19,6 +19,7 @@ class ShelfViewController: UIViewController {
         collectionView.register(ShelfCollectionViewCell.self, forCellWithReuseIdentifier: "ShelfCell")
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsVerticalScrollIndicator = false
         return collectionView
     }()
     
@@ -256,4 +257,3 @@ extension ShelfViewController: UICollectionViewDataSource, UICollectionViewDeleg
         return cell
     }
 }
-
