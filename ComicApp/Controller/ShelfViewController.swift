@@ -61,7 +61,6 @@ class ShelfViewController: UIViewController {
     
     let progressViewModal: UIProgressView = {
         let progressView = UIProgressView()
-        progressView.tintColor = .systemBlue
         return progressView
     }()
     @IBOutlet weak var segmentedControl: CustomSegmentedControl!
@@ -178,9 +177,14 @@ class ShelfViewController: UIViewController {
         }
     }
     
-    func setStatusForModal(status: String, progress: Float) {
+    func setStatusForModal(status: String, progress: Float, comicStatus: String) {
         view.addSubview(statusLabelModal)
         view.addSubview(progressViewModal)
+        if comicStatus == "Lido"{
+            self.progressViewModal.tintColor = .systemGreen
+        } else {
+            self.progressViewModal.tintColor = .systemBlue
+        }
         statusLabelModal.text = status
         progressViewModal.setProgress(0, animated: true)
         statusLabelModal.translatesAutoresizingMaskIntoConstraints = false
