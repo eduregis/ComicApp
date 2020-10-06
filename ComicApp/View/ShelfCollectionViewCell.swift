@@ -35,7 +35,6 @@ class ShelfCollectionViewCell: UICollectionViewCell {
             self.imageForCell = UIImage(data: image)
         } else {
             let view = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 300))
-            print(from.comicId, from.color)
             view.backgroundColor = UIColor(named: from.color ?? "Pink")
             let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 300))
             label.textColor = .white

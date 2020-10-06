@@ -82,9 +82,6 @@ class ShelfViewController: UIViewController {
             }
         }
         loadListData()
-//        listOfComics.forEach {
-//           // print($0.comicId, $0.color)
-//        }
         handleEmptyState()
     }
     
