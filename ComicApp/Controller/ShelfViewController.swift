@@ -12,6 +12,8 @@ class ShelfViewController: UIViewController {
     
     var selectedComic: Comic?
     
+    var emptyState = EmptyState()
+    
     let comicCollectionView: UICollectionView = {
         let layout = ComicCustomLayout()
         layout.scrollDirection = .vertical
@@ -19,6 +21,7 @@ class ShelfViewController: UIViewController {
         collectionView.register(ShelfCollectionViewCell.self, forCellWithReuseIdentifier: "ShelfCell")
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsVerticalScrollIndicator = false
         return collectionView
     }()
     
@@ -26,7 +29,7 @@ class ShelfViewController: UIViewController {
         didSet {
             DispatchQueue.main.async {
                 self.comicCollectionView.reloadData()
-                
+                self.handleEmptyState()
             }
         }
     }
@@ -82,6 +85,7 @@ class ShelfViewController: UIViewController {
         listOfComics.forEach {
             print($0.comicId)
         }
+        handleEmptyState()
     }
     
     func setCollectionView() {
@@ -91,7 +95,24 @@ class ShelfViewController: UIViewController {
         comicCollectionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         comicCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         comicCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+    }
+    
+    func handleEmptyState() {
+        if listOfComics.count == 0 {
+            setEmptyState()
+        } else {
+            emptyState.removeFromSuperview()
+        }
+    }
+    
+    func setEmptyState() {
+        view.addSubview(emptyState)
+        emptyState.translatesAutoresizingMaskIntoConstraints = false
         
+        NSLayoutConstraint.activate([
+            emptyState.bottomAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
+            emptyState.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
     }
     
     func setImageForModal(fromImage image: UIImage) {
@@ -193,7 +214,7 @@ class ShelfViewController: UIViewController {
         }) { _ in
             self.imageForModal.removeFromSuperview()
             self.blurEffectView.removeFromSuperview()
-           self.imageForModal.removeConstraints(self.imageForModal.constraints)
+            self.imageForModal.removeConstraints(self.imageForModal.constraints)
             self.lableForTitleInModal.removeFromSuperview()
             self.statusLabelModal.removeFromSuperview()
             self.progressViewModal.removeFromSuperview()
@@ -261,4 +282,3 @@ extension ShelfViewController: UICollectionViewDataSource, UICollectionViewDeleg
         return cell
     }
 }
-
