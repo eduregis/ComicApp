@@ -46,7 +46,8 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
     let statusData = ["Lendo", "Lido", "Quero Ler"]
     var statusIndex = 0
     
-    let alert = UIAlertController(title: "Atenção", message: "Esse item irá ser apagado, deseja continuar?", preferredStyle: .alert)
+    let nameRequiredAlert = UIAlertController(title: "Atenção", message: "O campo de nome deve ser preenchido", preferredStyle: .alert)
+    let deleteAlert = UIAlertController(title: "Atenção", message: "Esse item irá ser apagado, deseja continuar?", preferredStyle: .alert)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,17 +64,17 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow), name:
-            UIResponder.keyboardWillShowNotification, object: nil)
+                                                UIResponder.keyboardWillShowNotification, object: nil)
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillHide), name:
-            UIResponder.keyboardWillHideNotification, object: nil)
+                                                UIResponder.keyboardWillHideNotification, object: nil)
         addActions()
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[
-            UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+                                UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
                 self.view.frame.origin.y -= keyboardSize.height - 80
             }
@@ -142,10 +143,11 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
     }
     
     func addActions() {
-        alert.addAction(UIAlertAction(title: NSLocalizedString("Cancelar", comment: "Default action"), style: .default, handler: { _ in
+        nameRequiredAlert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: "Default action"), style: .default))
+        deleteAlert.addAction(UIAlertAction(title: NSLocalizedString("Cancelar", comment: "Default action"), style: .default, handler: { _ in
             NSLog("The \"OK\" alert occured.")
         }))
-        alert.addAction(UIAlertAction(title: NSLocalizedString("Confirmar", comment: "Default action"), style: .destructive, handler: { _ in
+        deleteAlert.addAction(UIAlertAction(title: NSLocalizedString("Confirmar", comment: "Default action"), style: .destructive, handler: { _ in
             self.deleteData()
         }))
     }
@@ -175,56 +177,60 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
     @IBAction func doneButton(_ sender: Any) {
         ajustStepper()
         comicTitle = comicTitleTextField.text
-        type = typeData[typeIndex]
-        organizeBy = organizeByData[organizeByIndex]
-        if finishNumberTextField.text == "" {
-            finishNumber = nil
-        } else {
-            finishNumber = Int(finishNumberTextField.text ?? "0")
-        }
-        if progressNumberTextField.text != "" {
-            progressNumber = Int(progressNumberTextField.text ?? "0")
-        }
-        author = authorTextField.text
-        artist = artistTextField.text
-        
-        var editComic = Comic(comicId: comic!.comicId, title: comicTitle!, image: pickedImage, progressNumber: progressNumber, finishNumber: finishNumber, type: type!, organizeBy: organizeBy!, status: "-", author: author, artist: artist)
-        
-        var statusType: StatusType
-        if progressNumber == 0 {
-            editComic.status = "Quero Ler"
-            statusType = .wantToRead
-        } else if progressNumber == finishNumber {
-            editComic.status = "Lido"
-            statusType = .read
-        } else {
-            editComic.status = "Lendo"
-            statusType = .reading
-        }
-        
-        if let status = status {
-            switch status {
-            case "Quero Ler":
+        if comicTitleTextField.text != "" {
+            type = typeData[typeIndex]
+            organizeBy = organizeByData[organizeByIndex]
+            if finishNumberTextField.text == "" {
+                finishNumber = nil
+            } else {
+                finishNumber = Int(finishNumberTextField.text ?? "0")
+            }
+            if progressNumberTextField.text != "" {
+                progressNumber = Int(progressNumberTextField.text ?? "0")
+            }
+            author = authorTextField.text
+            artist = artistTextField.text
+            
+            var editComic = Comic(comicId: comic!.comicId, title: comicTitle!, image: pickedImage, progressNumber: progressNumber, finishNumber: finishNumber, type: type!, organizeBy: organizeBy!, status: "-", author: author, artist: artist)
+            
+            var statusType: StatusType
+            if progressNumber == 0 {
+                editComic.status = "Quero Ler"
                 statusType = .wantToRead
-            case "Lido":
+            } else if progressNumber == finishNumber {
+                editComic.status = "Lido"
                 statusType = .read
-            case "Lendo":
+            } else {
+                editComic.status = "Lendo"
                 statusType = .reading
-            default:
-                break
             }
-            editComic.status = status
-        }
-        if let oldStatus = comic?.status {
-            if oldStatus != editComic.status {
-                deleteData()
-                Database.shared.addData(comic: editComic, statusType: statusType)
+            
+            if let status = status {
+                switch status {
+                case "Quero Ler":
+                    statusType = .wantToRead
+                case "Lido":
+                    statusType = .read
+                case "Lendo":
+                    statusType = .reading
+                default:
+                    break
+                }
+                editComic.status = status
             }
+            if let oldStatus = comic?.status {
+                if oldStatus != editComic.status {
+                    deleteData()
+                    Database.shared.addData(comic: editComic, statusType: statusType)
+                }
+            }
+            Database.shared.editData(comic: editComic, statusType: statusType)
+            
+            
+            navigationController?.popViewController(animated: true)
+        } else {
+            nameRequiredTrigger()
         }
-         Database.shared.editData(comic: editComic, statusType: statusType)
-
-        
-        navigationController?.popViewController(animated: true)
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -362,7 +368,11 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
     }
     
     @objc func deleteTrigger () {
-        self.present(alert, animated: true, completion: nil)
+        self.present(deleteAlert, animated: true, completion: nil)
+    }
+    
+    func nameRequiredTrigger () {
+        self.present(nameRequiredAlert, animated: true, completion: nil)
     }
     
     @objc func stepperValueChanged() {

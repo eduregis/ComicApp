@@ -30,6 +30,8 @@ class AddToShelfViewController: UITableViewController, UIImagePickerControllerDe
     
     var imageView = UIImageView()
     
+    let nameRequiredAlert = UIAlertController(title: "Atenção", message: "O campo de nome deve ser preenchido", preferredStyle: .alert)
+    
     let comicTitleTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 250, height: 50))
     let stepper = UIStepper()
     let progressNumberTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
@@ -63,16 +65,17 @@ class AddToShelfViewController: UITableViewController, UIImagePickerControllerDe
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow), name:
-            UIResponder.keyboardWillShowNotification, object: nil)
+                                                UIResponder.keyboardWillShowNotification, object: nil)
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillHide), name:
-            UIResponder.keyboardWillHideNotification, object: nil)
+                                                UIResponder.keyboardWillHideNotification, object: nil)
+        addActions()
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[
-            UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+                                UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
                 self.view.frame.origin.y -= keyboardSize.height - 80
             }
@@ -103,50 +106,59 @@ class AddToShelfViewController: UITableViewController, UIImagePickerControllerDe
         artistTextField.resignFirstResponder()
     }
     
+    func addActions() {
+        nameRequiredAlert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: "Default action"), style: .default))
+    }
+    
     @IBAction func doneButton(_ sender: Any) {
+        
         ajustStepper()
         comicTitle = comicTitleTextField.text
-        type = typeData[typeIndex]
-        organizeBy = organizeByData[organizeByIndex]
-        if finishNumberTextField.text == "" {
-            finishNumber = nil
-        } else {
-            finishNumber = Int(finishNumberTextField.text ?? "0")
-        }
-        if progressNumberTextField.text != "" {
-            progressNumber = Int(progressNumberTextField.text ?? "0")
-        }
-        author = authorTextField.text
-        artist = artistTextField.text
-        
-        var addComic = Comic(title: comicTitle!, image: pickedImage, progressNumber: progressNumber, finishNumber: finishNumber, type: type!, organizeBy: organizeBy!, status: "-", author: author, artist: artist)
-        var statusType: StatusType
-        if progressNumber == 0 {
-            addComic.status = "Quero Ler"
-            statusType = .wantToRead
-        } else if progressNumber == finishNumber {
-            addComic.status = "Lido"
-            statusType = .read
-        } else {
-            addComic.status = "Lendo"
-            statusType = .reading
-        }
-        if let status = status {
-            switch status {
-            case "Quero Ler":
-                statusType = .wantToRead
-            case "Lido":
-                statusType = .read
-            case "Lendo":
-                statusType = .reading
-            default:
-                break
+        if comicTitleTextField.text != "" {
+            type = typeData[typeIndex]
+            organizeBy = organizeByData[organizeByIndex]
+            if finishNumberTextField.text == "" {
+                finishNumber = nil
+            } else {
+                finishNumber = Int(finishNumberTextField.text ?? "0")
             }
-            addComic.status = status
+            if progressNumberTextField.text != "" {
+                progressNumber = Int(progressNumberTextField.text ?? "0")
+            }
+            author = authorTextField.text
+            artist = artistTextField.text
+            
+            var addComic = Comic(title: comicTitle!, image: pickedImage, progressNumber: progressNumber, finishNumber: finishNumber, type: type!, organizeBy: organizeBy!, status: "-", author: author, artist: artist)
+            var statusType: StatusType
+            if progressNumber == 0 {
+                addComic.status = "Quero Ler"
+                statusType = .wantToRead
+            } else if progressNumber == finishNumber {
+                addComic.status = "Lido"
+                statusType = .read
+            } else {
+                addComic.status = "Lendo"
+                statusType = .reading
+            }
+            if let status = status {
+                switch status {
+                case "Quero Ler":
+                    statusType = .wantToRead
+                case "Lido":
+                    statusType = .read
+                case "Lendo":
+                    statusType = .reading
+                default:
+                    break
+                }
+                addComic.status = status
+            }
+            Database.shared.addData(comic: addComic, statusType: statusType)
+            
+            navigationController?.popViewController(animated: true)
+        } else {
+            nameRequiredTrigger()
         }
-        Database.shared.addData(comic: addComic, statusType: statusType)
-        
-        navigationController?.popViewController(animated: true)
     }
     
     // MARK: - Table view data source
@@ -267,6 +279,10 @@ class AddToShelfViewController: UITableViewController, UIImagePickerControllerDe
         cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 16.0)
         cell.backgroundColor = .systemGray6
         return cell
+    }
+    
+    func nameRequiredTrigger () {
+        self.present(nameRequiredAlert, animated: true, completion: nil)
     }
     
     @objc func stepperValueChanged() {
