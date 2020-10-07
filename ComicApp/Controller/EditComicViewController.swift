@@ -206,6 +206,8 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
             
             var editComic = Comic(comicId: comic!.comicId, title: comicTitle!, image: pickedImage, progressNumber: progressNumber, finishNumber: finishNumber, type: type!, organizeBy: organizeBy!, status: "-", author: author, artist: artist)
             
+            editComic.color = comic?.color
+            
             var statusType: StatusType
             
             switch statusIndex {
