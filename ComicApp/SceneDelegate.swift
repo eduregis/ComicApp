@@ -18,9 +18,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         let isFirstLaunch: Bool = (UserDefaults.standard.value(forKey: "FirstLaunch") as? Bool) ?? false
         if !isFirstLaunch {
-            UserDefaults.standard.set(Database.shared.loadData(from: .read), forKey: "readCount")
-            UserDefaults.standard.set(Database.shared.loadData(from: .reading), forKey: "readingCount")
-            UserDefaults.standard.set(Database.shared.loadData(from: .wantToRead), forKey: "wantToReadCount")
+            UserDefaults.standard.set(Database.shared.loadData(from: .read)?.count, forKey: "readCount")
+            UserDefaults.standard.set(Database.shared.loadData(from: .reading)?.count, forKey: "readingCount")
+            UserDefaults.standard.set(Database.shared.loadData(from: .wantToRead)?.count, forKey: "wantToReadCount")
+            
+            UserDefaults.standard.set(true, forKey: "FirstLaunch")
         }
         guard let _ = (scene as? UIWindowScene) else { return }
     }
