@@ -191,9 +191,9 @@ class Database {
     }
     
     func statusProgress(statusFrom: StatusType) -> Double {
-        let statusRead = Double(loadData(from: .read)!.count)
-        let statusReading = Double(loadData(from: .reading)!.count)
-        let statusWantReading = Double(loadData(from: .wantToRead)!.count)
+        let statusRead = Double(UserDefaults.standard.integer(forKey: "readCount"))
+        let statusReading = Double(UserDefaults.standard.integer(forKey: "readingCount"))
+        let statusWantReading = Double(UserDefaults.standard.integer(forKey: "wantToReadCount"))
         let finalStatusProgress: Double
         switch statusFrom {
         case .read:
