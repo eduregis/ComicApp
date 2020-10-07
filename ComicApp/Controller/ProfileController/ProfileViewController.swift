@@ -41,6 +41,7 @@ class ProfileView: UIViewController, UIImagePickerControllerDelegate & UINavigat
         super.viewWillAppear(animated)
         
         lastComics = Database.shared.loadRecentComics(limit: 5)
+        tableView.showsVerticalScrollIndicator = false
         tableView.reloadData()
 
         profileProgressView.readingLabel.text = "\(String(describing: Database.shared.loadData(from: .reading)!.count)) Lendo"
