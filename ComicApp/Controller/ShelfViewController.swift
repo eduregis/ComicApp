@@ -51,6 +51,7 @@ class ShelfViewController: UIViewController {
         label.font = .boldSystemFont(ofSize: 20)
         label.textAlignment = .center
         label.text = "Teste"
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -166,6 +167,8 @@ class ShelfViewController: UIViewController {
         lableForTitleInModal.translatesAutoresizingMaskIntoConstraints = false
         lableForTitleInModal.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true 
         lableForTitleInModal.bottomAnchor.constraint(equalTo: imageForModal.topAnchor, constant: -17).isActive = true
+        lableForTitleInModal.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -17).isActive = true
+        lableForTitleInModal.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 17).isActive = true 
         lableForTitleInModal.alpha = 0
         lableForTitleInModal.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
         UIView.animate(withDuration: 0.4) {

@@ -21,6 +21,8 @@ class ProfileCell: UITableViewCell {
     
     func setupLayer() {
         comicName.tintColor = .systemRed
+        comicName.adjustsFontSizeToFitWidth = true
+        //comicName.minimumScaleFactor = 0.6
         comicImage.layer.cornerRadius = 10
         
         self.layer.cornerRadius = 10
