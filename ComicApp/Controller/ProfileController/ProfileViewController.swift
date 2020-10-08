@@ -99,7 +99,8 @@ class ProfileView: UIViewController, UIImagePickerControllerDelegate & UINavigat
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+        if var image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            image = image.fixOrientation()
             if let data = image.pngData() {
                 userImage.image = UIImage(data: data)
                 UserDefaults.standard.set(data, forKey: "userImage")

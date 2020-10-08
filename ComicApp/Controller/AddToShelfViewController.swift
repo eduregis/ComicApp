@@ -379,7 +379,8 @@ class AddToShelfViewController: UITableViewController, UIImagePickerControllerDe
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+        if var image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            image = image.fixOrientation()
             imageView.contentMode = .scaleAspectFit
             if let data = image.pngData() {
                 imageView.image = UIImage(data: data)
@@ -408,4 +409,3 @@ extension AddToShelfViewController: ModalDelegate {
         tableView.reloadData()
     }
 }
-
