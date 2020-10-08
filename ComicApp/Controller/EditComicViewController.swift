@@ -329,9 +329,9 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
             if let organizeBy = organizeBy {
                 if let progressNumber = progressNumber {
                     if let finishNumber = finishNumber {
-                        cell.textLabel?.text = "\(progressNumber)/\(finishNumber) (em \(organizeBy.lowercased())s)"
+                        cell.textLabel?.text = "Progresso: \(progressNumber)/\(finishNumber) (em \(organizeBy.lowercased())s)"
                     } else {
-                        cell.textLabel?.text = "\(progressNumber)/- (em \(organizeBy.lowercased())s)"
+                        cell.textLabel?.text = "Progresso: \(progressNumber)/- (em \(organizeBy.lowercased())s)"
                     }
                     if organizeBy != organizeByData[0] {
                         stepper.value = Double(progressNumber)

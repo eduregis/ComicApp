@@ -3,5 +3,5 @@ disabled_rules:
 - unused_optional_binding
 
 line_length: 500
-
+file_length: 500
 type_body_length: 400
