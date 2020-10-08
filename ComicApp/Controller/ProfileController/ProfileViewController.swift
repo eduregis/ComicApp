@@ -119,6 +119,10 @@ extension ProfileView: UITableViewDelegate, UITableViewDataSource {
         
         if let imageData = lastComics[indexPath.section].image {
             cell.comicImage.image = UIImage(data: imageData)
+        } else {
+            let viewPlaceholder = UIView(frame: cell.comicImage.frame)
+            viewPlaceholder.backgroundColor = UIColor(named: lastComics[indexPath.section].color ?? "Pink")
+            cell.comicImage.image = viewPlaceholder.asImage()
         }
         cell.comicName.text = lastComics[indexPath.section].title
         cell.comicStatus.text = lastComics[indexPath.section].status
