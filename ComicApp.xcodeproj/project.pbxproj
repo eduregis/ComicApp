@@ -24,8 +24,10 @@
 		2E756AE72518FB9A00BE4DC0 /* EditComic.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E756AE62518FB9A00BE4DC0 /* EditComic.storyboard */; };
 		2E756AE9251907A200BE4DC0 /* EditComicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E756AE8251907A200BE4DC0 /* EditComicViewController.swift */; };
 		2E756AEB25193D1000BE4DC0 /* PickerItem.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E756AEA25193D1000BE4DC0 /* PickerItem.storyboard */; };
+		2E938833252B6FFE00629A0C /* EmptyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E938832252B6FFE00629A0C /* EmptyState.swift */; };
 		2EFD6B5B2512537D00BFC3AF /* ShelfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFD6B5A2512537D00BFC3AF /* ShelfViewController.swift */; };
 		2EFD6B5F25125E1E00BFC3AF /* AddToShelfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFD6B5E25125E1E00BFC3AF /* AddToShelfViewController.swift */; };
+		56BC3A14252F5D0A00764036 /* uiImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BC3A13252F5D0A00764036 /* uiImageExtension.swift */; };
 		56EAC51625139D48002671E7 /* CustomSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56EAC51525139D48002671E7 /* CustomSegmentedControl.swift */; };
 		77CDFC42251B8E080070D7C6 /* DatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77CDFC41251B8E080070D7C6 /* DatabaseTests.swift */; };
 		77D34B7E251392E100FB1586 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D34B7D251392E100FB1586 /* ProfileViewController.swift */; };
@@ -81,8 +83,10 @@
 		2E756AE62518FB9A00BE4DC0 /* EditComic.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EditComic.storyboard; sourceTree = "<group>"; };
 		2E756AE8251907A200BE4DC0 /* EditComicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditComicViewController.swift; sourceTree = "<group>"; };
 		2E756AEA25193D1000BE4DC0 /* PickerItem.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PickerItem.storyboard; sourceTree = "<group>"; };
+		2E938832252B6FFE00629A0C /* EmptyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyState.swift; sourceTree = "<group>"; };
 		2EFD6B5A2512537D00BFC3AF /* ShelfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelfViewController.swift; sourceTree = "<group>"; };
 		2EFD6B5E25125E1E00BFC3AF /* AddToShelfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToShelfViewController.swift; sourceTree = "<group>"; };
+		56BC3A13252F5D0A00764036 /* uiImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = uiImageExtension.swift; sourceTree = "<group>"; };
 		56EAC51525139D48002671E7 /* CustomSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControl.swift; sourceTree = "<group>"; };
 		77CDFC41251B8E080070D7C6 /* DatabaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseTests.swift; sourceTree = "<group>"; };
 		77D34B7D251392E100FB1586 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -210,14 +214,24 @@
 		2E504AA2250FAC590045D142 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				56BC3A18252F5D1000764036 /* Extensions */,
 				77D34B7C2513925E00FB1586 /* ProfileController */,
 				2EFD6B5A2512537D00BFC3AF /* ShelfViewController.swift */,
 				2EFD6B5E25125E1E00BFC3AF /* AddToShelfViewController.swift */,
 				2E2E103B2512D14B0058AA34 /* PickerItemViewController.swift */,
 				2E756AE8251907A200BE4DC0 /* EditComicViewController.swift */,
 				ECBE613A251ADAC500A8E3A6 /* PopUpModalView.swift */,
+				2E938832252B6FFE00629A0C /* EmptyState.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		56BC3A18252F5D1000764036 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				56BC3A13252F5D0A00764036 /* uiImageExtension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		77D34B7B2513924C00FB1586 /* Profile */ = {
@@ -422,6 +436,7 @@
 				2E504A6E250FA1E80045D142 /* AppDelegate.swift in Sources */,
 				EC374E372514DA7400AE6B99 /* ShelfCollectionViewCell.swift in Sources */,
 				ECBE613B251ADAC500A8E3A6 /* PopUpModalView.swift in Sources */,
+				56BC3A14252F5D0A00764036 /* uiImageExtension.swift in Sources */,
 				2EFD6B5B2512537D00BFC3AF /* ShelfViewController.swift in Sources */,
 				2E2A9C912510133500718B76 /* Comic.swift in Sources */,
 				2E756AE9251907A200BE4DC0 /* EditComicViewController.swift in Sources */,
@@ -429,6 +444,7 @@
 				2E2A9C93251015E500718B76 /* Database.swift in Sources */,
 				2EFD6B5F25125E1E00BFC3AF /* AddToShelfViewController.swift in Sources */,
 				2E2E103C2512D14B0058AA34 /* PickerItemViewController.swift in Sources */,
+				2E938833252B6FFE00629A0C /* EmptyState.swift in Sources */,
 				2E504A70250FA1E80045D142 /* SceneDelegate.swift in Sources */,
 				77D34B882513AC8900FB1586 /* ProfileCell.swift in Sources */,
 				EC374E3A2514E31000AE6B99 /* ComicCustomLayout.swift in Sources */,
@@ -600,13 +616,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ComicApp/ComicApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2KUGC5CZ6Z;
+				DEVELOPMENT_TEAM = P3PDP2RPN7;
 				INFOPLIST_FILE = ComicApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = eduardoliveira.Marker;
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = eduardoliveira.Mark;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -619,13 +636,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ComicApp/ComicApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2KUGC5CZ6Z;
+				DEVELOPMENT_TEAM = P3PDP2RPN7;
 				INFOPLIST_FILE = ComicApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = eduardoliveira.Marker;
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = eduardoliveira.Mark;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -30,6 +30,8 @@ class AddToShelfViewController: UITableViewController, UIImagePickerControllerDe
     
     var imageView = UIImageView()
     
+    let nameRequiredAlert = UIAlertController(title: "Atenção", message: "O campo de nome deve ser preenchido", preferredStyle: .alert)
+    
     let comicTitleTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 250, height: 50))
     let stepper = UIStepper()
     let progressNumberTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
@@ -46,7 +48,7 @@ class AddToShelfViewController: UITableViewController, UIImagePickerControllerDe
     let organizeByData = ["Página", "Capítulo", "Volume"]
     var organizeByIndex = 2
     let statusData = ["Lendo", "Lido", "Quero Ler"]
-    var statusIndex = 0
+    var statusIndex = 2
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,18 +65,19 @@ class AddToShelfViewController: UITableViewController, UIImagePickerControllerDe
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow), name:
-            UIResponder.keyboardWillShowNotification, object: nil)
+                                                UIResponder.keyboardWillShowNotification, object: nil)
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillHide), name:
-            UIResponder.keyboardWillHideNotification, object: nil)
+                                                UIResponder.keyboardWillHideNotification, object: nil)
+        addActions()
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[
-            UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+                                UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= keyboardSize.height - 100
+                self.view.frame.origin.y -= keyboardSize.height - 80
             }
         }
     }
@@ -103,50 +106,68 @@ class AddToShelfViewController: UITableViewController, UIImagePickerControllerDe
         artistTextField.resignFirstResponder()
     }
     
+    func addActions() {
+        nameRequiredAlert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: "Default action"), style: .default))
+    }
+    
     @IBAction func doneButton(_ sender: Any) {
-        ajustStepper()
-        comicTitle = comicTitleTextField.text
-        type = typeData[typeIndex]
-        organizeBy = organizeByData[organizeByIndex]
-        if finishNumberTextField.text == "" {
-            finishNumber = nil
-        } else {
-            finishNumber = Int(finishNumberTextField.text ?? "0")
-        }
-        if progressNumberTextField.text != "" {
-            progressNumber = Int(progressNumberTextField.text ?? "0")
-        }
-        author = authorTextField.text
-        artist = artistTextField.text
         
-        var addComic = Comic(title: comicTitle!, image: pickedImage, progressNumber: progressNumber, finishNumber: finishNumber, type: type!, organizeBy: organizeBy!, status: "-", author: author, artist: artist)
-        var statusType: StatusType
-        if progressNumber == 0 {
-            addComic.status = "Quero Ler"
-            statusType = .wantToRead
-        } else if progressNumber == finishNumber {
-            addComic.status = "Lido"
-            statusType = .read
-        } else {
-            addComic.status = "Lendo"
-            statusType = .reading
-        }
-        if let status = status {
-            switch status {
-            case "Quero Ler":
-                statusType = .wantToRead
-            case "Lido":
-                statusType = .read
-            case "Lendo":
-                statusType = .reading
-            default:
-                break
+        if let finishNumberValue = finishNumberTextField.text {
+            if finishNumber != Int(finishNumberValue) {
+                ajustStatus()
             }
-            addComic.status = status
         }
-        Database.shared.addData(comic: addComic, statusType: statusType)
         
-        navigationController?.popViewController(animated: true)
+        if let progressNumberValue = progressNumberTextField.text {
+            if progressNumber != Int(progressNumberValue) && progressNumberValue != "" {
+                ajustStatus()
+            }
+        }
+        
+        comicTitle = comicTitleTextField.text
+        if comicTitleTextField.text != "" {
+            type = typeData[typeIndex]
+            organizeBy = organizeByData[organizeByIndex]
+            if finishNumberTextField.text == "" {
+                finishNumber = nil
+            } else {
+                finishNumber = Int(finishNumberTextField.text ?? "0")
+            }
+            if progressNumberTextField.text != "" {
+                progressNumber = Int(progressNumberTextField.text ?? "0")
+            }
+            
+            author = authorTextField.text
+            artist = artistTextField.text
+            
+            ajustStepper()
+            
+            var addComic = Comic(title: comicTitle!, image: pickedImage, progressNumber: progressNumber, finishNumber: finishNumber, type: type!, organizeBy: organizeBy!, status: "-", author: author, artist: artist)
+            var statusType: StatusType
+            switch statusIndex {
+            case 0:
+                addComic.status = "Lendo"
+                statusType = .reading
+                UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "readingCount") + 1, forKey: "readingCount")
+            case 1:
+                addComic.status = "Lido"
+                statusType = .read
+                UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "readCount") + 1, forKey: "readCount")
+            case 2:
+                addComic.status = "Quero Ler"
+                statusType = .wantToRead
+                UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "wantToReadCount") + 1, forKey: "wantToReadCount")
+            default:
+                addComic.status = "Quero Ler"
+                statusType = .wantToRead
+                UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "wantToReadCount") + 1, forKey: "wantToReadCount")
+            }
+            Database.shared.addData(comic: addComic, statusType: statusType)
+            
+            navigationController?.popViewController(animated: true)
+        } else {
+            nameRequiredTrigger()
+        }
     }
     
     // MARK: - Table view data source
@@ -224,9 +245,9 @@ class AddToShelfViewController: UITableViewController, UIImagePickerControllerDe
             if let organizeBy = organizeBy {
                 if let progressNumber = progressNumber {
                     if let finishNumber = finishNumber {
-                        cell.textLabel?.text = "\(progressNumber)/\(finishNumber) (em \(organizeBy.lowercased())s)"
+                        cell.textLabel?.text = "Progresso: \(progressNumber)/\(finishNumber) (em \(organizeBy.lowercased())s)"
                     } else {
-                        cell.textLabel?.text = "\(progressNumber)/- (em \(organizeBy.lowercased())s)"
+                        cell.textLabel?.text = "Progresso: \(progressNumber)/- (em \(organizeBy.lowercased())s)"
                     }
                     if organizeBy != organizeByData[0] {
                         stepper.value = Double(progressNumber)
@@ -269,22 +290,50 @@ class AddToShelfViewController: UITableViewController, UIImagePickerControllerDe
         return cell
     }
     
+    func nameRequiredTrigger () {
+        self.present(nameRequiredAlert, animated: true, completion: nil)
+    }
+    
     @objc func stepperValueChanged() {
         progressNumber = Int(stepper.value)
         ajustStepper()
+        ajustStatus()
         tableView.reloadData()
     }
     
     @objc func progressNumberValueChanged() {
         progressNumber = Int(progressNumberTextField.text ?? "0")
         ajustStepper()
+        ajustStatus()
         tableView.reloadData()
     }
     
     @objc func finishNumberValueChanged() {
         finishNumber = Int(finishNumberTextField.text ?? "0")
         ajustStepper()
+        ajustStatus()
         tableView.reloadData()
+    }
+    
+    func ajustStatus() {
+        if finishNumber != nil {
+            if progressNumber == 0 {
+                statusIndex = 2
+            } else {
+                if progressNumber == finishNumber {
+                    statusIndex = 1
+                } else {
+                    statusIndex = 0
+                }
+            }
+        } else {
+            if progressNumber == 0 {
+                statusIndex = 2
+            } else {
+                statusIndex = 0
+            }
+        }
+        
     }
     
     @objc func changeStatus() {
@@ -330,7 +379,8 @@ class AddToShelfViewController: UITableViewController, UIImagePickerControllerDe
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+        if var image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            image = image.fixOrientation()
             imageView.contentMode = .scaleAspectFit
             if let data = image.pngData() {
                 imageView.image = UIImage(data: data)
@@ -359,4 +409,3 @@ extension AddToShelfViewController: ModalDelegate {
         tableView.reloadData()
     }
 }
-

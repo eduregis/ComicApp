@@ -10,7 +10,11 @@ import UIKit
 
 class ShelfViewController: UIViewController {
     
+    @IBOutlet weak var addButton: UIBarButtonItem!
+    
     var selectedComic: Comic?
+    
+    var emptyState = EmptyState()
     
     let comicCollectionView: UICollectionView = {
         let layout = ComicCustomLayout()
@@ -19,6 +23,7 @@ class ShelfViewController: UIViewController {
         collectionView.register(ShelfCollectionViewCell.self, forCellWithReuseIdentifier: "ShelfCell")
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsVerticalScrollIndicator = false
         return collectionView
     }()
     
@@ -26,7 +31,7 @@ class ShelfViewController: UIViewController {
         didSet {
             DispatchQueue.main.async {
                 self.comicCollectionView.reloadData()
-                
+                self.handleEmptyState()
             }
         }
     }
@@ -48,6 +53,7 @@ class ShelfViewController: UIViewController {
         label.font = .boldSystemFont(ofSize: 20)
         label.textAlignment = .center
         label.text = "Teste"
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -58,7 +64,6 @@ class ShelfViewController: UIViewController {
     
     let progressViewModal: UIProgressView = {
         let progressView = UIProgressView()
-        progressView.tintColor = .systemBlue
         return progressView
     }()
     @IBOutlet weak var segmentedControl: CustomSegmentedControl!
@@ -70,19 +75,19 @@ class ShelfViewController: UIViewController {
         comicCollectionView.delegate = self
         comicCollectionView.dataSource = self
         setCollectionView()
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        print(UserDefaults.standard.integer(forKey: "readingCount"))
+        print(UserDefaults.standard.integer(forKey: "readCount"))
+        print(UserDefaults.standard.integer(forKey: "wantToReadCount"))
         for subview in segmentedControl.subviews {
             if !subview.responds(to: #selector(setter: UITabBarItem.badgeValue)), subview.subviews.count == 1 {
                 subview.isHidden = true
             }
         }
         loadListData()
-        listOfComics.forEach {
-            print($0.comicId)
-        }
+        handleEmptyState()
     }
     
     func setCollectionView() {
@@ -92,7 +97,24 @@ class ShelfViewController: UIViewController {
         comicCollectionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         comicCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         comicCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+    }
+    
+    func handleEmptyState() {
+        if listOfComics.count == 0 {
+            setEmptyState()
+        } else {
+            emptyState.removeFromSuperview()
+        }
+    }
+    
+    func setEmptyState() {
+        view.addSubview(emptyState)
+        emptyState.translatesAutoresizingMaskIntoConstraints = false
         
+        NSLayoutConstraint.activate([
+            emptyState.bottomAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
+            emptyState.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
     }
     
     func setImageForModal(fromImage image: UIImage) {
@@ -136,6 +158,8 @@ class ShelfViewController: UIViewController {
     }
     
     func setBlurEffectView() {
+        navigationController?.navigationBar.alpha = 0.1
+        addButton.isEnabled = false
         blurEffectView.frame = view.frame
         self.view.addSubview(blurEffectView)
         blurEffectView.alpha = 1
@@ -149,6 +173,8 @@ class ShelfViewController: UIViewController {
         lableForTitleInModal.translatesAutoresizingMaskIntoConstraints = false
         lableForTitleInModal.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true 
         lableForTitleInModal.bottomAnchor.constraint(equalTo: imageForModal.topAnchor, constant: -17).isActive = true
+        lableForTitleInModal.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -17).isActive = true
+        lableForTitleInModal.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 17).isActive = true 
         lableForTitleInModal.alpha = 0
         lableForTitleInModal.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
         UIView.animate(withDuration: 0.4) {
@@ -157,9 +183,14 @@ class ShelfViewController: UIViewController {
         }
     }
     
-    func setStatusForModal(status: String, progress: Float) {
+    func setStatusForModal(status: String, progress: Float, comicStatus: String) {
         view.addSubview(statusLabelModal)
         view.addSubview(progressViewModal)
+        if comicStatus == "Lido"{
+            self.progressViewModal.tintColor = .systemGreen
+        } else {
+            self.progressViewModal.tintColor = .systemBlue
+        }
         statusLabelModal.text = status
         progressViewModal.setProgress(0, animated: true)
         statusLabelModal.translatesAutoresizingMaskIntoConstraints = false
@@ -189,11 +220,13 @@ class ShelfViewController: UIViewController {
         }) { _ in
             self.imageForModal.removeFromSuperview()
             self.blurEffectView.removeFromSuperview()
-           self.imageForModal.removeConstraints(self.imageForModal.constraints)
+            self.imageForModal.removeConstraints(self.imageForModal.constraints)
             self.lableForTitleInModal.removeFromSuperview()
             self.statusLabelModal.removeFromSuperview()
             self.progressViewModal.removeFromSuperview()
         }
+        navigationController?.navigationBar.alpha = 1
+        addButton.isEnabled = true
     }
     
     @IBAction func addToSheftButton(_ sender: Any) {
@@ -236,7 +269,7 @@ class ShelfViewController: UIViewController {
         }
     }
     
-    @objc func executarSegue(){
+    @objc func executarSegue() {
         performSegue(withIdentifier: "EditComicSegue", sender: self)
         removeModal()
     }
@@ -257,4 +290,3 @@ extension ShelfViewController: UICollectionViewDataSource, UICollectionViewDeleg
         return cell
     }
 }
-

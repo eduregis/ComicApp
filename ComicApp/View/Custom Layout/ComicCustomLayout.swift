@@ -1,8 +1,8 @@
 //
-//  ComicCustomLayout.swift
+//  CustomSegmentedControl.swift
 //  ComicApp
 //
-//  Created by Fernando de Lucas da Silva Gomes on 18/09/20.
+//  Created by Nathalia Cardoso on 17/09/20.
 //  Copyright © 2020 Eduardo Oliveira. All rights reserved.
 //
 
@@ -13,7 +13,7 @@ class ComicCustomLayout: UICollectionViewFlowLayout {
   //Duas propriedades que configuram o layout
   private let numberOfColumns = 2
   private let cellPadding: CGFloat = 6
-    
+
   //Um array para armazenar os atributos calculados. Quando você chamar o método prepare(), você calculará os atributos para todos os itens e adiciona-los ao cache. Quando a collectionview solicitar os atributos de layout, você consegue facilmente salvar os atributos sem precisar ficar recalculando.
    var cache: [UICollectionViewLayoutAttributes] = []
 
@@ -39,6 +39,8 @@ class ComicCustomLayout: UICollectionViewFlowLayout {
     guard let collectionView = collectionView else {
       return
     }
+    cache.removeAll()
+    contentHeight = 0 
 
     //Declara e preenche o array xOffSet com a coordenada-x oara cada coluna baseada no columnWidth. O yOffSet monitora a posição-y de cada coluna. Você inicializara cada valor de yOffSet como 0 ja que este offset é o primeiro item de cada coluna.
     let columnWidth = contentWidth / CGFloat(numberOfColumns)
@@ -54,13 +56,14 @@ class ComicCustomLayout: UICollectionViewFlowLayout {
       let indexPath = IndexPath(item: item, section: 0)
 
       // Executa o calculo do frame. Width é o valor calculado anteriormente de cellWith com o padding entre as celulas removidas. É solicitado ao delegate a altura da photo então calculado o frame height baseado na altura e no cellPadding predefinido para top e bottom. Se não existir nenhum delegate configurado, ele utiliza o tamanho padrão de 180. Você então combina isso com o x e y do offset da coluna atual então criar insetFrame usado para este atributo
-        
+
     let height = prepareHeightFromIndex(index: item)
+
       let frame = CGRect(x: xOffSet[column],
                          y: yOffSet[column],
                          width: columnWidth,
                          height: height)
-        
+
       let insetFrame = frame.insetBy(dx: cellPadding, dy: cellPadding)
 
       //Cria uma instancia de UICollectionViewLayoutAttributes altera seu frame usando insetFrame e adiciona os atributos ao cache
@@ -72,14 +75,12 @@ class ComicCustomLayout: UICollectionViewFlowLayout {
       contentHeight = max(contentHeight, frame.maxY)
       yOffSet[column] = yOffSet[column] + height
       column = column < (numberOfColumns - 1) ? (column + 1) : 0
-        
     }
 }
 
   override func layoutAttributesForElements(in rect: CGRect)
       -> [UICollectionViewLayoutAttributes]? {
     var visibleLayoutAttributes: [UICollectionViewLayoutAttributes] = []
-
     // Loop through the cache and look for items in the rect
     for attributes in cache {
       if attributes.frame.intersects(rect) {
@@ -98,12 +99,12 @@ class ComicCustomLayout: UICollectionViewFlowLayout {
         if index % 3 == 0 {
             return 180
         } else if index % 3 == 1 {
-            return 230
-        } else {
             return 400
+        } else {
+            return 230
         }
     }
-        
+
     func zerarCache() {
         cache = []
     }

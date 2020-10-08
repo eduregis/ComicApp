@@ -16,6 +16,8 @@ class ProfileView: UIViewController, UIImagePickerControllerDelegate & UINavigat
     
     let imagePicker = UIImagePickerController()
     
+    var emptyState = EmptyState()
+    
     var lastComics = Database.shared.loadRecentComics(limit: 5)
     
     override func viewDidLoad() {
@@ -35,10 +37,11 @@ class ProfileView: UIViewController, UIImagePickerControllerDelegate & UINavigat
         setButtonUserImage()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
         lastComics = Database.shared.loadRecentComics(limit: 5)
+        tableView.showsVerticalScrollIndicator = false
         tableView.reloadData()
 
         profileProgressView.readingLabel.text = "\(String(describing: Database.shared.loadData(from: .reading)!.count)) Lendo"
@@ -52,8 +55,29 @@ class ProfileView: UIViewController, UIImagePickerControllerDelegate & UINavigat
         if let data = UserDefaults.standard.data(forKey: "userImage") {
             userImage.image = UIImage(data: data)
         }
+        
+        handleEmptyState()
     }
 
+    func handleEmptyState() {
+        if lastComics.count == 0 {
+            setEmptyState()
+        } else {
+            emptyState.removeFromSuperview()
+        }
+    }
+    
+    func setEmptyState() {
+        view.addSubview(emptyState)
+        emptyState.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            emptyState.topAnchor.constraint(equalTo: tableView.centerYAnchor, constant: -100),
+            emptyState.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+        emptyState.descriptionLabel.text = ""
+    }
+    
     func xibConfigure() {
         let nib = UINib.init(nibName: "ProfileCell", bundle: nil)
         self.tableView.register(nib, forCellReuseIdentifier: "ProfileCell")
@@ -75,7 +99,8 @@ class ProfileView: UIViewController, UIImagePickerControllerDelegate & UINavigat
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+        if var image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            image = image.fixOrientation()
             if let data = image.pngData() {
                 userImage.image = UIImage(data: data)
                 UserDefaults.standard.set(data, forKey: "userImage")
@@ -95,6 +120,10 @@ extension ProfileView: UITableViewDelegate, UITableViewDataSource {
         
         if let imageData = lastComics[indexPath.section].image {
             cell.comicImage.image = UIImage(data: imageData)
+        } else {
+            let viewPlaceholder = UIView(frame: cell.comicImage.frame)
+            viewPlaceholder.backgroundColor = UIColor(named: lastComics[indexPath.section].color ?? "Pink")
+            cell.comicImage.image = viewPlaceholder.asImage()
         }
         cell.comicName.text = lastComics[indexPath.section].title
         cell.comicStatus.text = lastComics[indexPath.section].status

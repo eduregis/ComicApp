@@ -17,9 +17,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="qP3-jB-nfU">
+                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camera.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="qP3-jB-nfU">
                                 <rect key="frame" x="145" y="150.5" width="124" height="123"/>
-                                <color key="tintColor" systemColor="systemPinkColor"/>
+                                <color key="tintColor" systemColor="systemGray4Color"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="qP3-jB-nfU" secondAttribute="height" multiplier="1:1" id="93R-dE-VNU"/>
                                     <constraint firstAttribute="height" constant="124" id="Ezc-6A-hNX"/>
@@ -100,11 +100,14 @@
         </scene>
     </scenes>
     <resources>
+        <image name="camera.circle.fill" catalog="system" width="128" height="121"/>
         <image name="person" catalog="system" width="128" height="117"/>
-        <image name="person.circle.fill" catalog="system" width="128" height="121"/>
         <image name="person.fill" catalog="system" width="128" height="120"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray4Color">
+            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemPinkColor">
             <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

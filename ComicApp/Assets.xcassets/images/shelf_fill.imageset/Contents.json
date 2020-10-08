@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "shelf_fill.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "shelf_fill.svg",
       "idiom" : "universal",
       "scale" : "2x"
     },

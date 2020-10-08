@@ -53,10 +53,11 @@ class CustomSegmentedControl: UISegmentedControl {
         segmentIndicator.topAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         segmentIndicator.heightAnchor.constraint(equalToConstant: 2).isActive = true
         
-        guard let seg = self.titleForSegment(at: 0) else { return }
-        
-        segmentIndicator.widthAnchor.constraint(equalToConstant: CGFloat(15 + seg.count * 20)).isActive = true
-        segmentIndicator.center = CGPoint(x: self.center.x/CGFloat(numberOfSegments), y: self.center.y)
+        leading.isActive = false
+        leading = segmentIndicator.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: (((UIScreen.main.bounds.width)/3) * CGFloat(self.selectedSegmentIndex))+(20/2))
+        leading.isActive = true
+
+        segmentIndicator.widthAnchor.constraint(equalToConstant: CGFloat((UIScreen.main.bounds.width)/3)-20).isActive = true
     }
     
     func indexChanged(newIndex: Int) {
@@ -64,10 +65,10 @@ class CustomSegmentedControl: UISegmentedControl {
         segmentIndicator.translatesAutoresizingMaskIntoConstraints = false
         
         leading.isActive = false
-        leading = segmentIndicator.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: (UIScreen.main.bounds.width)/3 * CGFloat(newIndex))
+        leading = segmentIndicator.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: (((UIScreen.main.bounds.width)/3) * CGFloat(newIndex))+(20/2))
         leading.isActive = true
         
-        UIView.animate(withDuration: 0.5, animations: {
+        UIView.animate(withDuration: 0.2, animations: {
             self.layoutIfNeeded() })
         configure()
     }

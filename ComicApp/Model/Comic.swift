@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct Comic: Codable, Equatable {
     
@@ -32,6 +33,7 @@ struct Comic: Codable, Equatable {
             self.artist = artist
         }
         lastEdit = getDate()
+        color = getColor()
     }
     
     let comicId: UUID
@@ -45,6 +47,7 @@ struct Comic: Codable, Equatable {
     var author: String?
     var artist: String?
     var lastEdit: Date?
+    var color: String?
     
     func getDate() -> Date {
         let now = Calendar.current.dateComponents(in: .current, from: Date())
@@ -53,4 +56,10 @@ struct Comic: Codable, Equatable {
         let date = Calendar.current.date(from: components)!
         return date
     }
+    
+    func getColor() -> String {
+        let colors: [String] = ["Pink", "Teal", "Indigo", "Purple", "Orange"]
+        return colors.randomElement()!
+    }
+    
 }

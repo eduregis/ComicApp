@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "shelf_empty.png",
+      "filename" : "emptyState.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
