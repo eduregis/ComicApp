@@ -148,15 +148,19 @@ class AddToShelfViewController: UITableViewController, UIImagePickerControllerDe
             case 0:
                 addComic.status = "Lendo"
                 statusType = .reading
+                UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "readingCount") + 1, forKey: "readingCount")
             case 1:
                 addComic.status = "Lido"
                 statusType = .read
+                UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "readCount") + 1, forKey: "readCount")
             case 2:
                 addComic.status = "Quero Ler"
                 statusType = .wantToRead
+                UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "wantToReadCount") + 1, forKey: "wantToReadCount")
             default:
                 addComic.status = "Quero Ler"
                 statusType = .wantToRead
+                UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "wantToReadCount") + 1, forKey: "wantToReadCount")
             }
             Database.shared.addData(comic: addComic, statusType: statusType)
             

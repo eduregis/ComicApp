@@ -134,7 +134,6 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
             default:
                 break
             }
-            //status = comic.status
             organizeBy = organizeByData[organizeByIndex]
         }
     }
@@ -153,10 +152,13 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
         switch comic?.status {
         case "Quero Ler":
             Database.shared.deleteData(from: .wantToRead, at: comic!.comicId)
+            UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "wantToReadCount") - 1, forKey: "wantToReadCount")
         case "Lido":
             Database.shared.deleteData(from: .read, at: comic!.comicId)
+            UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "readCount") - 1, forKey: "readCount")
         case "Lendo":
             Database.shared.deleteData(from: .reading, at: comic!.comicId)
+            UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "readingCount") - 1, forKey: "readingCount")
         default:
             break
         }
@@ -226,6 +228,14 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
             if let oldStatus = comic?.status {
                 if oldStatus != editComic.status {
                     deleteData()
+                    switch statusType {
+                    case .reading:
+                        UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "readingCount") + 1, forKey: "readingCount")
+                    case .read:
+                        UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "readCount") + 1, forKey: "readCount")
+                    case .wantToRead:
+                        UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "wantToReadCount") + 1, forKey: "wantToReadCount")
+                    }
                     Database.shared.addData(comic: editComic, statusType: statusType)
                 }
             }

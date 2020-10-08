@@ -73,10 +73,12 @@ class ShelfViewController: UIViewController {
         comicCollectionView.delegate = self
         comicCollectionView.dataSource = self
         setCollectionView()
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        print(UserDefaults.standard.integer(forKey: "readingCount"))
+        print(UserDefaults.standard.integer(forKey: "readCount"))
+        print(UserDefaults.standard.integer(forKey: "wantToReadCount"))
         for subview in segmentedControl.subviews {
             if !subview.responds(to: #selector(setter: UITabBarItem.badgeValue)), subview.subviews.count == 1 {
                 subview.isHidden = true
