@@ -10,6 +10,8 @@ import UIKit
 
 class ShelfViewController: UIViewController {
     
+    @IBOutlet weak var addButton: UIBarButtonItem!
+    
     var selectedComic: Comic?
     
     var emptyState = EmptyState()
@@ -156,6 +158,8 @@ class ShelfViewController: UIViewController {
     }
     
     func setBlurEffectView() {
+        navigationController?.navigationBar.alpha = 0.1
+        addButton.isEnabled = false
         blurEffectView.frame = view.frame
         self.view.addSubview(blurEffectView)
         blurEffectView.alpha = 1
@@ -221,6 +225,8 @@ class ShelfViewController: UIViewController {
             self.statusLabelModal.removeFromSuperview()
             self.progressViewModal.removeFromSuperview()
         }
+        navigationController?.navigationBar.alpha = 1
+        addButton.isEnabled = true
     }
     
     @IBAction func addToSheftButton(_ sender: Any) {
