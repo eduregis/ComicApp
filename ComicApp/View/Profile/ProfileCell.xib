@@ -22,8 +22,8 @@
                         <constraint firstAttribute="height" priority="900" constant="64" id="hdJ-Hy-pfA"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nome Comic" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="snW-Lm-vDg">
-                    <rect key="frame" x="62" y="10" width="104" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nome Comic" textAlignment="natural" lineBreakMode="headTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="snW-Lm-vDg">
+                    <rect key="frame" x="62" y="10" width="305" height="21"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                     <color key="textColor" systemColor="systemPinkColor"/>
                     <nil key="highlightedColor"/>
@@ -51,6 +51,7 @@
                 <constraint firstItem="LVj-fe-KG4" firstAttribute="top" secondItem="snW-Lm-vDg" secondAttribute="bottom" constant="18" id="QgE-Z5-sH8"/>
                 <constraint firstItem="cTg-vF-Deu" firstAttribute="top" secondItem="snW-Lm-vDg" secondAttribute="bottom" constant="18" id="RiE-jY-RZF"/>
                 <constraint firstItem="Kxx-fa-DFH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="5" id="Z5j-5c-9jW"/>
+                <constraint firstAttribute="trailing" secondItem="snW-Lm-vDg" secondAttribute="trailing" constant="5" id="fny-hI-ZMj"/>
                 <constraint firstAttribute="top" secondItem="Kxx-fa-DFH" secondAttribute="top" constant="-5" id="n12-bb-ydR"/>
                 <constraint firstAttribute="top" secondItem="snW-Lm-vDg" secondAttribute="top" constant="-10" id="t2M-cv-cq6"/>
                 <constraint firstItem="cTg-vF-Deu" firstAttribute="leading" secondItem="LVj-fe-KG4" secondAttribute="trailing" constant="4" id="yNL-F8-HX4"/>
