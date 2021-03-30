@@ -39,6 +39,9 @@
 		EC374E372514DA7400AE6B99 /* ShelfCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC374E362514DA7400AE6B99 /* ShelfCollectionViewCell.swift */; };
 		EC374E3A2514E31000AE6B99 /* ComicCustomLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC374E392514E31000AE6B99 /* ComicCustomLayout.swift */; };
 		EC3771C4251CCC1700A14E7C /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC3771C3251CCC1700A14E7C /* CloudKit.framework */; };
+		EC6ED3EF2612102C00DEF7E7 /* Comic.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EC6ED3ED2612102C00DEF7E7 /* Comic.xcdatamodeld */; };
+		EC6ED3FA2612116400DEF7E7 /* ComicCD.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6ED3F82612116400DEF7E7 /* ComicCD.swift */; };
+		EC6ED40C261211D300DEF7E7 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6ED40B261211D300DEF7E7 /* CoreDataManager.swift */; };
 		ECBE613B251ADAC500A8E3A6 /* PopUpModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECBE613A251ADAC500A8E3A6 /* PopUpModalView.swift */; };
 /* End PBXBuildFile section */
 
@@ -99,6 +102,9 @@
 		EC374E392514E31000AE6B99 /* ComicCustomLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicCustomLayout.swift; sourceTree = "<group>"; };
 		EC3771C1251CCC0000A14E7C /* ComicApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ComicApp.entitlements; sourceTree = "<group>"; };
 		EC3771C3251CCC1700A14E7C /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		EC6ED3EE2612102C00DEF7E7 /* Comic.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Comic.xcdatamodel; sourceTree = "<group>"; };
+		EC6ED3F82612116400DEF7E7 /* ComicCD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicCD.swift; sourceTree = "<group>"; };
+		EC6ED40B261211D300DEF7E7 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		ECBE613A251ADAC500A8E3A6 /* PopUpModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpModalView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -162,6 +168,7 @@
 				2E504A76250FA1E90045D142 /* Assets.xcassets */,
 				2E504A78250FA1E90045D142 /* LaunchScreen.storyboard */,
 				2E504A7B250FA1E90045D142 /* Info.plist */,
+				EC6ED3ED2612102C00DEF7E7 /* Comic.xcdatamodeld */,
 			);
 			path = ComicApp;
 			sourceTree = "<group>";
@@ -189,7 +196,9 @@
 			isa = PBXGroup;
 			children = (
 				2E2A9C902510133500718B76 /* Comic.swift */,
+				EC6ED3F82612116400DEF7E7 /* ComicCD.swift */,
 				2E2A9C92251015E500718B76 /* Database.swift */,
+				EC6ED40B261211D300DEF7E7 /* CoreDataManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -434,9 +443,11 @@
 			files = (
 				77D34B7E251392E100FB1586 /* ProfileViewController.swift in Sources */,
 				2E504A6E250FA1E80045D142 /* AppDelegate.swift in Sources */,
+				EC6ED3FA2612116400DEF7E7 /* ComicCD.swift in Sources */,
 				EC374E372514DA7400AE6B99 /* ShelfCollectionViewCell.swift in Sources */,
 				ECBE613B251ADAC500A8E3A6 /* PopUpModalView.swift in Sources */,
 				56BC3A14252F5D0A00764036 /* uiImageExtension.swift in Sources */,
+				EC6ED3EF2612102C00DEF7E7 /* Comic.xcdatamodeld in Sources */,
 				2EFD6B5B2512537D00BFC3AF /* ShelfViewController.swift in Sources */,
 				2E2A9C912510133500718B76 /* Comic.swift in Sources */,
 				2E756AE9251907A200BE4DC0 /* EditComicViewController.swift in Sources */,
@@ -448,6 +459,7 @@
 				2E504A70250FA1E80045D142 /* SceneDelegate.swift in Sources */,
 				77D34B882513AC8900FB1586 /* ProfileCell.swift in Sources */,
 				EC374E3A2514E31000AE6B99 /* ComicCustomLayout.swift in Sources */,
+				EC6ED40C261211D300DEF7E7 /* CoreDataManager.swift in Sources */,
 				56EAC51625139D48002671E7 /* CustomSegmentedControl.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -777,6 +789,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		EC6ED3ED2612102C00DEF7E7 /* Comic.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				EC6ED3EE2612102C00DEF7E7 /* Comic.xcdatamodel */,
+			);
+			currentVersion = EC6ED3EE2612102C00DEF7E7 /* Comic.xcdatamodel */;
+			path = Comic.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 2E504A62250FA1E80045D142 /* Project object */;
 }

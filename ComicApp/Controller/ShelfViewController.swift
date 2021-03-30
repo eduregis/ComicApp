@@ -110,7 +110,6 @@ class ShelfViewController: UIViewController {
     func setEmptyState() {
         view.addSubview(emptyState)
         emptyState.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
             emptyState.bottomAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
             emptyState.centerXAnchor.constraint(equalTo: view.centerXAnchor)
