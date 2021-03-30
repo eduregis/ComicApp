@@ -7,15 +7,16 @@
 //
 
 import UIKit
+import CoreData
 
 class ShelfViewController: UIViewController {
     
     @IBOutlet weak var addButton: UIBarButtonItem!
     
-    var selectedComic: Comic?
+    var selectedComic: ComicCD?
     
     var emptyState = EmptyState()
-    
+        
     let comicCollectionView: UICollectionView = {
         let layout = ComicCustomLayout()
         layout.scrollDirection = .vertical
@@ -27,14 +28,10 @@ class ShelfViewController: UIViewController {
         return collectionView
     }()
     
-    var listOfComics: [Comic] = [] {
-        didSet {
-            DispatchQueue.main.async {
-                self.comicCollectionView.reloadData()
-                self.handleEmptyState()
-            }
-        }
-    }
+    lazy var viewModel: ShelfViewModel = { [weak self] in
+        let model = ShelfViewModel(status: "Lendo", controller: self!)
+        return model
+    }()
     
     let blurEffectView: UIVisualEffectView = {
         let effect = UIBlurEffect(style: .prominent)
@@ -74,13 +71,16 @@ class ShelfViewController: UIViewController {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         comicCollectionView.delegate = self
         comicCollectionView.dataSource = self
+        viewModel.handleTransition = {
+            DispatchQueue.main.async {
+                self.comicCollectionView.reloadData()
+                self.handleEmptyState()
+            }
+        }
         setCollectionView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        print(UserDefaults.standard.integer(forKey: "readingCount"))
-        print(UserDefaults.standard.integer(forKey: "readCount"))
-        print(UserDefaults.standard.integer(forKey: "wantToReadCount"))
         for subview in segmentedControl.subviews {
             if !subview.responds(to: #selector(setter: UITabBarItem.badgeValue)), subview.subviews.count == 1 {
                 subview.isHidden = true
@@ -100,7 +100,7 @@ class ShelfViewController: UIViewController {
     }
     
     func handleEmptyState() {
-        if listOfComics.count == 0 {
+        if viewModel.numberOfComics == 0 {
             setEmptyState()
         } else {
             emptyState.removeFromSuperview()
@@ -232,13 +232,6 @@ class ShelfViewController: UIViewController {
         performSegue(withIdentifier: "AddToShelfSegue", sender: self)
     }
     
-    func fileHandler(statusType: StatusType) {
-        guard let list = Database.shared.loadData(from: statusType) else {
-            fatalError()
-        }
-        listOfComics = list
-    }
-    
     @IBAction func indexChanged(_ sender: CustomSegmentedControl) {
         segmentedControl.indexChanged(newIndex: sender.selectedSegmentIndex)
         switchData(sender: sender)
@@ -251,20 +244,19 @@ class ShelfViewController: UIViewController {
     func loadListData () {
         switch segmentedControl.selectedSegmentIndex {
         case 0:
-            fileHandler(statusType: .reading)
+            viewModel.status = "Lendo"
         case 1:
-            fileHandler(statusType: .read)
+            viewModel.status = "Lido"
         case 2:
-            fileHandler(statusType: .wantToRead)
+            viewModel.status = "Quero Ler"
         default:
-            fileHandler(statusType: .reading)
+            viewModel.status = "Lendo"
         }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.destination is EditComicViewController {
             let tableVC = segue.destination as? EditComicViewController
-            tableVC?.comic = selectedComic
         }
     }
     
@@ -277,15 +269,22 @@ class ShelfViewController: UIViewController {
 
 extension ShelfViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return listOfComics.count
+        return viewModel.numberOfComics
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = comicCollectionView.dequeueReusableCell(withReuseIdentifier: "ShelfCell", for: indexPath) as? ShelfCollectionViewCell else {
             fatalError()
         }
-        cell.configCell(from: listOfComics[indexPath.row])
+        guard let comic = viewModel.comicForRow(at: indexPath) else {return ShelfCollectionViewCell()}
+        cell.configCell(from: comic)
         cell.delegate = self
         return cell
+    }
+}
+
+extension ShelfViewController: NSFetchedResultsControllerDelegate {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        self.comicCollectionView.reloadData()
     }
 }
