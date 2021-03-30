@@ -12,7 +12,7 @@ class ShelfCollectionViewCell: UICollectionViewCell {
 
     weak var delegate: PopUpModalDelegate?
     
-    var comic: Comic?
+    var comic: ComicCD?
     var imageForCell: UIImage?
     var gesture: UITapGestureRecognizer?
     
@@ -28,17 +28,17 @@ class ShelfCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    func configCell(from: Comic) {
+    func configCell(from comicCD: ComicCD) {
         self.progressView.setProgress(0, animated: false)
-        if let image = from.image {
+        if let image = comicCD.image {
             self.imageView.image = UIImage(data: image)
             self.imageForCell = UIImage(data: image)
         } else {
             let view = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 300))
-            view.backgroundColor = UIColor(named: from.color ?? "Pink")
+            view.backgroundColor = UIColor(named: comicCD.color ?? "Pink")
             let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 300))
             label.textColor = .white
-            label.text = from.title
+            label.text = comicCD.title
             label.font = label.font.withSize(25)
             label.lineBreakMode = .byWordWrapping
             label.numberOfLines = 3
@@ -47,21 +47,20 @@ class ShelfCollectionViewCell: UICollectionViewCell {
             self.imageView.image = view.asImage()
             self.imageForCell = view.asImage()
         }
-        if from.status == "Lendo" {
+        if comicCD.status == "Lendo" {
             self.progressView.tintColor = .systemBlue
-            if let finishNumber = from.finishNumber, let progressNumber = from.progressNumber {
-
-                animateCell(progressView: self.progressView, progress: (Float(progressNumber)/Float(finishNumber)))
-            }
+            let finishNumber = comicCD.finishNumber
+            let progressNumber = comicCD.progressNumber
+            animateCell(progressView: self.progressView, progress: (Float(progressNumber)/Float(finishNumber)))
         }
-        if from.status == "Lido" {
+        if comicCD.status == "Lido" {
             self.progressView.setProgress(1, animated: false)
             self.progressView.tintColor = .systemGreen
         }
-        if from.status == "Quero Ler" {
+        if comicCD.status == "Quero Ler" {
             self.progressView.setProgress(0, animated: false)
         }
-        self.comic = from
+        self.comic = comicCD
     }
     
     override init(frame: CGRect) {
@@ -114,7 +113,7 @@ class ShelfCollectionViewCell: UICollectionViewCell {
 }
 
 protocol PopUpModalDelegate: AnyObject {
-    func popUpModal(image: UIImage, comic: Comic)
+    func popUpModal(image: UIImage, comic: ComicCD)
 }
 
 extension UIView {
