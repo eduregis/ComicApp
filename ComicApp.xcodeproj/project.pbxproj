@@ -42,6 +42,7 @@
 		EC6ED3EF2612102C00DEF7E7 /* Comic.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EC6ED3ED2612102C00DEF7E7 /* Comic.xcdatamodeld */; };
 		EC6ED3FA2612116400DEF7E7 /* ComicCD.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6ED3F82612116400DEF7E7 /* ComicCD.swift */; };
 		EC6ED40C261211D300DEF7E7 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6ED40B261211D300DEF7E7 /* CoreDataManager.swift */; };
+		ECA54EEF26135E77009791C5 /* ShelfViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA54EEE26135E77009791C5 /* ShelfViewModel.swift */; };
 		ECBE613B251ADAC500A8E3A6 /* PopUpModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECBE613A251ADAC500A8E3A6 /* PopUpModalView.swift */; };
 /* End PBXBuildFile section */
 
@@ -105,6 +106,7 @@
 		EC6ED3EE2612102C00DEF7E7 /* Comic.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Comic.xcdatamodel; sourceTree = "<group>"; };
 		EC6ED3F82612116400DEF7E7 /* ComicCD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComicCD.swift; sourceTree = "<group>"; };
 		EC6ED40B261211D300DEF7E7 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		ECA54EEE26135E77009791C5 /* ShelfViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShelfViewModel.swift; sourceTree = "<group>"; };
 		ECBE613A251ADAC500A8E3A6 /* PopUpModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpModalView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -159,6 +161,7 @@
 		2E504A6C250FA1E80045D142 /* ComicApp */ = {
 			isa = PBXGroup;
 			children = (
+				ECA54EEC26135E60009791C5 /* ViewModel */,
 				EC3771C1251CCC0000A14E7C /* ComicApp.entitlements */,
 				2E504AA0250FAC4B0045D142 /* Model */,
 				2E504AA1250FAC510045D142 /* View */,
@@ -277,6 +280,14 @@
 				EC3771C3251CCC1700A14E7C /* CloudKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		ECA54EEC26135E60009791C5 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				ECA54EEE26135E77009791C5 /* ShelfViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -450,6 +461,7 @@
 				EC6ED3EF2612102C00DEF7E7 /* Comic.xcdatamodeld in Sources */,
 				2EFD6B5B2512537D00BFC3AF /* ShelfViewController.swift in Sources */,
 				2E2A9C912510133500718B76 /* Comic.swift in Sources */,
+				ECA54EEF26135E77009791C5 /* ShelfViewModel.swift in Sources */,
 				2E756AE9251907A200BE4DC0 /* EditComicViewController.swift in Sources */,
 				77D34B8225139F5800FB1586 /* ProfileProgress.swift in Sources */,
 				2E2A9C93251015E500718B76 /* Database.swift in Sources */,

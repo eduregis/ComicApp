@@ -119,6 +119,24 @@ class CoreDataManager {
         }
         return finalStatusProgress
     }
+    
+    func mock() {
+        let comic = ComicCD(context: persistentStore.viewContext)
+        comic.title = "Teste"
+        comic.image = UIImage(named: "AppIcon")?.jpegData(compressionQuality: 100)
+        comic.progressNumber = 10
+        comic.finishNumber = 20
+        comic.type = "Livro"
+        comic.organizeBy = "Capítulos"
+        comic.status = "Lendo"
+        comic.author = "Teste"
+        comic.artist = "Teste"
+        comic.lastEdit = NSDate.now
+        do {
+            try persistentStore.viewContext.save()
+        } catch {
+        }
+    }
 }
 
 struct ComicDTO {
