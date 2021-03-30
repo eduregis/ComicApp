@@ -24,7 +24,7 @@ class ProfileView: UIViewController, UIImagePickerControllerDelegate, NSFetchedR
     //Core data
     lazy var coreData = CoreDataManager(controller: self)
     
-    var lastComics: [ComicCD]
+    var lastComics: [ComicCD]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,7 +68,7 @@ class ProfileView: UIViewController, UIImagePickerControllerDelegate, NSFetchedR
     }
 
     func handleEmptyState() {
-        if lastComics.count == 0 {
+        if lastComics?.count == 0 {
             setEmptyState()
         } else {
             emptyState.removeFromSuperview()
@@ -126,15 +126,15 @@ extension ProfileView: UITableViewDelegate, UITableViewDataSource {
             fatalError()
         }
         
-        if let imageData = lastComics[indexPath.section].image {
+        if let imageData = lastComics?[indexPath.section].image {
             cell.comicImage.image = UIImage(data: imageData)
         } else {
             let viewPlaceholder = UIView(frame: cell.comicImage.frame)
-            viewPlaceholder.backgroundColor = UIColor(named: lastComics[indexPath.section].color ?? "Pink")
+            viewPlaceholder.backgroundColor = UIColor(named: lastComics?[indexPath.section].color ?? "Pink")
             cell.comicImage.image = viewPlaceholder.asImage()
         }
-        cell.comicName.text = lastComics[indexPath.section].title
-        cell.comicStatus.text = lastComics[indexPath.section].status
+        cell.comicName.text = lastComics?[indexPath.section].title
+        cell.comicStatus.text = lastComics?[indexPath.section].status
         
         return cell
     }
@@ -144,7 +144,7 @@ extension ProfileView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return lastComics.count
+        return lastComics?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
