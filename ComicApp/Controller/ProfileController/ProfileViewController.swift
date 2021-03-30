@@ -52,9 +52,9 @@ class ProfileView: UIViewController, UIImagePickerControllerDelegate, NSFetchedR
         tableView.showsVerticalScrollIndicator = false
         tableView.reloadData()
 
-        profileProgressView.readingLabel.text = "\(String(describing: coreData.fetchBy(by: "Lendo")?.count)) Lendo"
-        profileProgressView.readLabel.text = "\(String(describing: coreData.fetchBy(by: "Lido")?.count)) Lido"
-        profileProgressView.wantReadLabel.text = "\(String(describing: coreData.fetchBy(by: "Quero ler")?.count)) Quero ler"
+        profileProgressView.readingLabel.text = "\(String(describing: coreData.fetchBy(by: "Lendo")!.count)) Lendo"
+        profileProgressView.readLabel.text = "\(String(describing: coreData.fetchBy(by: "Lido")!.count)) Lido"
+        profileProgressView.wantReadLabel.text = "\(String(describing: coreData.fetchBy(by: "Quero ler")!.count)) Quero ler"
 
         profileProgressView.progressReading.progress = Float(coreData.statusProgress(status: .reading))
         profileProgressView.progressRead.progress = Float(coreData.statusProgress(status: .read))
@@ -126,15 +126,15 @@ extension ProfileView: UITableViewDelegate, UITableViewDataSource {
             fatalError()
         }
         
-        if let imageData = lastComics?[indexPath.section].image {
+        if let imageData = lastComics![indexPath.section].image {
             cell.comicImage.image = UIImage(data: imageData)
         } else {
             let viewPlaceholder = UIView(frame: cell.comicImage.frame)
-            viewPlaceholder.backgroundColor = UIColor(named: lastComics?[indexPath.section].color ?? "Pink")
+            viewPlaceholder.backgroundColor = UIColor(named: lastComics![indexPath.section].color ?? "Pink")
             cell.comicImage.image = viewPlaceholder.asImage()
         }
-        cell.comicName.text = lastComics?[indexPath.section].title
-        cell.comicStatus.text = lastComics?[indexPath.section].status
+        cell.comicName.text = lastComics![indexPath.section].title
+        cell.comicStatus.text = lastComics![indexPath.section].status
         
         return cell
     }

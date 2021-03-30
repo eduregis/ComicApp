@@ -121,9 +121,9 @@ class CoreDataManager {
     }
     
     func loadRecentComics(limit: Int) -> [ComicCD] {
-        let wantToReadList = fetchBy(by: "wantToRead")
-        let readingList = fetchBy(by: "reading")
-        let readList = fetchBy(by: "read")
+        let wantToReadList = fetchBy(by: "Quero Ler")
+        let readingList = fetchBy(by: "Lendo")
+        let readList = fetchBy(by: "Lido")
         
         var list = [ComicCD]()
         list.append(contentsOf: wantToReadList ?? [])
