@@ -13,6 +13,8 @@ class ShelfViewController: UIViewController {
     
     @IBOutlet weak var addButton: UIBarButtonItem!
     
+    weak var modalDelegate: PopUpModalDelegate?
+    
     var selectedComic: ComicCD?
     
     var emptyState = EmptyState()
@@ -33,36 +35,12 @@ class ShelfViewController: UIViewController {
         return model
     }()
     
-    let blurEffectView: UIVisualEffectView = {
-        let effect = UIBlurEffect(style: .prominent)
-        let blurEffectView = UIVisualEffectView(effect: effect)
-        return blurEffectView
+    let modalPopUp: ShelfViewModal = {
+        let modal = ShelfViewModal()
+        modal.translatesAutoresizingMaskIntoConstraints = false
+        return modal
     }()
-    
-    let imageForModal: UIImageView = {
-        let imageView = UIImageView()
-        imageView.isUserInteractionEnabled = true
-        return imageView
-    }()
-    
-    let lableForTitleInModal: UILabel = {
-        let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 20)
-        label.textAlignment = .center
-        label.text = "Teste"
-        label.adjustsFontSizeToFitWidth = true
-        return label
-    }()
-    
-    let statusLabelModal: UILabel = {
-        let statusLabel = UILabel()
-        return statusLabel
-    }()
-    
-    let progressViewModal: UIProgressView = {
-        let progressView = UIProgressView()
-        return progressView
-    }()
+
     @IBOutlet weak var segmentedControl: CustomSegmentedControl!
     
     override func viewDidLoad() {
@@ -71,13 +49,19 @@ class ShelfViewController: UIViewController {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         comicCollectionView.delegate = self
         comicCollectionView.dataSource = self
-        viewModel.handleTransition = {
+        viewModel.handleTransition = { [weak self] in
             DispatchQueue.main.async {
-                self.comicCollectionView.reloadData()
-                self.handleEmptyState()
+                self?.comicCollectionView.reloadData()
+                self?.handleEmptyState()
+            }
+        }
+        modalPopUp.handleView = { [unowned self] in
+            if !(self.modalPopUp.isDescendant(of: self.view)){
+                self.setModal()
             }
         }
         setCollectionView()
+        setModal()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -88,6 +72,17 @@ class ShelfViewController: UIViewController {
         }
         loadListData()
         handleEmptyState()
+    }
+    
+    func setModal() {
+        self.view.addSubview(modalPopUp)
+        modalPopUp.isHidden = true 
+        NSLayoutConstraint.activate([
+            modalPopUp.topAnchor.constraint(equalTo: self.view.topAnchor),
+            modalPopUp.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            modalPopUp.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            modalPopUp.rightAnchor.constraint(equalTo: self.view.rightAnchor)
+        ])
     }
     
     func setCollectionView() {
@@ -114,118 +109,6 @@ class ShelfViewController: UIViewController {
             emptyState.bottomAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
             emptyState.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
-    }
-    
-    func setImageForModal(fromImage image: UIImage) {
-        view.addSubview(imageForModal)
-        imageForModal.image = image
-        var aspectRatio: CGFloat = 0
-        if image.size.width > image.size.height {
-            aspectRatio = image.size.height/image.size.width
-            if image.size.width > 300 {
-                imageForModal.widthAnchor.constraint(equalToConstant: 300).isActive = true
-            } else {
-                imageForModal.widthAnchor.constraint(equalToConstant: image.size.height).isActive = true
-            }
-            imageForModal.heightAnchor.constraint(equalTo: imageForModal.widthAnchor, multiplier: aspectRatio).isActive = true
-        } else if image.size.width == image.size.height {
-            imageForModal.widthAnchor.constraint(equalToConstant: 300).isActive = true
-            imageForModal.heightAnchor.constraint(equalToConstant: 300).isActive = true
-        } else {
-            aspectRatio = image.size.width/image.size.height
-            if image.size.height > 300 {
-                imageForModal.heightAnchor.constraint(equalToConstant: 300).isActive = true
-            } else {
-                imageForModal.heightAnchor.constraint(equalToConstant: image.size.height).isActive = true
-            }
-            imageForModal.widthAnchor.constraint(equalTo: imageForModal.heightAnchor, multiplier: aspectRatio).isActive = true
-        }
-        imageForModal.contentMode = .scaleAspectFit
-        imageForModal.clipsToBounds = true
-        imageForModal.translatesAutoresizingMaskIntoConstraints = false
-        imageForModal.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        imageForModal.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
-        imageForModal.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-        imageForModal.alpha = 0
-        UIView.animate(withDuration: 0.4, animations: {
-            self.imageForModal.alpha = 1
-            self.imageForModal.transform = CGAffineTransform.identity
-        }) { _ in
-            let gesture = UITapGestureRecognizer(target: self, action: #selector(self.executarSegue))
-            self.imageForModal.addGestureRecognizer(gesture)
-        }
-    }
-    
-    func setBlurEffectView() {
-        navigationController?.navigationBar.alpha = 0.1
-        addButton.isEnabled = false
-        blurEffectView.frame = view.frame
-        self.view.addSubview(blurEffectView)
-        blurEffectView.alpha = 1
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(self.removeModal))
-        self.blurEffectView.addGestureRecognizer(gesture)
-    }
-    
-    func setLableForTitleInModal(fromText: String) {
-        view.addSubview(lableForTitleInModal)
-        lableForTitleInModal.text = fromText
-        lableForTitleInModal.translatesAutoresizingMaskIntoConstraints = false
-        lableForTitleInModal.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true 
-        lableForTitleInModal.bottomAnchor.constraint(equalTo: imageForModal.topAnchor, constant: -17).isActive = true
-        lableForTitleInModal.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -17).isActive = true
-        lableForTitleInModal.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 17).isActive = true 
-        lableForTitleInModal.alpha = 0
-        lableForTitleInModal.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-        UIView.animate(withDuration: 0.4) {
-            self.lableForTitleInModal.alpha = 1
-            self.lableForTitleInModal.transform = CGAffineTransform.identity
-        }
-    }
-    
-    func setStatusForModal(status: String, progress: Float, comicStatus: String) {
-        view.addSubview(statusLabelModal)
-        view.addSubview(progressViewModal)
-        if comicStatus == "Lido"{
-            self.progressViewModal.tintColor = .systemGreen
-        } else {
-            self.progressViewModal.tintColor = .systemBlue
-        }
-        statusLabelModal.text = status
-        progressViewModal.setProgress(0, animated: true)
-        statusLabelModal.translatesAutoresizingMaskIntoConstraints = false
-        statusLabelModal.topAnchor.constraint(equalToSystemSpacingBelow: imageForModal.bottomAnchor, multiplier: 3).isActive = true
-        statusLabelModal.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        progressViewModal.translatesAutoresizingMaskIntoConstraints = false
-        progressViewModal.topAnchor.constraint(equalToSystemSpacingBelow: statusLabelModal.bottomAnchor, multiplier: 3).isActive = true
-        progressViewModal.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        progressViewModal.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.5).isActive = true
-        progressViewModal.heightAnchor.constraint(equalToConstant: 10).isActive = true
-        self.progressViewModal.setProgress(progress, animated: true)
-        UIView.animate(withDuration: 0.4) {
-            self.statusLabelModal.alpha = 1
-            self.progressViewModal.alpha = 1
-        }
-    }
-    
-    @objc func removeModal() {
-        UIView.animate(withDuration: 0.4, animations: {
-            self.imageForModal.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-            self.imageForModal.alpha = 0
-            self.lableForTitleInModal.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-            self.lableForTitleInModal.alpha = 0
-            self.blurEffectView.alpha = 0
-            self.statusLabelModal.alpha = 0
-            self.progressViewModal.alpha = 0
-        }) { _ in
-            self.imageForModal.removeFromSuperview()
-            self.blurEffectView.removeFromSuperview()
-            self.imageForModal.removeConstraints(self.imageForModal.constraints)
-            self.lableForTitleInModal.removeFromSuperview()
-            self.statusLabelModal.removeFromSuperview()
-            self.progressViewModal.removeFromSuperview()
-        }
-        navigationController?.navigationBar.alpha = 1
-        addButton.isEnabled = true
     }
     
     @IBAction func addToSheftButton(_ sender: Any) {
@@ -262,7 +145,7 @@ class ShelfViewController: UIViewController {
     
     @objc func executarSegue() {
         performSegue(withIdentifier: "EditComicSegue", sender: self)
-        removeModal()
+        modalDelegate?.removeModal()
     }
     
 }
@@ -278,8 +161,16 @@ extension ShelfViewController: UICollectionViewDataSource, UICollectionViewDeleg
         }
         guard let comic = viewModel.comicForRow(at: indexPath) else {return ShelfCollectionViewCell()}
         cell.configCell(from: comic)
-        cell.delegate = self
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let comic = viewModel.comicForRow(at: indexPath) else {return}
+        guard let data = comic.image else {return}
+        modalDelegate = modalPopUp
+        let image = UIImage(data: data)
+        modalDelegate?.popUpModal(image: image!, comic: comic)
+        self.selectedComic = comic
     }
 }
 
