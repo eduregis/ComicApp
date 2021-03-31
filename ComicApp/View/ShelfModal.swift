@@ -81,9 +81,9 @@ class ShelfViewModal: UIView {
         imageForModal.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         imageForModal.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
         imageForModal.alpha = 0
-        UIView.animate(withDuration: 0.4, animations: {
-            self.imageForModal.alpha = 1
-            self.imageForModal.transform = CGAffineTransform.identity
+        UIView.animate(withDuration: 0.4, animations: { [weak self] in
+            self?.imageForModal.alpha = 1
+            self?.imageForModal.transform = CGAffineTransform.identity
         }) { _ in
             let gesture = UITapGestureRecognizer(target: ShelfViewController.self, action: #selector(ShelfViewController.executarSegue))
             self.imageForModal.addGestureRecognizer(gesture)
@@ -110,9 +110,9 @@ class ShelfViewModal: UIView {
         lableForTitleInModal.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 17).isActive = true
         lableForTitleInModal.alpha = 0
         lableForTitleInModal.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-        UIView.animate(withDuration: 0.4) {
-            self.lableForTitleInModal.alpha = 1
-            self.lableForTitleInModal.transform = CGAffineTransform.identity
+        UIView.animate(withDuration: 0.4) { [weak self] in
+            self?.lableForTitleInModal.alpha = 1
+            self?.lableForTitleInModal.transform = CGAffineTransform.identity
         }
     }
     
@@ -135,14 +135,13 @@ class ShelfViewModal: UIView {
         progressViewModal.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.5).isActive = true
         progressViewModal.heightAnchor.constraint(equalToConstant: 10).isActive = true
         self.progressViewModal.setProgress(progress, animated: true)
-        UIView.animate(withDuration: 0.4) {
-            self.statusLabelModal.alpha = 1
-            self.progressViewModal.alpha = 1
+        UIView.animate(withDuration: 0.4) { [weak self] in
+            self?.statusLabelModal.alpha = 1
+            self?.progressViewModal.alpha = 1
         }
     }
     
 }
-
 
 extension ShelfViewModal: PopUpModalDelegate {
     
@@ -160,19 +159,17 @@ extension ShelfViewModal: PopUpModalDelegate {
     }
     
     @objc func removeModal() {
-        UIView.animate(withDuration: 0.4, animations: {
-            self.imageForModal.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-            self.imageForModal.alpha = 0
-            self.lableForTitleInModal.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-            self.lableForTitleInModal.alpha = 0
-            self.blurEffectView.alpha = 0
-            self.statusLabelModal.alpha = 0
-            self.progressViewModal.alpha = 0
+        UIView.animate(withDuration: 0.4, animations: { [weak self] in
+            self?.imageForModal.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+            self?.imageForModal.alpha = 0
+            self?.lableForTitleInModal.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+            self?.lableForTitleInModal.alpha = 0
+            self?.blurEffectView.alpha = 0
+            self?.statusLabelModal.alpha = 0
+            self?.progressViewModal.alpha = 0
         }) { _ in
             self.removeFromSuperview()
         }
-//        navigationController?.navigationBar.alpha = 1
-//        addButton.isEnabled = true
     }
     
 }

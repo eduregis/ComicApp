@@ -240,8 +240,7 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
                 }
             }
             Database.shared.editData(comic: editComic, statusType: statusType)
-            
-            
+
             navigationController?.popViewController(animated: true)
         } else {
             nameRequiredTrigger()
