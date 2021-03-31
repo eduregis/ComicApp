@@ -120,6 +120,26 @@ class CoreDataManager {
         return finalStatusProgress
     }
     
+    func loadRecentComics(limit: Int) -> [ComicCD] {
+        let wantToReadList = fetchBy(by: "Quero Ler")
+        let readingList = fetchBy(by: "Lendo")
+        let readList = fetchBy(by: "Lido")
+        
+        var list = [ComicCD]()
+        list.append(contentsOf: wantToReadList ?? [])
+        list.append(contentsOf: readingList ?? [])
+        list.append(contentsOf: readList ?? [])
+        
+        list = list.sorted(by: { $0.lastEdit! > $1.lastEdit! })
+        
+        var limitedList: [ComicCD] = []
+        let limitNumber = min(limit, list.count)
+        for index in 0 ..< limitNumber {
+            limitedList.append(list[index])
+        }
+        return limitedList
+    }
+
     func mock() {
         let comic = ComicCD(context: persistentStore.viewContext)
         comic.title = "Teste"

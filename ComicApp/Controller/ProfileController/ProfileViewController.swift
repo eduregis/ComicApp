@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import CoreData
 
-class ProfileView: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+class ProfileView: UIViewController, UIImagePickerControllerDelegate, NSFetchedResultsControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var userImage: UIImageView!
@@ -18,7 +19,12 @@ class ProfileView: UIViewController, UIImagePickerControllerDelegate & UINavigat
     
     var emptyState = EmptyState()
     
-    var lastComics = Database.shared.loadRecentComics(limit: 5)
+    //var lastComics = Database.shared.loadRecentComics(limit: 5)
+    
+    //Core data
+    lazy var coreData = CoreDataManager(controller: self)
+    
+    var lastComics: [ComicCD]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +38,8 @@ class ProfileView: UIViewController, UIImagePickerControllerDelegate & UINavigat
         tableView.sectionIndexColor = .clear
         tableView.backgroundColor = .clear
         
+        lastComics = coreData.loadRecentComics(limit: 5)
+        
         self.imagePicker.delegate = self
         
         setButtonUserImage()
@@ -40,17 +48,17 @@ class ProfileView: UIViewController, UIImagePickerControllerDelegate & UINavigat
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        lastComics = Database.shared.loadRecentComics(limit: 5)
+        lastComics = coreData.loadRecentComics(limit: 5)
         tableView.showsVerticalScrollIndicator = false
         tableView.reloadData()
 
-        profileProgressView.readingLabel.text = "\(String(describing: Database.shared.loadData(from: .reading)!.count)) Lendo"
-        profileProgressView.readLabel.text = "\(String(describing: Database.shared.loadData(from: .read)!.count)) Lido"
-        profileProgressView.wantReadLabel.text = "\(String(describing: Database.shared.loadData(from: .wantToRead)!.count)) Quero ler"
+        profileProgressView.readingLabel.text = "\(String(describing: coreData.fetchBy(by: "Lendo")!.count)) Lendo"
+        profileProgressView.readLabel.text = "\(String(describing: coreData.fetchBy(by: "Lido")!.count)) Lido"
+        profileProgressView.wantReadLabel.text = "\(String(describing: coreData.fetchBy(by: "Quero ler")!.count)) Quero ler"
 
-        profileProgressView.progressReading.progress = Float(Database.shared.statusProgress(statusFrom: .reading))
-        profileProgressView.progressRead.progress = Float(Database.shared.statusProgress(statusFrom: .read))
-        profileProgressView.progressWantRead.progress = Float(Database.shared.statusProgress(statusFrom: .wantToRead))
+        profileProgressView.progressReading.progress = Float(coreData.statusProgress(status: .reading))
+        profileProgressView.progressRead.progress = Float(coreData.statusProgress(status: .read))
+        profileProgressView.progressWantRead.progress = Float(coreData.statusProgress(status: .wantToRead))
         
         if let data = UserDefaults.standard.data(forKey: "userImage") {
             userImage.image = UIImage(data: data)
@@ -60,7 +68,7 @@ class ProfileView: UIViewController, UIImagePickerControllerDelegate & UINavigat
     }
 
     func handleEmptyState() {
-        if lastComics.count == 0 {
+        if lastComics?.count == 0 {
             setEmptyState()
         } else {
             emptyState.removeFromSuperview()
@@ -118,15 +126,15 @@ extension ProfileView: UITableViewDelegate, UITableViewDataSource {
             fatalError()
         }
         
-        if let imageData = lastComics[indexPath.section].image {
+        if let imageData = lastComics![indexPath.section].image {
             cell.comicImage.image = UIImage(data: imageData)
         } else {
             let viewPlaceholder = UIView(frame: cell.comicImage.frame)
-            viewPlaceholder.backgroundColor = UIColor(named: lastComics[indexPath.section].color ?? "Pink")
+            viewPlaceholder.backgroundColor = UIColor(named: lastComics![indexPath.section].color ?? "Pink")
             cell.comicImage.image = viewPlaceholder.asImage()
         }
-        cell.comicName.text = lastComics[indexPath.section].title
-        cell.comicStatus.text = lastComics[indexPath.section].status
+        cell.comicName.text = lastComics![indexPath.section].title
+        cell.comicStatus.text = lastComics![indexPath.section].status
         
         return cell
     }
@@ -136,7 +144,7 @@ extension ProfileView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return lastComics.count
+        return lastComics?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -154,7 +162,8 @@ extension ProfileView: UITableViewDelegate, UITableViewDataSource {
             fatalError("Unexpected Error; \(String(describing: Error.self))")
         }
         
-        editComicController.comic = lastComics[indexPath.section]
+        //Enviar o Comic para o edit?
+        //editComicController.comic = lastComics[indexPath.section]
         navigationController?.pushViewController(editComicController, animated: true)
     }
 }

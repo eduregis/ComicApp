@@ -22,6 +22,7 @@ class ShelfViewModel {
     init(status: String, controller: NSFetchedResultsControllerDelegate) {
         self.status = status
         self.repository = CoreDataManager(controller: controller)
+        //repository.mock()
     }
 }
 
