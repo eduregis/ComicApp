@@ -14,6 +14,17 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
     
     var comic: Comic?
     
+    var comicData : ComicCD?
+    
+    init(comic: ComicCD) {
+        super.init(style: .grouped)
+        self.comicData = comic
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     var imagePickerButton = UIButton()
     
     var comicTitle: String?
@@ -39,11 +50,11 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
     var pickerFieldName: String = ""
     var pickerData: [String] = []
     
-    let typeData = ["Quadrinho", "Livro"]
+    let typeData = StatusType.allStringValues
     var typeIndex = 0
-    let organizeByData = ["Página", "Capítulo", "Volume"]
+    let organizeByData = OrganizationType.allStringValues
     var organizeByIndex = 2
-    let statusData = ["Lendo", "Lido", "Quero Ler"]
+    let statusData = DataType.allStringValues
     var statusIndex = 2
     
     let nameRequiredAlert = UIAlertController(title: "Atenção", message: "O campo de nome deve ser preenchido", preferredStyle: .alert)
@@ -100,10 +111,10 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
             author = comic.author
             artist = comic.artist
             switch comic.type {
-            case "Quadrinho":
+            case .comic:
                 type = typeData[0]
                 typeIndex = 0
-            case "Livro":
+            case .book:
                 type = typeData[1]
                 typeIndex = 1
             default:
@@ -111,13 +122,13 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
             }
             
             switch comic.organizeBy {
-            case "Página":
+            case .page:
                 organizeBy = organizeByData[0]
                 organizeByIndex = 0
-            case "Capítulo":
+            case .page:
                 organizeBy = organizeByData[1]
                 organizeByIndex = 1
-            case "Volume":
+            case .vol:
                 organizeBy = organizeByData[2]
                 organizeByIndex = 2
             default:
@@ -125,11 +136,11 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
             }
             
             switch comic.status {
-            case "Lendo":
+            case .reading:
                 statusIndex = 0
-            case "Lido":
+            case .read:
                 statusIndex = 1
-            case "Quero Ler":
+            case .wantToRead:
                 statusIndex = 2
             default:
                 break
@@ -150,13 +161,13 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
     
     func deleteData() {
         switch comic?.status {
-        case "Quero Ler":
+        case .wantToRead:
             Database.shared.deleteData(from: .wantToRead, at: comic!.comicId)
             UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "wantToReadCount") - 1, forKey: "wantToReadCount")
-        case "Lido":
+        case .read:
             Database.shared.deleteData(from: .read, at: comic!.comicId)
             UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "readCount") - 1, forKey: "readCount")
-        case "Lendo":
+        case .reading:
             Database.shared.deleteData(from: .reading, at: comic!.comicId)
             UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "readingCount") - 1, forKey: "readingCount")
         default:
@@ -204,7 +215,7 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
         
             ajustStepper()
             
-            var editComic = Comic(comicId: comic!.comicId, title: comicTitle!, image: pickedImage, progressNumber: progressNumber, finishNumber: finishNumber, type: type!, organizeBy: organizeBy!, status: "-", author: author, artist: artist)
+            var editComic = Comic(comicId: comic!.comicId, title: comicTitle!, image: pickedImage, progressNumber: progressNumber, finishNumber: finishNumber, type: DataType(rawValue: type!)!, organizeBy: OrganizationType(rawValue: organizeBy!)!, status: .reading, author: author, artist: artist)
             
             editComic.color = comic?.color
             
@@ -212,16 +223,16 @@ class EditComicViewController: UITableViewController, UIImagePickerControllerDel
             
             switch statusIndex {
             case 0:
-                editComic.status = "Lendo"
+                editComic.status = .reading
                 statusType = .reading
             case 1:
-                editComic.status = "Lido"
+                editComic.status = .read
                 statusType = .read
             case 2:
-                editComic.status = "Quero Ler"
+                editComic.status = .wantToRead
                 statusType = .wantToRead
             default:
-                editComic.status = "Quero Ler"
+                editComic.status = .wantToRead
                 statusType = .wantToRead
             }
             

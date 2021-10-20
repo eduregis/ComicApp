@@ -161,7 +161,7 @@ extension ProfileView: UITableViewDelegate, UITableViewDataSource {
         guard let editComicController = UIStoryboard(name: "EditComic", bundle: nil).instantiateInitialViewController() as? EditComicViewController else {
             fatalError("Unexpected Error; \(String(describing: Error.self))")
         }
-        
+
         //Enviar o Comic para o edit?
         //editComicController.comic = lastComics[indexPath.section]
         navigationController?.pushViewController(editComicController, animated: true)

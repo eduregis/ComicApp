@@ -30,8 +30,8 @@ class ShelfViewController: UIViewController {
         return collectionView
     }()
     
-    lazy var viewModel: ShelfViewModel = { [weak self] in
-        let model = ShelfViewModel(status: "Lendo", controller: self!)
+    lazy var viewModel: ShelfViewModel = { [unowned self] in
+        let model = ShelfViewModel(status: "Lendo", controller: self)
         return model
     }()
     
@@ -56,9 +56,7 @@ class ShelfViewController: UIViewController {
             }
         }
         modalPopUp.handleView = { [unowned self] in
-            if !(self.modalPopUp.isDescendant(of: self.view)){
-                self.setModal()
-            }
+            if !(self.modalPopUp.isDescendant(of: self.view)) {self.setModal()}
         }
         setCollectionView()
         setModal()
