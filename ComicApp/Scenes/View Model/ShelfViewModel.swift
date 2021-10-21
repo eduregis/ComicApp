@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 class ShelfViewModel {
 
@@ -22,12 +23,8 @@ class ShelfViewModel {
     init(status: String, controller: NSFetchedResultsControllerDelegate) {
         self.status = status
         self.repository = CoreDataManager(controller: controller)
-        //repository.mock()
     }
-}
 
-extension ShelfViewModel {
-    
     public var numberOfComics: Int {
         return repository.fetchBy(by: status)?.count ?? 0
     }
@@ -40,5 +37,4 @@ extension ShelfViewModel {
     public func deleteComic (comic: ComicCD) {
         _ = repository.delete(comic)
     }
-
 }

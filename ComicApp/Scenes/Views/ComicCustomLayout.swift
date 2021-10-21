@@ -10,14 +10,14 @@ import UIKit
 
 class ComicCustomLayout: UICollectionViewFlowLayout {
 
-  //Duas propriedades que configuram o layout
+  // Duas propriedades que configuram o layout
   private let numberOfColumns = 2
   private let cellPadding: CGFloat = 6
 
-  //Um array para armazenar os atributos calculados. Quando você chamar o método prepare(), você calculará os atributos para todos os itens e adiciona-los ao cache. Quando a collectionview solicitar os atributos de layout, você consegue facilmente salvar os atributos sem precisar ficar recalculando.
+  // Um array para armazenar os atributos calculados. Quando você chamar o método prepare(), você calculará os atributos para todos os itens e adiciona-los ao cache. Quando a collectionview solicitar os atributos de layout, você consegue facilmente salvar os atributos sem precisar ficar recalculando.
    var cache: [UICollectionViewLayoutAttributes] = []
 
-  //Duas propriedades para armazenar os tamanhos dos conteúdos. Você incrementa o ContentHeight conforme adiciona fotos e calcula contentWidth based on the collectionview width e o seu conteudo insets.
+  // Duas propriedades para armazenar os tamanhos dos conteúdos. Você incrementa o ContentHeight conforme adiciona fotos e calcula contentWidth based on the collectionview width e o seu conteudo insets.
   private var contentHeight: CGFloat = 0
 
   private var contentWidth: CGFloat {
@@ -42,7 +42,7 @@ class ComicCustomLayout: UICollectionViewFlowLayout {
     cache.removeAll()
     contentHeight = 0 
 
-    //Declara e preenche o array xOffSet com a coordenada-x oara cada coluna baseada no columnWidth. O yOffSet monitora a posição-y de cada coluna. Você inicializara cada valor de yOffSet como 0 ja que este offset é o primeiro item de cada coluna.
+    // Declara e preenche o array xOffSet com a coordenada-x oara cada coluna baseada no columnWidth. O yOffSet monitora a posição-y de cada coluna. Você inicializara cada valor de yOffSet como 0 ja que este offset é o primeiro item de cada coluna.
     let columnWidth = contentWidth / CGFloat(numberOfColumns)
     var xOffSet: [CGFloat] = []
     for column in 0..<numberOfColumns {
@@ -71,7 +71,7 @@ class ComicCustomLayout: UICollectionViewFlowLayout {
       atributes.frame = insetFrame
       cache.append(atributes)
 
-      //Expande o contentHeight para se encaixar o frame do novo item calculado. Então, adiciona o atual yOffSet para a coluna atual baseada no frame. Finalmente, adiciona novo coluna assim o proximo item sera adicionado na proxima coluna
+      // Expande o contentHeight para se encaixar o frame do novo item calculado. Então, adiciona o atual yOffSet para a coluna atual baseada no frame. Finalmente, adiciona novo coluna assim o proximo item sera adicionado na proxima coluna
       contentHeight = max(contentHeight, frame.maxY)
       yOffSet[column] = yOffSet[column] + height
       column = column < (numberOfColumns - 1) ? (column + 1) : 0

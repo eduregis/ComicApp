@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ShelfCollectionViewCell: UICollectionViewCell {
+public class ShelfCollectionViewCell: UICollectionViewCell {
     
     var comic: ComicCD?
     var imageForCell: UIImage?

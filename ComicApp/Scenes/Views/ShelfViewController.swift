@@ -20,13 +20,7 @@ class ShelfViewController: UIViewController {
     var emptyState = EmptyState()
         
     let comicCollectionView: UICollectionView = {
-        let layout = ComicCustomLayout()
-        layout.scrollDirection = .vertical
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(ShelfCollectionViewCell.self, forCellWithReuseIdentifier: "ShelfCell")
-        collectionView.backgroundColor = .clear
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.showsVerticalScrollIndicator = false
+        let collectionView = ShelfCollection(with: ComicCustomLayout())
         return collectionView
     }()
     
