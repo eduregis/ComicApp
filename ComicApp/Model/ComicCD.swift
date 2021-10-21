@@ -15,7 +15,6 @@ public class ComicCD: NSManagedObject {
 
 }
 
-
 extension ComicCD {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<ComicCD> {
@@ -36,6 +35,6 @@ extension ComicCD {
 
 }
 
-extension ComicCD : Identifiable {
+extension ComicCD: Identifiable {
 
 }

@@ -11,7 +11,7 @@ import CoreData
 
 class ShelfViewModel {
 
-    var albuns = [ComicCD]()
+    var comics = [ComicCD]()
     var handleTransition: (() -> Void)?
     let repository: CoreDataManager
     var status: String {
@@ -33,8 +33,8 @@ extension ShelfViewModel {
     }
 
     public func comicForRow(at index: IndexPath) -> ComicCD? {
-        let album = repository.fetchBy(by: status)![index.row]
-        return album
+        let comic = repository.fetchBy(by: status)![index.row]
+        return comic
     }
 
     public func deleteComic (comic: ComicCD) {

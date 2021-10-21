@@ -9,8 +9,6 @@
 import UIKit
 
 class ShelfCollectionViewCell: UICollectionViewCell {
-
-    weak var delegate: PopUpModalDelegate?
     
     var comic: ComicCD?
     var imageForCell: UIImage?
@@ -67,8 +65,6 @@ class ShelfCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         setupView()
         setupConstraints()
-        gesture = UITapGestureRecognizer(target: self, action: #selector(openModal))
-        self.addGestureRecognizer(gesture!)
     }
     
     required init?(coder: NSCoder) {
@@ -104,16 +100,6 @@ class ShelfCollectionViewCell: UICollectionViewCell {
             }
         }
     }
-    
-    @objc func openModal() {
-        if let image = self.imageForCell, let comic = self.comic {
-                      delegate?.popUpModal(image: image, comic: comic)
-        }
-    }
-}
-
-protocol PopUpModalDelegate: AnyObject {
-    func popUpModal(image: UIImage, comic: ComicCD)
 }
 
 extension UIView {

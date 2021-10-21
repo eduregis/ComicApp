@@ -43,11 +43,11 @@ class AddToShelfViewController: UITableViewController, UIImagePickerControllerDe
     var pickerFieldName: String = ""
     var pickerData: [String] = []
     
-    let typeData = ["Quadrinho", "Livro"]
+    let typeData = DataType.allStringValues
     var typeIndex = 0
-    let organizeByData = ["Página", "Capítulo", "Volume"]
+    let organizeByData = OrganizationType.allStringValues
     var organizeByIndex = 2
-    let statusData = ["Lendo", "Lido", "Quero Ler"]
+    let statusData = StatusType.allStringValues
     var statusIndex = 2
     
     override func viewDidLoad() {
@@ -142,23 +142,23 @@ class AddToShelfViewController: UITableViewController, UIImagePickerControllerDe
             
             ajustStepper()
             
-            var addComic = Comic(title: comicTitle!, image: pickedImage, progressNumber: progressNumber, finishNumber: finishNumber, type: type!, organizeBy: organizeBy!, status: "-", author: author, artist: artist)
+            var addComic = Comic(title: comicTitle!, image: pickedImage, progressNumber: progressNumber, finishNumber: finishNumber, type: DataType(rawValue: type!)!, organizeBy: OrganizationType(rawValue: organizeBy!)!, status: StatusType.wantToRead, author: author, artist: artist)
             var statusType: StatusType
             switch statusIndex {
             case 0:
-                addComic.status = "Lendo"
+                addComic.status = .reading
                 statusType = .reading
                 UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "readingCount") + 1, forKey: "readingCount")
             case 1:
-                addComic.status = "Lido"
+                addComic.status = .read
                 statusType = .read
                 UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "readCount") + 1, forKey: "readCount")
             case 2:
-                addComic.status = "Quero Ler"
+                addComic.status = .wantToRead
                 statusType = .wantToRead
                 UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "wantToReadCount") + 1, forKey: "wantToReadCount")
             default:
-                addComic.status = "Quero Ler"
+                addComic.status = .wantToRead
                 statusType = .wantToRead
                 UserDefaults.standard.set(UserDefaults.standard.integer(forKey: "wantToReadCount") + 1, forKey: "wantToReadCount")
             }
