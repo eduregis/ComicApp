@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 
-
 protocol PopUpModalDelegate: AnyObject {
     func popUpModal(image: UIImage, comic: ComicCD)
     func removeModal()
@@ -91,8 +90,6 @@ class ShelfViewModal: UIView {
     }
     
     func setBlurEffectView() {
-//        navigationController?.navigationBar.alpha = 0.1
-//        addButton.isEnabled = false
         blurEffectView.frame = self.frame
         self.addSubview(blurEffectView)
         blurEffectView.alpha = 1

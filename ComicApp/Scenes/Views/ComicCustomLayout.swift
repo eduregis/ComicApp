@@ -113,7 +113,7 @@ class ComicCustomLayout: UICollectionViewFlowLayout {
         }
     }
 
-    func zerarCache() {
+    func emptyCache() {
         cache = []
     }
 }

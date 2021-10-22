@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="HQO-Fo-bbD">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="HQO-Fo-bbD">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -16,27 +16,8 @@
                     <view key="view" contentMode="scaleToFill" id="OAN-lP-8EI">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="kFb-Z6-dIV" customClass="CustomSegmentedControl" customModule="ComicApp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="88" width="414" height="32"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <segments>
-                                    <segment title="Lendo"/>
-                                    <segment title="Lido"/>
-                                    <segment title="Quero ler"/>
-                                </segments>
-                                <connections>
-                                    <action selector="indexChanged:" destination="DJe-o2-c8O" eventType="valueChanged" id="9pH-iC-ULZ"/>
-                                </connections>
-                            </segmentedControl>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="N4J-nR-gLV"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="kFb-Z6-dIV" firstAttribute="trailing" secondItem="N4J-nR-gLV" secondAttribute="trailing" id="48B-we-Fco"/>
-                            <constraint firstItem="kFb-Z6-dIV" firstAttribute="top" secondItem="N4J-nR-gLV" secondAttribute="top" id="AFD-UF-ABq"/>
-                            <constraint firstItem="kFb-Z6-dIV" firstAttribute="leading" secondItem="N4J-nR-gLV" secondAttribute="leading" id="rwW-4c-lGa"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="I9x-L3-p1S">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="plus" catalog="system" id="Hto-G7-3MO">
@@ -48,7 +29,6 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="addButton" destination="Hto-G7-3MO" id="Wgh-BP-jZe"/>
-                        <outlet property="segmentedControl" destination="kFb-Z6-dIV" id="j6V-qj-Aoj"/>
                         <segue destination="t5c-Xx-YJq" kind="show" identifier="AddToShelfSegue" id="dor-CP-qm0"/>
                         <segue destination="UZM-LF-m9A" kind="show" identifier="EditComicSegue" id="zRN-A7-mo4"/>
                     </connections>

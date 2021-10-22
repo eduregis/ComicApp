@@ -1,6 +1,7 @@
 disabled_rules:
 - trailing_whitespace
 - unused_optional_binding
+- comment_spacing
 
 line_length: 500
 file_length: 500
