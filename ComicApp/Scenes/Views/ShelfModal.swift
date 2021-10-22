@@ -27,6 +27,9 @@ class ShelfViewModal: UIView {
     let imageForModal: UIImageView = {
         let imageView = UIImageView()
         imageView.isUserInteractionEnabled = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
         return imageView
     }()
     
@@ -49,33 +52,10 @@ class ShelfViewModal: UIView {
         return progressView
     }()
     
-    func setImageForModal(fromImage image: UIImage) {
+    func setImageForModal(from image: UIImage) {
         self.addSubview(imageForModal)
         imageForModal.image = image
-        var aspectRatio: CGFloat = 0
-        if image.size.width > image.size.height {
-            aspectRatio = image.size.height/image.size.width
-            if image.size.width > 300 {
-                imageForModal.widthAnchor.constraint(equalToConstant: 300).isActive = true
-            } else {
-                imageForModal.widthAnchor.constraint(equalToConstant: image.size.height).isActive = true
-            }
-            imageForModal.heightAnchor.constraint(equalTo: imageForModal.widthAnchor, multiplier: aspectRatio).isActive = true
-        } else if image.size.width == image.size.height {
-            imageForModal.widthAnchor.constraint(equalToConstant: 300).isActive = true
-            imageForModal.heightAnchor.constraint(equalToConstant: 300).isActive = true
-        } else {
-            aspectRatio = image.size.width/image.size.height
-            if image.size.height > 300 {
-                imageForModal.heightAnchor.constraint(equalToConstant: 300).isActive = true
-            } else {
-                imageForModal.heightAnchor.constraint(equalToConstant: image.size.height).isActive = true
-            }
-            imageForModal.widthAnchor.constraint(equalTo: imageForModal.heightAnchor, multiplier: aspectRatio).isActive = true
-        }
-        imageForModal.contentMode = .scaleAspectFit
-        imageForModal.clipsToBounds = true
-        imageForModal.translatesAutoresizingMaskIntoConstraints = false
+        getSizesAnchors(for: image, in: imageForModal)
         imageForModal.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         imageForModal.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         imageForModal.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
@@ -140,6 +120,32 @@ class ShelfViewModal: UIView {
     
 }
 
+extension ShelfViewModal {
+    func getSizesAnchors(for image: UIImage, in imageView: UIImageView){
+        var aspectRatio: CGFloat = 0
+        if image.size.width > image.size.height {
+            aspectRatio = image.size.height/image.size.width
+            if image.size.width > 300 {
+                imageView.widthAnchor.constraint(equalToConstant: 300).isActive = true
+            } else {
+                imageView.widthAnchor.constraint(equalToConstant: image.size.height).isActive = true
+            }
+            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: aspectRatio).isActive = true
+        } else if image.size.width == image.size.height {
+            imageView.widthAnchor.constraint(equalToConstant: 300).isActive = true
+            imageView.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        } else {
+            aspectRatio = image.size.width/image.size.height
+            if image.size.height > 300 {
+                imageView.heightAnchor.constraint(equalToConstant: 300).isActive = true
+            } else {
+                imageView.heightAnchor.constraint(equalToConstant: image.size.height).isActive = true
+            }
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: aspectRatio).isActive = true
+        }
+    }
+}
+
 extension ShelfViewModal: PopUpModalDelegate {
     
     func popUpModal(image: UIImage, comic: ComicCD) {
@@ -168,5 +174,4 @@ extension ShelfViewModal: PopUpModalDelegate {
             self.removeFromSuperview()
         }
     }
-    
 }
