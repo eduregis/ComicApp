@@ -21,6 +21,13 @@ class CustomSegmentedControl: UISegmentedControl {
     
     var color = UIColor.systemBlue
     
+    init(){
+        super.init(items: StatusType.allStringValues)
+        self.translatesAutoresizingMaskIntoConstraints = false 
+        configure()
+        self.addSubview(segmentIndicator)
+        setUpSegmentedIndicatorConstraints()
+    }
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         configure()
@@ -30,7 +37,6 @@ class CustomSegmentedControl: UISegmentedControl {
     
     private func configure() {
         self.selectedSegmentTintColor = .clear
-        
         switch self.selectedSegmentIndex {
         case 0:
             color = UIColor.systemBlue
@@ -44,7 +50,6 @@ class CustomSegmentedControl: UISegmentedControl {
         
         self.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: color], for: UIControl.State.selected)
         segmentIndicator.backgroundColor = color
-        
     }
     
     func setUpSegmentedIndicatorConstraints() {

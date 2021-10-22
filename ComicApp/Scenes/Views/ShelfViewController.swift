@@ -13,47 +13,22 @@ class ShelfViewController: UIViewController {
     
     @IBOutlet weak var addButton: UIBarButtonItem!
     
-    weak var modalDelegate: PopUpModalDelegate?
-    
-    var selectedComic: ComicCD?
-    
-    var emptyState = EmptyState()
-        
-    let comicCollectionView: UICollectionView = {
-        let collectionView = ShelfCollection(with: ComicCustomLayout())
-        return collectionView
-    }()
-    
-    lazy var viewModel: ShelfViewModel = { [unowned self] in
-        let model = ShelfViewModel(status: "Lendo", controller: self)
-        return model
-    }()
-    
-    let modalPopUp: ShelfViewModal = {
-        let modal = ShelfViewModal()
-        modal.translatesAutoresizingMaskIntoConstraints = false
-        return modal
+    lazy var segmentedControl: CustomSegmentedControl = {
+        let segmentedControl = CustomSegmentedControl()
+        segmentedControl.backgroundColor = .clear
+        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged), for: .valueChanged)
+        return segmentedControl
     }()
 
-    @IBOutlet weak var segmentedControl: CustomSegmentedControl!
-    
+    var mainView = ShelfView()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Estante"
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        comicCollectionView.delegate = self
-        comicCollectionView.dataSource = self
-        viewModel.handleTransition = { [weak self] in
-            DispatchQueue.main.async {
-                self?.comicCollectionView.reloadData()
-                self?.handleEmptyState()
-            }
-        }
-        modalPopUp.handleView = { [unowned self] in
-            if !(self.modalPopUp.isDescendant(of: self.view)) {self.setModal()}
-        }
-        setCollectionView()
-        setModal()
+        self.buildHierarchy()
+        self.setupConstraints()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -62,71 +37,32 @@ class ShelfViewController: UIViewController {
                 subview.isHidden = true
             }
         }
-        loadListData()
-        handleEmptyState()
     }
     
-    func setModal() {
-        self.view.addSubview(modalPopUp)
-        modalPopUp.isHidden = true 
-        NSLayoutConstraint.activate([
-            modalPopUp.topAnchor.constraint(equalTo: self.view.topAnchor),
-            modalPopUp.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-            modalPopUp.leftAnchor.constraint(equalTo: self.view.leftAnchor),
-            modalPopUp.rightAnchor.constraint(equalTo: self.view.rightAnchor)
-        ])
-    }
-    
-    func setCollectionView() {
-        self.view.addSubview(comicCollectionView)
-        comicCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        comicCollectionView.topAnchor.constraint(equalToSystemSpacingBelow: segmentedControl.bottomAnchor, multiplier: 3).isActive = true
-        comicCollectionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        comicCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
-        comicCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-    }
-    
-    func handleEmptyState() {
-        if viewModel.numberOfComics == 0 {
-            setEmptyState()
-        } else {
-            emptyState.removeFromSuperview()
-        }
-    }
-    
-    func setEmptyState() {
-        view.addSubview(emptyState)
-        emptyState.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            emptyState.bottomAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
-            emptyState.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        ])
+    func buildHierarchy() {
+        self.view.addSubview(segmentedControl)
+        self.view.addSubview(mainView)
     }
     
     @IBAction func addToSheftButton(_ sender: Any) {
         performSegue(withIdentifier: "AddToShelfSegue", sender: self)
     }
     
-    @IBAction func indexChanged(_ sender: CustomSegmentedControl) {
+    @objc
+    func segmentedControlValueChanged(_ sender: UISegmentedControl) {
         segmentedControl.indexChanged(newIndex: sender.selectedSegmentIndex)
-        switchData(sender: sender)
     }
     
-    func switchData(sender: CustomSegmentedControl) {
-        loadListData()
-    }
-    
-    func loadListData () {
-        switch segmentedControl.selectedSegmentIndex {
-        case 0:
-            viewModel.status = "Lendo"
-        case 1:
-            viewModel.status = "Lido"
-        case 2:
-            viewModel.status = "Quero Ler"
-        default:
-            viewModel.status = "Lendo"
-        }
+    func setupConstraints() {
+        self.mainView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            self.segmentedControl.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            self.segmentedControl.widthAnchor.constraint(equalTo: self.view.widthAnchor),
+            self.segmentedControl.heightAnchor.constraint(equalToConstant: 50),
+        ])
+        self.mainView.topAnchor.constraint(equalTo: self.segmentedControl.bottomAnchor).isActive = true
+        self.mainView.widthAnchor.constraint(equalTo: self.view.widthAnchor).isActive = true
+        self.mainView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -137,37 +73,7 @@ class ShelfViewController: UIViewController {
     
     @objc func executarSegue() {
         performSegue(withIdentifier: "EditComicSegue", sender: self)
-        modalDelegate?.removeModal()
+        mainView.modalDelegate?.removeModal()
     }
     
-}
-
-extension ShelfViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.numberOfComics
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = comicCollectionView.dequeueReusableCell(withReuseIdentifier: "ShelfCell", for: indexPath) as? ShelfCollectionViewCell else {
-            fatalError()
-        }
-        guard let comic = viewModel.comicForRow(at: indexPath) else {return ShelfCollectionViewCell()}
-        cell.configCell(from: comic)
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let comic = viewModel.comicForRow(at: indexPath) else {return}
-        guard let data = comic.image else {return}
-        modalDelegate = modalPopUp
-        let image = UIImage(data: data)
-        modalDelegate?.popUpModal(image: image!, comic: comic)
-        self.selectedComic = comic
-    }
-}
-
-extension ShelfViewController: NSFetchedResultsControllerDelegate {
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        self.comicCollectionView.reloadData()
-    }
 }

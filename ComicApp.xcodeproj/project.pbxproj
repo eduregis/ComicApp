@@ -36,6 +36,7 @@
 		77D34B862513AA4300FB1586 /* ProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 77D34B852513AA4300FB1586 /* ProfileCell.xib */; };
 		77D34B882513AC8900FB1586 /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D34B872513AC8900FB1586 /* ProfileCell.swift */; };
 		77DB739A251A3BB4007709CB /* ComicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77DB7399251A3BB4007709CB /* ComicTests.swift */; };
+		EC0E920E2722DEC6008EF2B4 /* ShelfModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA54EF6261368E5009791C5 /* ShelfModal.swift */; };
 		EC374E372514DA7400AE6B99 /* ShelfCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC374E362514DA7400AE6B99 /* ShelfCollectionViewCell.swift */; };
 		EC374E3A2514E31000AE6B99 /* ComicCustomLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC374E392514E31000AE6B99 /* ComicCustomLayout.swift */; };
 		EC3771C4251CCC1700A14E7C /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC3771C3251CCC1700A14E7C /* CloudKit.framework */; };
@@ -43,7 +44,6 @@
 		EC6ED3FA2612116400DEF7E7 /* ComicCD.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6ED3F82612116400DEF7E7 /* ComicCD.swift */; };
 		EC6ED40C261211D300DEF7E7 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6ED40B261211D300DEF7E7 /* CoreDataManager.swift */; };
 		ECA54EEF26135E77009791C5 /* ShelfViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA54EEE26135E77009791C5 /* ShelfViewModel.swift */; };
-		ECA54EF7261368E5009791C5 /* ShelfModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA54EF6261368E5009791C5 /* ShelfModal.swift */; };
 		ECB8C3282721E1AD0070D25C /* ShelfView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB8C3272721E1AD0070D25C /* ShelfView.swift */; };
 		ECB8C32A2721E2EB0070D25C /* ShelfCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB8C3292721E2EB0070D25C /* ShelfCollectionView.swift */; };
 /* End PBXBuildFile section */
@@ -475,8 +475,8 @@
 				EC6ED3EF2612102C00DEF7E7 /* Comic.xcdatamodeld in Sources */,
 				2EFD6B5B2512537D00BFC3AF /* ShelfViewController.swift in Sources */,
 				2E2A9C912510133500718B76 /* Comic.swift in Sources */,
+				EC0E920E2722DEC6008EF2B4 /* ShelfModal.swift in Sources */,
 				ECA54EEF26135E77009791C5 /* ShelfViewModel.swift in Sources */,
-				ECA54EF7261368E5009791C5 /* ShelfModal.swift in Sources */,
 				2E756AE9251907A200BE4DC0 /* EditComicViewController.swift in Sources */,
 				77D34B8225139F5800FB1586 /* ProfileProgress.swift in Sources */,
 				2E2A9C93251015E500718B76 /* Database.swift in Sources */,

@@ -65,9 +65,9 @@ struct Comic: Codable, Equatable {
 }
 
 public enum StatusType: String, EnumCollection {
-    case wantToRead = "Quero ler"
     case reading = "Lendo"
     case read = "Lido"
+    case wantToRead = "Quero ler"
     
     static var allStringValues: [String] {
         var array: [String] = []
